@@ -130,7 +130,7 @@ In this post we have introduced the different concepts within the LoRa architect
 
 ## Future work
 
-But wait, where is drogue-cloud in all this? And indeed, this is a missing piece of the puzzle right now, and the howto will be described in a future blog post. Put in short, you create an integration in the TTN console and point it to an HTTP or MQTT endpoint of drogue-cloud. In 2021, we plan on making drogue-cloud better integrate with services such as TTN (using their APIs) in a way that allows a unified experience for device management and telemetry/event data flowing to/from TTN and drogue-cloud. In an even more distant future, we could potentially add a LoRa Network Server to drogue-cloud, giving users full control of their IoT backend.
+But wait, where is drogue-cloud in all this? And indeed, this is a missing piece of the puzzle right now, and the howto will be described in a future blog post. Put in short, you create an integration in the TTN console and point it to an HTTP or MQTT endpoint of drogue-cloud. In 2021, we plan on making drogue-cloud integrate with services such as TTN (using their APIs) in a seamless way that allows a unified experience for device management and telemetry/event data flowing to/from TTN and drogue-cloud. In an even more distant future, we could potentially add a LoRa Network Server to drogue-cloud, giving users full control of their IoT backend.
 
 As mentioned earlier, the firmware supported by the driver is not the latest, and there are some changes in the AT command set in newer versions. The driver should be updated to support both formats, which can be deduced by querying the module for the firmware version.
 

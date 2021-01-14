@@ -38,9 +38,9 @@ The device is identified by its own EUI (unique identifier) in the same was as a
 
 With this, the network configuration is complete, and we can proceed with configuring the LoRa node.
 
-# Lora Node
+# LoRa Node
 
-LoRa nodes also comes in several configurations, but personally I have only used the [RAK811](https://store.rakwireless.com/products/rak811-lpwan-module)-class of devices, which out of the box have an AT command firmware available to talk to the [Semtech SX127x] LoRa radio.
+LoRa nodes also comes in several configurations, but personally I have only used the [RAK811](https://store.rakwireless.com/products/rak811-lpwan-module)-class of devices, which out of the box have an AT command firmware available to talk to the [Semtech SX127x](https://www.semtech.com/products/wireless-rf/lora-transceivers) LoRa radio.
 
 For my initial exploration into LoRa and Rust, I ordered a micro:bit breakout board from [Pi Supply](https://uk.pi-supply.com/products/iot-micro-bit-lora-node) that supports the micro:bit connector, which makes it easy to get started.
 
@@ -130,7 +130,7 @@ In this post we have introduced the different concepts within the LoRa architect
 
 ## Future work
 
-But wait, where is drogue-cloud in all this? And indeed, this is a missing piece of the puzzle right now, and the howto will be described in a future blog post. Put in short, you create an integration in the TTN console and point it to an HTTP or MQTT endpoint of drogue-cloud. In 2021, we plan on making drogue-cloud integrate with services such as TTN (using their APIs) in a seamless way that allows a unified experience for device management and telemetry/event data flowing to/from TTN and drogue-cloud. In an even more distant future, we could potentially add a LoRa Network Server to drogue-cloud, giving users full control of their IoT backend.
+But wait, where is drogue-cloud in all this? And indeed, this is a missing piece of the puzzle right now, and the howto will be described in a future blog post. In short, you create an integration in the TTN console and point it to an HTTP or MQTT endpoint of drogue-cloud. In 2021, we plan on making drogue-cloud integrate with services such as TTN (using their APIs) in a seamless way that allows a unified experience for device management and telemetry/event data flowing to/from TTN and drogue-cloud. In an even more distant future, we could potentially add a LoRa Network Server to drogue-cloud, giving users full control of their IoT backend.
 
 As mentioned earlier, the firmware supported by the driver is not the latest, and there are some changes in the AT command set in newer versions. The driver should be updated to support both formats, which can be deduced by querying the module for the firmware version.
 

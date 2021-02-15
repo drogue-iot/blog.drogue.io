@@ -44,9 +44,58 @@ The full example of drogue-device can be found [here](https://github.com/drogue-
 
 # Telemetry to the cloud
 
-* Sending data to TTN
-* Why TTN and not drogue-cloud directly?
-* How it could work using drogue-cloud directly
+* [x] Sending data to TTN
+* [x] Why TTN and not drogue-cloud directly?
+* [x] How it could work using drogue-cloud directly
+
+When the device sends data to the cloud, it actually shouts out its message to the local airspace using the LoRa
+protocol. If there is a LoRa gateway nearby, then it will take that message and forward that to its backend system.
+
+In our case, we chose to use The Things Network (TTN), just because we had a bit of experience with them. And,
+because they have a great and affordable indoor gateway, which is great for testing.
+
+Once the message reached the backend system of TTN, it will get forwarded to our Drogue Cloud sandbox instance using
+the HTTP integration of TTN. The following diagram shows the message flow in a bit more detail:
+
+![Architecture diagram](architecture.svg)
+
+Don't be scared! Yes, this is a bit more complex than just sending your message to the cloud using WiFi. Let's take
+a look at the different components in there.
+
+* **Drogue Device** – This is your device, your code and your data you want to transmit.
+* **LoRa gateway** – The LoRa gateway acts as the local entry point for LoRa devices to a TCP/IP network. Depending on
+  the type of gateway, its antenna and location, it can cover quite an area, much larger than any WiFi could do. And, with
+  less power requirements for the devices.
+* **The Things Network** – TTN is a service provider, which takes on pre-processing LoRa messages received by their
+  gateways. The good thing, you can put up a gateway yourself and add it to their network. Which also means, that you
+  can re-use other gateways in their system. Another task that LoRa backend systems have to perform, is the detection
+  of duplicates. Maybe there are multiple gateways in the vicinity of your device. Which also means that messages will
+  also be received and forwarded by multiple gateways. While this is good for coverage and redundancy, you want to
+  filter out duplicates as some point. TTN provides this service, and also allows to enrich the data with additional
+  information.
+* **Exporting messages** – We don't to process our data, and so we need to get the messages out of TTN. One of the
+  options is to use the HTTP integration of TTN. In a nutshell, this will call a configured HTTP endpoint for each
+  message received. Ideal for our Drogue IoT HTTP endpoint.
+* **HTTP endpoint** – The Drogue Cloud HTTP endpoint will authenticate and authorize the remote peer. It also
+  understands the specific API and JSON format of TTN, and converts this into a CloudEvents structure. Forwarding this
+  to Knative and Kafka.
+* **Backend app** – Your application, on the cloud side. The application which wants to process the data coming from
+  your devices.
+
+Why don't we directly consume from TTN? One of the core features of Drogue Cloud is to
+integrate with all kinds of IoT related communication partners. Just assume you want to add an additional network like
+Sigfox later on. Our you want to add some of your own gateways? Or add some devices using MQTT? In all those cases,
+you would need to create some kind of data normalization layer yourself. If that is a dedicated layer, or a growing
+`if/else` block in your code, doesn't matter. Drogue cloud provides that layer for you, and lets your application
+consume all those messages using standardized CloudEvents.
+
+Another question is: why don't we directly send to the Drogue Cloud instance? First, we will always need some kind of
+gateway, to bridge between LoRaWAN and the TCP/IP world. We cloud create our own gateway stack, receive messages and
+forward them directly to our endpoints. On the other hand, that would mean that we would need to do the LoRa specific
+processing, like detecting duplicates, ourselves. Yes, some open source software exists for that as well. But, in any
+case, we would need that functionality. For the sake of simplicity, we simply re-use an existing service for this.
+
+Still, if you are interested in creating a direct integration, we would be happy to help you in the process.
 
 # Preparing drogue-cloud
 

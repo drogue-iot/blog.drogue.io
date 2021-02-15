@@ -29,15 +29,17 @@ Drogue-device contains device drivers for different boards and sensors. Drivers 
 
 In both cases, a `Package` may be used to group multiple actors in a driver together and expose a single primary actor used to interact with the device.
 
-For more information, see [the driver guide](https://github.com/drogue-iot/drogue-device/blob/master/DRIVERS.md).
+For more information on writing drivers, see [the driver guide](https://github.com/drogue-iot/drogue-device/blob/master/DRIVERS.md).
 
-In this example, we'll be using the [Rak811]() driver for LoRa, and the [nRF UART]() driver. These are independent drivers, that are wired together using message passing. All interactions with the peripheral is done using the drivers _address_ that is configured during initialization.
+In this example, we'll be using the [Rak811](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/lora/rak811.rs) driver for LoRa, and the [nRF UART](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/uart/dma.rs) driver. These are independent drivers, that are wired together using message passing. All interactions with the peripheral is done using the drivers _address_ that is configured during device initialization. The API for LoRa drivers can be found [here](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/lora/mod.rs), and we plan to provide support for other LoRa drivers.
 
-To send a message, the LoRa driver API is used:
+To send a message, the LoRa driver address is used:
 
 ```rust
    lora_driver_address.send(QoS::Confirmed, 1, b"Hello").await.expect("Error sending data");
 ```
+
+Under the hood this will send a message to the LoRa driver which will initiate the transfer. Using Rust Async, the result can be await'ed, which in this case is required to ensure that the reference is kept valid for the lifetime of the request.
 
 The full example of drogue-device can be found [here](https://github.com/drogue-iot/drogue-device/tree/master/examples/nrf/microbit-rak811).
 
@@ -52,7 +54,8 @@ When the device sends data to the cloud, it actually shouts out its message to t
 protocol. If there is a LoRa gateway nearby, then it will take that message and forward that to its backend system.
 
 In our case, we chose to use The Things Network (TTN), just because we had a bit of experience with them. And,
-because they have a great and affordable indoor gateway, which is great for testing.
+because they have a great and affordable indoor gateway and great support for many different types of gateways, which is
+great for testing.
 
 Once the message reached the backend system of TTN, it will get forwarded to our Drogue Cloud sandbox instance using
 the HTTP integration of TTN. The following diagram shows the message flow in a bit more detail:
@@ -105,6 +108,7 @@ Still, if you are interested in creating a direct integration, we would be happy
 
 # Integrating TTN with drogue-cloud
 
+
 * Image + description of TTN console showing the integration
 * Setting up auth
 
@@ -112,7 +116,10 @@ Still, if you are interested in creating a direct integration, we would be happy
 
 * Opening drogue sandbox console
 * Interacting with the device
-* View incoming data
+
+Once data is sent, the telemetry should find its way to the drogue console:
+
+![Drogue Console](drogue-console.png)
 
 # Future work
 

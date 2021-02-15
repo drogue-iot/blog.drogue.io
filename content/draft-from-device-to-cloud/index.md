@@ -109,8 +109,16 @@ Still, if you are interested in creating a direct integration, we would be happy
 # Integrating TTN with drogue-cloud
 
 
-* Image + description of TTN console showing the integration
 * Setting up auth
+
+* Image + description of TTN console showing the integration
+
+In the TTN console, you can create an integration using several out of the box components. For drogue-cloud, we can use the generic HTTP Integration, which allows you to configure TTN to pass on telemetry data to a HTTP endpoint, in our case the Drogue IoT sandbox. The authorization header contains the HTTP basic auth credentials for our device. (NOTE: This is not really a good way of doing things, writing a proper integration that did not require storing credentials in TTN would be better).
+
+![TTN integration](ttn-integration).
+
+Once the integration is set up, we are ready to send some data.
+
 
 # Sending the data
 

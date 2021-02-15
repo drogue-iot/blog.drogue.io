@@ -125,6 +125,12 @@ Once the integration is set up, we are ready to send some data.
 * Opening drogue sandbox console
 * Interacting with the device
 
+To send the data, we flash the device using _cargo embed_. This will open the debug console for the device, so we can see what's going on:
+
+![Drogue Console](drogue-device-console.png)
+
+The example is made for the BBC micro:bit attached to a RAK811 LoRa board over UART. To join the network, we push the 'A' button on the micro:bit. To send data, we push the 'B' button.
+
 Once data is sent, the telemetry should find its way to the drogue console:
 
 ![Drogue Console](drogue-console.png)

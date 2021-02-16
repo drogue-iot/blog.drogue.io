@@ -108,9 +108,30 @@ Still, if you are interested in creating a direct integration, we would be happy
 
 # Preparing drogue-cloud
 
-* Introducing drogue-cloud sandbox
-* Creating application
-* Device management
+Setting up a Drogue Cloud instance should be as easy as:
+
+    minikube start --cpus 4 --memory 16384 --disk-size 20gb --addons ingress
+    minikube tunnel # in a separate terminal, as it keeps running
+    ./hack/drogue.sh
+
+However, for connecting to The Things Network, you will need to have a publicly accessible instance, as the HTTP
+integration of TTN will call into your instance. Setting up a publicly hosted version of Drogue Cloud might be a bit
+more effort, and maybe something that you would like to avoid in the beginning.
+
+As we face the same issue, we have set up a public sandbox for playing around and testing. You are welcome to use it as
+well, if you promise not to use it in production. It is an in-development version of Drogue Cloud, and it doesn't
+protect your data in any way! On the other side, it is super easy to get started:
+
+* Navigate to: https://console-drogue-iot.apps.wonderful.iot-playground.org/
+* Log in using your GitHub account
+* Create a new "application" and "device"
+
+Applications provide a way to isolate devices. Follow the instructions on the "getting started" page to create a new
+application, and a new device. As application IDs must be unique, and this is a shared instance, be sure to pick a fresh
+ID. For device IDs, you are free to pick whatever you want, as long as it is unique for your application.
+
+The default command will use the password `hey-rodney`. **Be warned**: Don't put in your usual password here, as for now,
+everyone else will be able to see it.
 
 # Integrating TTN with drogue-cloud
 

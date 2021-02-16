@@ -31,17 +31,20 @@ that, on the cloud side, you can focus on processing the data that your devices 
 
 # Device drivers on drogue-device
 
-Drogue-device contains device drivers for different boards and sensors. Drivers follow a common set of patterns that makes it easier to write new drivers. Device drivers can be written in different ways. The common patterns we've seen is:
+Drogue-device contains device drivers for different boards and sensors. Drivers follow a common set of patterns that makes it easier to write new drivers. Device drivers can be written in different ways, but the common approach is to implement the following:
 
-* Writing a generic driver that consists of a hardware specific HAL that implements a HAL trait, and an actor that is templatized with the HAL trait as a type parameter. The actor is the API outwards to the embedded application and the drogue-device framework. 
+* An API that defines the API that a class of drivers implement. This may already exist (Examples are SPI and UART). This is located in `src/api/`.
+* A driver that implements an API, either using a HAL or hardware directly. This is located in `src/driver`.
+* (Optional) A HAL (Hardware Access Layer) for internal traits and types that a driver can use to support different hardware. This is located in `src/hal`.
+* (Optional) Hardware-specific code that may implement a HAL. This is located in `src/port/<device class>`.
 
-* Writing a common set of commands that an Actor should support, and writing a hardware-specific driver that implements the request and notify handlers for the commands. This may be easier if a lot of the driver logic is hardware-specific, and there would be little gain in using a common HAL.
-
-In both cases, a `Package` may be used to group multiple actors in a driver together and expose a single primary actor used to interact with the device.
+A driver is exposed as a `Package` that can be configure during application initialization. The `Package` exposes an `Actor` that can be used to interact with the driver.
 
 For more information on writing drivers, see [the driver guide](https://github.com/drogue-iot/drogue-device/blob/master/DRIVERS.md).
 
-In this example, we'll be using the [Rak811](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/lora/rak811.rs) driver for LoRa, and the [nRF UART](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/uart/dma.rs) driver. These are independent drivers, that are wired together using message passing. All interactions with the peripheral is done using the drivers _address_ that is configured during device initialization. The API for LoRa drivers can be found [here](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/lora/mod.rs), and we plan to provide support for other LoRa drivers.
+In this example, we'll be using the [Rak811](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/lora/rak811.rs) driver that implements the [LoRa](https://github.com/drogue-iot/drogue-device/blob/main/src/api/lora.rs) driver api, and the [DMA UART](https://github.com/drogue-iot/drogue-device/blob/master/src/driver/uart/dma.rs) driver that implements the [UART](https://github.com/drogue-iot/drogue-device/blob/main/src/api/uart.rs) API. These are independent drivers, that are wired together using message passing. All interactions with the peripheral is done using the drivers _address_ that is configured during device initialization.
+
+There are also drivers for [eS-WiFi](https://github.com/drogue-iot/drogue-device/blob/main/src/driver/wifi/eswifi.rs) and [SPI](https://github.com/drogue-iot/drogue-device/blob/main/src/driver/spi/mod.rs) based on embedded_hal.
 
 To send a message, the LoRa driver address is used:
 
@@ -51,7 +54,7 @@ To send a message, the LoRa driver address is used:
 
 Under the hood this will send a message to the LoRa driver which will initiate the transfer. Using Rust Async, the result can be await'ed, which in this case is required to ensure that the reference is kept valid for the lifetime of the request.
 
-The full example of drogue-device can be found [here](https://github.com/drogue-iot/drogue-device/tree/master/examples/nrf/microbit-rak811).
+The full example of drogue-device can be found [here](https://github.com/drogue-iot/drogue-device/tree/master/examples/nrf/microbit-rak811). You'll see that most of the application consists of defining the drivers to use, and wiring them together in the device event handling.
 
 
 # Telemetry to the cloud

@@ -9,7 +9,7 @@ In previous posts we've seen how to [run drogue-cloud](https://blog.drogue.io/th
 
 # Recap
 
-* About drogue-cloud
+Let's have a quick look at the different technologies we will be focusing on in this post.  
 
 ## About LoRa
 
@@ -18,6 +18,16 @@ LoRa is a low power long range wireless protocol that operates in a lower freque
 ## About drogue-device
 
 Drogue-device is an [Actor framework](https://en.wikipedia.org/wiki/Actor_model) for writing embedded applications in Rust. The advantage of using [drogue-device](https://github.com/drogue-iot/drogue-device) is that you can represent sensors and peripherals as independent components (actors) and wire them together in your application, as a way to apply good software engineering principles in embedded programming.
+
+## Drogue Cloud
+
+In many cases you might want to connect your devices to some central system. A system that may receive data, hand
+out commands and configuration to devices, orchestrate firmware updates and lots more. That is Drogue Cloud, our backend
+system based on [Kubernetes](https://kubernetes.io/), [Knative](https://knative.dev/), and [Cloud Events](https://cloudevents.io/).
+
+[Drogue Cloud](https://github.com/drogue-iot/drogue-cloud) provides you with tools for device authentication and authorization,
+different protocol endpoints, message normalization, persistence, device management, and a few more things. The idea is
+that, on the cloud side, you can focus on processing the data that your devices provide you.
 
 # Device drivers on drogue-device
 

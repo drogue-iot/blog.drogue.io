@@ -56,10 +56,6 @@ The full example of drogue-device can be found [here](https://github.com/drogue-
 
 # Telemetry to the cloud
 
-* [x] Sending data to TTN
-* [x] Why TTN and not drogue-cloud directly?
-* [x] How it could work using drogue-cloud directly
-
 When the device sends data to the cloud, it actually shouts out its message to the local airspace using the LoRa
 protocol. If there is a LoRa gateway nearby, then it will take that message and forward that to its backend system.
 

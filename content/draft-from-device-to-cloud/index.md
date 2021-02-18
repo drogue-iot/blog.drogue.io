@@ -38,7 +38,7 @@ Drogue-device contains device drivers for different boards and sensors. Drivers 
 * (Optional) A HAL (Hardware Access Layer) for internal traits and types that a driver can use to support different hardware. This is located in `src/hal`.
 * (Optional) Hardware-specific code that may implement a HAL. This is located in `src/port/<device class>`.
 
-A driver is exposed as a `Package` that can be configure during application initialization. The `Package` exposes an `Actor` that can be used to interact with the driver.
+A driver is exposed as a `Package` that can be configured during application initialization. The `Package` exposes an `Actor` that can be used to interact with the driver.
 
 For more information on writing drivers, see [the driver guide](https://github.com/drogue-iot/drogue-device/blob/master/DRIVERS.md).
 
@@ -49,7 +49,7 @@ There are also drivers for [eS-WiFi](https://github.com/drogue-iot/drogue-device
 To send a message, the LoRa driver address is used:
 
 ```rust
-   lora_driver_address.send(QoS::Confirmed, 1, b"Hello").await.expect("Error sending data");
+lora_driver_address.send(QoS::Confirmed, 1, b"Hello").await.expect("Error sending data");
 ```
 
 Under the hood this will send a message to the LoRa driver which will initiate the transfer. Using Rust Async, the result can be await'ed, which in this case is required to ensure that the reference is kept valid for the lifetime of the request.
@@ -148,13 +148,13 @@ Once the integration is set up, we are ready to send some data.
 
 # Sending the data
 
-To verify that the end to end is working, Open the [Drogue Cloud Sandbox](sandbox.drogue.cloud) in your browser and go to the 'Spy' page, where you can watch all telemtry being sent (filter by your application id to avoid too much traffic).
+To verify that the end to end is working, Open the [Drogue Cloud Sandbox](https://sandbox.drogue.cloud) in your browser and go to the 'Spy' page, where you can watch all telemetry being sent (filter by your application id to avoid too much traffic).
 
-To send the data, we flash the device using _cargo embed_. This will open the debug console for the device, so we can see what's going on:
+To send the data, we flash the device using `cargo embed`. This will open the debug console for the device, so we can see what's going on:
 
 ![Drogue Console](drogue-device-console.png)
 
-The example is made for the BBC micro:bit attached to a RAK811 LoRa board over UART. To join the network, we push the 'A' button on the micro:bit. To send data, we push the 'B' button.
+The example is made for the BBC micro:bit attached to a RAK811 LoRa board over UART. To join the network, we push the <kbd>A</kbd> button on the micro:bit. To send data, we push the <kbd>B</kbd> button.
 
 Once data is sent, the telemetry should find its way to the drogue console:
 
@@ -167,7 +167,7 @@ In this post we have seen how you can combine Drogue Device with Drogue Cloud us
 We want to improve the experience of drogue device and drogue cloud even further. Some ideas:
 
 * Firmware upgrade of drogue device built and pushed from drogue cloud
-* Improved integration with TTN APIs (Use Drouge Cloud device management for everything)
+* Improved integration with TTN APIs (Use Drogue Cloud device management for everything)
 * Improve range of drivers for drogue-device and reduce memory footprint
 
 Please reach out to us if you have any further ideas or would like to work on the drogue project.

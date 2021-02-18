@@ -113,9 +113,11 @@ Still, if you are interested in creating a direct integration, we would be happy
 
 Setting up a Drogue Cloud instance should be as easy as:
 
-    minikube start --cpus 4 --memory 16384 --disk-size 20gb --addons ingress
-    minikube tunnel # in a separate terminal, as it keeps running
-    ./hack/drogue.sh
+```bash
+minikube start --cpus 4 --memory 16384 --disk-size 20gb --addons ingress
+minikube tunnel # in a separate terminal, as it keeps running
+./hack/drogue.sh
+```
 
 However, for connecting to The Things Network, you will need to have a publicly accessible instance, as the HTTP
 integration of TTN will call into your instance. Setting up a publicly hosted version of Drogue Cloud might be a bit
@@ -146,7 +148,7 @@ Once the integration is set up, we are ready to send some data.
 
 # Sending the data
 
-To verify that the end to end is working, Open the [Drogue Cloud Sandbox]() in your browser and go to the 'Spy' page, where you can watch all telemtry being sent (filter by your application id to avoid too much traffic).
+To verify that the end to end is working, Open the [Drogue Cloud Sandbox](sandbox.drogue.cloud) in your browser and go to the 'Spy' page, where you can watch all telemtry being sent (filter by your application id to avoid too much traffic).
 
 To send the data, we flash the device using _cargo embed_. This will open the debug console for the device, so we can see what's going on:
 

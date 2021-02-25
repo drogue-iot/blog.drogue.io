@@ -54,7 +54,7 @@ lora_driver_address.send(QoS::Confirmed, 1, b"Hello").await.expect("Error sendin
 
 Under the hood this will send a message to the LoRa driver which will initiate the transfer. Using Rust Async, the result can be await'ed, which in this case is required to ensure that the reference is kept valid for the lifetime of the request.
 
-The full example of drogue-device can be found [here](https://github.com/drogue-iot/drogue-device/tree/master/examples/nrf/microbit-rak811). You'll see that most of the application consists of defining the drivers to use, and wiring them together in the device event handling.
+The full example of drogue-device can be found [here](https://github.com/drogue-iot/drogue-device/tree/master/examples/nrf52/microbit-rak811). You'll see that most of the application consists of defining the drivers to use, and wiring them together in the device event handling.
 
 
 # Telemetry to the cloud

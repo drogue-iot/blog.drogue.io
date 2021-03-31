@@ -17,26 +17,26 @@ integration to not only authenticate users, but also to authorize their requests
 With that, it is no longer possible to read any application or device, or consume any message stream. You may only
 access the resources you own. For now, that is a very basic access model, but we will improve that over time.
 
-Alongside with that, we also improved the validation of devices and their gateways. When a gateway acts on behalf of a
-device, we now also verify that the gateway is authorized to do so. Currently, this is possible by assigning one or
-more gateways explicitly to a device, but we already have plans to for a group (or label) based mapping.
+Along with that, we also improved the validation of devices and their gateways. When a gateway acts on behalf of a
+device, we now verify that the gateway is authorized to do so. Currently, this is possible by assigning one or
+more gateways explicitly to a device, but we already have plans to do this for a group (or label) based mapping.
 
 ## Tokens all the way
 
-In the previous release we already had OAuth2 and Open ID connect, however we mostly used it for the web console.
+In the previous release we already had OAuth2 and Open ID connect, but we mostly used it for the web console.
 
-In 0.4, all the services, also internal ones, use OAuth2 tokens for performing authentication.
+In 0.4, all the services, even internal ones, use OAuth2 tokens for performing authentication.
 
 We also integrated the Eclipse Ditto, digital twin, instance with the single sign-on instance of Drogue Cloud.
 
 ## Command line interface
 
-A downside of using tokens however is, that you always need a fresh one. Acquiring tokens is an extra step and tokens
+A downside of using tokens is that you always need a fresh one. Acquiring tokens is an extra step and tokens
 are a bit complicated when using a simple `http` client on the command line. 
 
-So, it was time to start working on a command line client, which takes away all the "glue operations", required to
-exchange tokens, in order to interact with Drogue Cloud. Of course, that client now handles all the tokens, refreshes
-them when necessary, and helps you acquire an initial token using the browser flow. Just issue:
+So, it was time to start working on a command line client, which takes away all the "glue operations" required to
+exchange tokens in order to interact with Drogue Cloud. Of course, that client now handles all the tokens, refreshes
+them when necessary, and helps you acquire an initial token using the browser flow. Just run:
 
 ~~~
 drg login http://sandbox.drogue.cloud
@@ -50,14 +50,14 @@ drg create app my-app
 drg create device --app my-app my-device
 ~~~
 
-As always, this is just the beginning. We now have a solid foundation, which allows us to build on top if this. You may
+As always, this is just the beginning. We now have a solid foundation, which allows us to build on top of this. You may
 find our backlog of ideas right here: https://github.com/drogue-iot/drg/issues
 
 ## The integration device registry
 
 The device registry also received a lot of attention during the 0.4 release cycle. One part was definitely the
-introduction of access control, which impacted the device registry most. But, we also beefed up the APIs a lot.
-Borrowing ideas from Kubernetes, like: annotations, labels, finalizers, soft-delete, generation and resource version, …
+introduction of access control, which impacted the device registry most. But we also beefed up the APIs a lot.
+Borrowing ideas from Kubernetes, e.g. annotations, labels, finalizers, soft-delete, generation and resource version, …
 
 Finalizers, for devices? Well, a major new feature of the device registry also is the ability to send out change events.
 
@@ -94,7 +94,7 @@ side, that normally sends to connected devices, can now also use a pre-configure
 
 Naming things is hard. So far, Drogue Cloud had the ability to let users consume messages from the internal Kafka topic.
 
-And, while consuming directly from Kafka is a nice idea, or letting Knative eventing push you some HTTP events, at lot
+And, while consuming directly from Kafka is a nice idea, or letting Knative eventing push you some HTTP events, a lot
 of people currently use e.g. MQTT to consume IoT related messages.
 
 That is why we created an MQTT service, which allows you to consume messages coming from devices, using MQTT. Both MQTT v3.1.1 and v5 are supported. You can receive messages using Cloud Events structured or binary format, and also have
@@ -103,7 +103,7 @@ the ability to use "shared consumers", to split the load between different MQTT 
 We definitely want to expand this concept in future releases. AMQP 1.0 and simple websockets might be good additional
 protocols to implement.
 
-The hardest parts was: what do you call those services? We ended up with: "Integrations", because it allows you to
+The hardest parts was: what do you call those services? We ended up with "Integrations", because it allows you to
 integrate your application, that wants to interface with your devices, with Drogue Cloud. Using a technology that you
 prefer.
 

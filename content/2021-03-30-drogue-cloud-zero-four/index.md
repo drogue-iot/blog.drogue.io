@@ -1,10 +1,12 @@
 +++
-title = "Drogue Cloud 0.4.0"
+title = "Drogue Cloud: Release 0.4.0"
 extra.author = "ctron"
 description = "Welcome to Drogue Cloud 0.4.0: Here is what is new and noteworthy."
 +++
 
 Today we released Drogue Cloud 0.4.0. This is a huge step forward in so many areas, let's take a look.
+
+<!-- more -->
 
 ## Ownership of resources
 

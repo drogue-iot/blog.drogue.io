@@ -41,7 +41,7 @@ exchange tokens in order to interact with Drogue Cloud. Of course, that client n
 them when necessary, and helps you acquire an initial token using the browser flow. Just run:
 
 ~~~
-drg login http://api.sandbox.drogue.cloud
+drg login https://api.sandbox.drogue.cloud
 ~~~
 
 And, you will be guided through the login process. Once you have a valid token, you can create applications and

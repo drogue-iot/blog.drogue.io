@@ -53,6 +53,7 @@ Let's start by creating an application for the things in my house in our drogue-
 
 
 That is neat but it is definitely missing some context. We can also create an entry with some more context in the `spec` section :
+    
     ~ drg create app french-house --spec '{"location":"france"}'
     App french-house created.
 
@@ -80,7 +81,8 @@ you need to provides some other data for an update, such as the unique id of the
 
 
 And of course, if you sell your house you can always remove it from the system : 
-    drg delete house french-house
+     
+     drg delete house french-house
  
  
 ## Create and manage devices
@@ -110,12 +112,15 @@ As i said in the beginning `drg` can keep track of multiple clusters if the need
 The configuration file contains multiple contexts. A context represents a cluster API endpoint, a default application (optionnal) and an authentication token (0Auth2).
 
 When we logged into a cluster at the begining we saved a context with a name. Let's say we named it `my-cluster`, we can set a default app for it : 
-    drg context set-default-app house --context=my-cluster
-    
+     
+     drg context set-default-app house --context=my-cluster
+
+
 Note: here the `--context` argument is optionnal as a default context can be pulled from the environment variable `DRG_CONTEXT`. 
 Also, when you log into a cluster without previous info in the config file (.i.e. running `drg login`for the first time), the new context will be set as active by default. 
 
 But `my-cluster` is not a really great name, as we just moved it to an Azure cluster, let's make it clearer : 
+    
     drg context rename my-cluster azure.
     
 You can list, delete, set another context as active and show the config file. 

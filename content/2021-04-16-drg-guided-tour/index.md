@@ -54,13 +54,13 @@ As you may already know, devices communicate with drogue-cloud in a scoped envir
 
 Let's start by creating an application for the things in my house in our drogue-cloud instance : 
 
-    ~ drg create app house
+    drg create app house
     App house created.
 
 
 That is neat but it is definitely missing some context. We can also create an entry with some more context in the `spec` section :
     
-    ~ drg create app french-house --spec '{"location":"france"}'
+    drg create app french-house --spec '{"location":"france"}'
     App french-house created.
 
 

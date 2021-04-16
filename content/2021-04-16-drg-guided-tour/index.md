@@ -11,7 +11,7 @@ A guided tour of `drg`, the command line client that aims to make your life easi
 <!-- more -->
 
 `drg` is the newest addition to the drogue familly. The idea behind it is to make interractions with the drogue-cloud APIs less cumbersome and more intuitive to use. 
-Obviously it's written in rust, and try to have an intuitive use flow, insparied from the famous `kubectl` tool. 
+It aims to have an intuitive usage flow, insparied from the famous `kubectl` tool. Did I really need to mention it's written in rust ?
 We landed some nice new features recently, enough to warrant a release. Get yourself the lastest version, and hop on for a tour !
 
 
@@ -103,13 +103,13 @@ The behaviour is the same as for the applications so you can create from a file,
     drg update device coffee-machine --app=house
 
 
-I am starting to get annoyed by the `--app` argument ? It's uneedlessly repetitive. Let's pull it from the environment: 
+I am starting to get annoyed by the `--app` argument... It's uneedlessly repetitive. Let's pull it from the environment: 
 
     export DRG_APP=house
     drg create device fridge
 
 The app setting is now pulled from the env variable. Less keystrokes ! Yay ! 
-and it can also be pulled from the context, that leads nicely into the configuration section, see below.
+It can also be pulled from the context, that leads nicely into the configuration section, see below.
 
     
 ## Contexts and configuration file

@@ -15,12 +15,12 @@ Obviously it's written in rust, and try to have an intuitive use flow, insparied
 We landed some nice new features recently, enough to warrant a release. Get yourself the lastest version, and hop on for a tour !
 
 
-Disclaimer : if you used `drg` before version `0.4.0` then you MUST delete your configuration file, as it format was changed to support multiple environements. 
+Note: If you used `drg` before version `0.4.0` then you MUST delete your configuration file, as its format was changed to support multiple environments. 
 By default it should be `$HOME/.config/drg_config.json`. (Or whatever your `XDG_CONFIG_HOME` specifies.) It's now a yaml file with a different structure.
 
 ## Installing drg
 
-If you have a rust toolchain available you can install `drg` from crates.io : 
+If you have a rust toolchain available you can install `drg` from [crates.io](https://crates.io/crates/drg): 
 
      cargo install drg
 
@@ -108,15 +108,15 @@ and it can also be pulled from the context, that leads nicely into the configura
     
 ## Contexts and configuration file
 
-As i said in the beginning `drg` can keep track of multiple clusters if the need arise. Let's explain how that work. 
-The configuration file contains multiple contexts. A context represents a cluster API endpoint, a default application (optionnal) and an authentication token (0Auth2).
+As I said in the beginning `drg` can keep track of multiple clusters if the need arises. Let's explain how that works. 
+The configuration file contains multiple contexts. A context represents a cluster API endpoint, a default application (optional) and an authentication token (0Auth2).
 
 When we logged into a cluster at the begining we saved a context with a name. Let's say we named it `my-cluster`, we can set a default app for it : 
      
      drg context set-default-app house --context=my-cluster
 
 
-Note: here the `--context` argument is optionnal as a default context can be pulled from the environment variable `DRG_CONTEXT`. 
+Note: here the `--context` argument is optional as a default context can be pulled from the environment variable `DRG_CONTEXT`. 
 Also, when you log into a cluster without previous info in the config file (.i.e. running `drg login`for the first time), the new context will be set as active by default. 
 
 But `my-cluster` is not a really great name, as we just moved it to an Azure cluster, let's make it clearer : 

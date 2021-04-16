@@ -28,8 +28,14 @@ It will download and build you the latest released version.
 
 If you don't have rust on your machine you can download a binary from the [Github release](https://github.com/drogue-iot/drg/releases) page.
 At this time we have Linux and MacOS binaries available. 
-Windows support is coming soon ! 
 
+Alternatively and if you are a mac user you can get drg through homebrew : 
+
+    brew tap drogue-iot/drg
+    brew install drg
+
+
+Windows support is coming soon ! 
 
 ## Log in your drogue-cloud cluster
 

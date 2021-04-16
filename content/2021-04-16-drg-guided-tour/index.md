@@ -134,4 +134,4 @@ Here are the high priority items :
  * Sending commands to devices using the [command and control feature](https://blog.drogue.io/command-your-devices/) of drogue cloud.
  * Tap into a stream of telemetry and see the stream on your console.
 
-You can go and look [in the issue section of the repo]() for more details and submit your awesone ideas there.
+You can go and look [in the issue section of the repo](https://github.com/drogue-iot/drg/issues) for more details and submit your awesone ideas there.

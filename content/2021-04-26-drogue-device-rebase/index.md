@@ -236,7 +236,7 @@ After playing around with Embassy and, we decided that using embassy as the foun
 Having modified drogue-device actor model and rebased it on embassy, we see the following improvements:
 
 * Flash usage reduced by 2x
-* Static RAM usage reduced by ~3x
+* Static RAM usage reduced by ~7x
 
 We also have good reasons to believe stack usage is somewhat reduced by only using Actors for the cases where shared access to some resource, or the ease of composition is desired.
 

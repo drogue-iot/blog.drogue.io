@@ -3,7 +3,7 @@ title = "Rebasing Drogue Device"
 extra.author = "lulf"
 +++
 
-For the past few weeks, we explored removing the allocator from drogue-device and adopt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.
+For the past few weeks, we explored removing the allocator from [drogue-device](https://github.com/drogue-iot/drogue-device) and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.
 
 <!-- more -->
 
@@ -139,9 +139,9 @@ async fn double_it(arg: u32) -> u32 {
 }
 ```
 
-This function get translated to a 'unit of code' that can be executed (polled) later, aka. a `Future`. The way Rust does that is to generate a type that implements the `Future` trait. The future trait has a method that allows you to `poll` the future, which will drive it to completion, or allow you to register a `Waker` used to signal the runtime that the future can be polled again.
+This function gets translated to a 'unit of code' that can be executed (polled) later, aka. a `Future`. The way Rust does that is to generate a type that implements the `Future` trait. The future trait has a method that allows you to `poll` the future, which will drive it to completion, or allow you to register a `Waker` used to signal the runtime that the future can be polled again.
 
-To run the future, a runtime also called an  `executor` is used, and there are several of those out there. Drogue-device have had its own executor that runs actors, and each actor may have one "current" future that can be polled. The implementation simply iterates over all the actors, ask them if they have any futures stored that it should poll, and then polls them. 
+To run the future, a runtime also called an  `executor` is used, and there are several of those out there. Drogue-device has had its own executor that runs actors, and each actor may have one "current" future that can be polled. The implementation simply iterates over all the actors, ask them if they have any futures stored that it should poll, and then polls them. 
 
 
 There are many resources on this topic, such as the [async book](https://rust-lang.github.io/async-book/02_execution/01_chapter.html), or this excellent blog post on [pin and suffering](https://fasterthanli.me/articles/pin-and-suffering).
@@ -156,7 +156,7 @@ In drogue device this can be seen in the signature of `RequestHandler`, which re
 
 Solution:
 
-To resolve this we need to constrain the `Actor` even more: For each `Actor` implementation, we must know the size of the future it return. This, in turn, means that it can only return a "known" future that the compiler can understand the size of.
+To resolve this we need to constrain the `Actor` even more: For each `Actor` implementation, we must know the size of the future it returns. This, in turn, means that it can only return a "known" future that the compiler can understand the size of.
 
 In rust stable, this means that all actors have to return something that implements the `Future` trait, and that just makes writing Actors too hard.
 
@@ -240,7 +240,7 @@ Having modified drogue-device actor model and rebased it on embassy, we see the 
 
 We also have good reasons to believe stack usage is somewhat reduced by only using Actors for the cases where shared access to some resource, or the ease of composition is desired.
 
-In addition, there are additional benefits like running drogue-device the host, which can simplify driver development.
+There are additional benefits like running drogue-device the host, which can simplify driver development.
 
 # So what does it look like?
 
@@ -314,8 +314,8 @@ The `TestContext` has the same API as the `DeviceContext`, extended with methods
 
 # Whats next?
 
-At the time of writing, all the work is done in a [separate repository](https://github.com/drogue-iot/drogue-device-ng), with the goal of replacing the existing drogue-device repository once most of the remaining drivers and examples have been moved over. If you want to contribute to this effort, reach out in the drogue iot chat.
+At the time of writing, all the work is done in a [separate repository](https://github.com/drogue-iot/drogue-device-ng), with the goal of replacing the existing [drogue-device repository](https://github.com/drogue-iot/drogue-device) once most of the remaining drivers and examples have been moved over. If you want to contribute to this effort, reach out in the drogue iot chat.
 
 # Summary
 
-For the past few weeks, we explored removing the static allocator from drogue-device and adopt drivers to a more restrictive Actor model. After several attempts, we could not find a way to do this without starting to use features from Rust nightly. Having moved to nightly, the barrier for adopting an existing framework like embassy as the foundation was lower. And the outcome have been all positive. The Embassy project have been very helpful in answering questions, discussing our problems and reviewing patches that we've submitted.
+For the past few weeks, we explored removing the static allocator from drogue-device and adapt drivers to a more restrictive Actor model. After several attempts, we could not find a way to do this without starting to use features from Rust nightly. Having moved to nightly, the barrier for adopting an existing framework like embassy as the foundation was lower. And the outcome have been all positive. The Embassy project have been very helpful in answering questions, discussing our problems and reviewing patches that we've submitted.

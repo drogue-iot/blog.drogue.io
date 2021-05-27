@@ -10,13 +10,13 @@ drogue-cloud is running, i.e. you installed it yourself on [minikube]
 or [kind], it's possible to "extend" the platform by triggering a
 function each time an event from a device is processed.
 
+<!-- more -->
+
 This article assumes you've [installed drogue-cloud per the
 instructions](https://book.drogue.io/drogue-cloud/dev/deployment/index.html),
 along with a few of its pre-requisites. Specifically, we'll be using
 [kubectl] and [func], discussed below, to deploy our event source and
 service. And we'll use [drg] and [HTTPie] to test it.
-
-<!-- more -->
 
 
 # The KafkaSource
@@ -46,7 +46,7 @@ spec:
     ref:
       apiVersion: serving.knative.dev/v1
       kind: Service
-      name: cloudevents-rust
+      name: drogue-addict
 ~~~
 
 Assuming you put that YAML in a file named `source.yaml` you would

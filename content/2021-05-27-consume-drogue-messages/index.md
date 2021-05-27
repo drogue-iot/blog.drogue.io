@@ -248,4 +248,4 @@ kafka. There's still lots to explore and myriad use cases to support.
 [drg]: https://github.com/drogue-iot/drg
 [HTTPie]: https://httpie.io/
 [CloudEvents]: https://cloudevents.io/
-[kn plugin]: https://github.com/knative/client/blob/main/docs/README.md
+[`kn` plugin]: https://github.com/knative/client/blob/main/docs/README.md

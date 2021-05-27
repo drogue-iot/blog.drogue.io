@@ -91,9 +91,7 @@ entire `index.js` file it generated with the following:
  * @param {Object} event the CloudEvent 
  */
 function handle(context, event) {
-  context.log.info("context");
   console.log(JSON.stringify(context, null, 2));
-  context.log.info("event");
   console.log(JSON.stringify(event, null, 2));
 };
 
@@ -158,8 +156,6 @@ kubectl logs -l serving.knative.dev/service=drogue-addict -c user-container --ta
 Fingers crossed, you'll see something resembling this:
 
 ```shell
-{"level":30,"time":1621899419651,"pid":20,"hostname":"drogue-addict-00001-deployment-799ddc69c7-dpqgm","reqId":"req-2","req":{"method":"POST","url":"/","hostname":"drogue-addict.default.svc.cluster.local","remoteAddress":"127.0.0.1","remotePort":35672},"msg":"incoming request"}
-{"level":30,"time":1621899419655,"pid":20,"hostname":"drogue-addict-00001-deployment-799ddc69c7-dpqgm","reqId":"req-2","msg":"context"}
 {
   "query": {},
   "body": {
@@ -172,22 +168,22 @@ Fingers crossed, you'll see something resembling this:
     "accept-encoding": "gzip",
     "ce-application": "app_id",
     "ce-device": "device_id",
-    "ce-id": "937d586a-e5dc-441d-96e8-24a74e561965",
+    "ce-id": "d28078c1-0d91-46aa-9e1c-4a167c237a76",
     "ce-instance": "drogue",
     "ce-partitionkey": "app%5Fid/device%5Fid",
     "ce-source": "drogue://app%5Fid/device%5Fid",
     "ce-specversion": "1.0",
     "ce-subject": "anything",
-    "ce-time": "2021-05-24T23:36:57.448964410+00:00",
-    "ce-traceparent": "00-f81b71b968f77384e065fcf3aa33e65d-120c506cd2ce781e-00",
+    "ce-time": "2021-05-27T22:27:30.758332796+00:00",
+    "ce-traceparent": "00-5a09559ee13eee3072e056b77bfa3656-950ab17c2959f944-00",
     "ce-type": "io.drogue.event.v1",
     "content-type": "application/json",
     "forwarded": "for=172.17.0.9;proto=http",
     "k-proxy-request": "activator",
-    "traceparent": "00-f81b71b968f77384e065fcf3aa33e65d-6bbbbe6e14ee9dd8-00",
+    "traceparent": "00-5a09559ee13eee3072e056b77bfa3656-48b4d717feb15d02-00",
     "x-forwarded-for": "172.17.0.9, 172.17.0.2",
     "x-forwarded-proto": "http",
-    "x-request-id": "3883fd1f-cfa6-4297-90be-f2a78e34d32c"
+    "x-request-id": "6686fd85-cbaf-490b-a3b0-d1166ca3450a"
   },
   "method": "POST",
   "httpVersion": "1.1",
@@ -195,8 +191,8 @@ Fingers crossed, you'll see something resembling this:
   "httpVersionMinor": 1,
   "log": {},
   "cloudevent": {
-    "id": "937d586a-e5dc-441d-96e8-24a74e561965",
-    "time": "2021-05-24T23:36:57.448Z",
+    "id": "d28078c1-0d91-46aa-9e1c-4a167c237a76",
+    "time": "2021-05-27T22:27:30.758Z",
     "type": "io.drogue.event.v1",
     "source": "drogue://app%5Fid/device%5Fid",
     "specversion": "1.0",
@@ -206,15 +202,28 @@ Fingers crossed, you'll see something resembling this:
     "device": "device_id",
     "instance": "drogue",
     "partitionkey": "app%5Fid/device%5Fid",
-    "traceparent": "00-f81b71b968f77384e065fcf3aa33e65d-120c506cd2ce781e-00",
+    "traceparent": "00-5a09559ee13eee3072e056b77bfa3656-950ab17c2959f944-00",
     "data": {
       "temp": 42
     }
   }
 }
-{"level":30,"time":1621899419656,"pid":20,"hostname":"drogue-addict-00001-deployment-799ddc69c7-dpqgm","reqId":"req-2","msg":"event"}
 {
-  "temp": 42
+  "id": "d28078c1-0d91-46aa-9e1c-4a167c237a76",
+  "time": "2021-05-27T22:27:30.758Z",
+  "type": "io.drogue.event.v1",
+  "source": "drogue://app%5Fid/device%5Fid",
+  "specversion": "1.0",
+  "datacontenttype": "application/json",
+  "subject": "anything",
+  "application": "app_id",
+  "device": "device_id",
+  "instance": "drogue",
+  "partitionkey": "app%5Fid/device%5Fid",
+  "traceparent": "00-5a09559ee13eee3072e056b77bfa3656-950ab17c2959f944-00",
+  "data": {
+    "temp": 42
+  }
 }
 ```
 

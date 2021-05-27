@@ -68,7 +68,7 @@ kubectl get kafkasource
 
 The [func] project aims to simplify the creation of Knative Services
 that respond to [CloudEvents]. It was designed to be run as either a
-self-contained CLI or a [kn plugin]. Unpack the [appropriate
+self-contained CLI or a [`kn` plugin]. Unpack the [appropriate
 binary](https://github.com/boson-project/func/releases/latest)
 somewhere on your `$PATH` and run the following to get started:
 
@@ -78,7 +78,7 @@ func create drogue-addict && cd drogue-addict
 
 Though it supports an ever-expanding [variety of popular
 languages](https://github.com/boson-project/func/blob/main/docs/guides/developers_guide.md),
-its default is nodejs, which will serve our purposes for now, since
+its default is Node.js, which will serve our purposes for now, since
 we're just going to log the event we receive, along with the request
 context, just to show what data we have to work with.  Overwrite the
 entire `index.js` file it generated with the following:
@@ -109,7 +109,7 @@ podman system service --time=0 tcp:localhost:1234 &
 export DOCKER_HOST=tcp://127.0.0.1:1234
 ```
 
-With docker configured, we can now deploy our function. We'll need a
+With the daemon configured, we can now deploy our function. We'll need a
 docker registry to store our image:
 
 ```shell
@@ -120,7 +120,7 @@ func deploy --registry docker.io/<YOUR_ACCOUNT>
 # Testing our function
 
 With any luck, when we publish an event from our "device" to the
-drogue-cloud, that event will be logged by our nodejs function. We can
+drogue-cloud, that event will be logged by our Node.js function. We can
 simulate a device sending data using a handy script in the same
 directory from which you initially installed drogue-cloud.
 
@@ -224,7 +224,7 @@ the logs.
 # Now what?
 
 We're not entirely sure! Some of this is just meant to show that our
-architecture -- loosely-coupled knative services swapping cloud events
+architecture -- loosely-coupled Knative services swapping cloud events
 -- is extensible by the same means in which it's implemented. It's
 turtles all the way down!
 

@@ -124,7 +124,9 @@ DEVICE.mount(|device| {
 });
 ```
 
-And thats it! The same actors and framework used in the `nRF52`, `STM32` or `rPi Pico` examples can be used in WebAssembly!
+And thats it! The same actors and framework used in the `nRF52`, `STM32` or `rPi Pico` examples can be used in WebAssembly! Once example is built and running, the end result looks like this after clicking the button a few times:
+
+![Button and Led](browser.png)
 
 # Whats next?
 

@@ -1,9 +1,10 @@
 +++
 title = "Drogue Device conquers the browser"
 extra.author = "lulf"
+extra.image = "browser.png"
 +++
 
-What does embedded and web frontend apps have in common? Turns out it's quite a lot! Read on to see how Drogue Device have conquered the browser.
+What does embedded development and WebAssembly have in common? Turns out it's quite a lot! Read on to see how Drogue Device have conquered the browser.
 
 <!-- more -->
 
@@ -17,7 +18,7 @@ In this post, we'll give you some references on how to run Rust applications in 
 
 # Sounds good, how do we do that?
 
-First, to use Rust in the browser, you can use [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen). It provides a way to build Rust WebAssembly(WASM) modules, and to a bidirectional mapping with JavaScript code if you wish. Building a WASM module can be done using the `wasm-pack` tool. There are plenty of examples [here](https://rustwasm.github.io/docs/book/), and [here](https://rustwasm.github.io/wasm-bindgen/), with varying degrees of complexity and integration with JavaScript.
+First, to use Rust in the browser, you can use [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen). It provides a way to build Rust WebAssembly(Wasm) modules, and to a bidirectional mapping with JavaScript code if you wish. Building a Wasm module can be done using the `wasm-pack` tool. There are plenty of examples [here](https://rustwasm.github.io/docs/book/), and [here](https://rustwasm.github.io/wasm-bindgen/), with varying degrees of complexity and integration with JavaScript.
 
 # Can browsers do async though?
 

@@ -3,7 +3,7 @@ title = "Drogue device conquers the browser"
 extra.author = "lulf"
 +++
 
-What does embedded and web frontend apps have in common? Turns out it's quite a lot! Read on to see how drogue-device have conquered the browser.
+What does embedded and web frontend apps have in common? Turns out it's quite a lot! Read on to see how Drogue Device have conquered the browser.
 
 <!-- more -->
 

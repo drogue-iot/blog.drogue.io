@@ -1,5 +1,5 @@
 +++
-title = "Drogue device conquers the browser"
+title = "Drogue Device conquers the browser"
 extra.author = "lulf"
 +++
 
@@ -9,7 +9,7 @@ What does embedded and web frontend apps have in common? Turns out it's quite a 
 
 # Whats new?
 
-As discussed earlier, [Drogue Device](https://blog.drogue.io/drogue-device-rebase/) was refactored to integrate with [embassy](https://github.com/embassy-rs/embassy) as its runtime. Since then, we've worked with the embassy project to improve support for STM32 microcontrollers and as well as other minor improvements and fixes. Drogue Device is more concerned with being an Actor framework, a collection of drivers for IoT use cases (With connectivity such as LoRa, WiFi, and more to come!), integration with [Drogue Cloud](https://github.com/drogue-iot/drogue-cloud/) and having examples for different boards geared towards IoT connectivity.
+As discussed earlier, [Drogue Device](https://blog.drogue.io/drogue-device-rebase/) was refactored to integrate with [Embassy](https://github.com/embassy-rs/embassy) as its runtime. Since then, we've worked with the Embassy project to improve support for STM32 microcontrollers and as well as other minor improvements and fixes. Drogue Device is more concerned with being an Actor framework, a collection of drivers for IoT use cases (With connectivity such as LoRa, WiFi, and more to come!), integration with [Drogue Cloud](https://github.com/drogue-iot/drogue-cloud/) and having examples for different boards geared towards IoT connectivity.
 
 One day, an idea came up to run Drogue Device in the browser. Why would you do that? Well, it's not a primary use case for Drogue Device, but the similarity between Rust in the browser and on embedded is that they both require code to work without the standard library (`no_std`). Clearly, we could not pass on this opportunity!
 
@@ -21,7 +21,7 @@ First, to use Rust in the browser, you can use [wasm-bindgen](https://github.com
 
 # Can browsers do async though?
 
-Yeah, they can! With the [`wasm-bindgen-futures`](https://crates.io/crates/wasm-bindgen-futures), one can spawn async tasks in the same way that the embassy executor can. And in our case, we can invoke the Rust main function as an async function as well!
+Yeah, they can! With the [`wasm-bindgen-futures`](https://crates.io/crates/wasm-bindgen-futures), one can spawn async tasks in the same way that the Embassy executor can. And in our case, we can invoke the Rust main function as an async function as well!
 
 To invoke our Rust main, the following snippet goes in the HTML:
 
@@ -114,7 +114,7 @@ DEVICE.configure(MyDevice {
 });
 ```
 
-Finally, we need to mount the device. Mounting a device means spawning the per-actor tasks that wait for incoming messages for an actor and runs the processing loop. Since we're running in a browser, we cannot use the embassy executor, because it will loop forever awaiting actor tasks. Instead, we'll re-use the async spawn capability of `wasm-bindgen` and implement the `ActorSpawner` trait, which will enable it to be used when mounting a device:
+Finally, we need to mount the device. Mounting a device means spawning the per-actor tasks that wait for incoming messages for an actor and runs the processing loop. Since we're running in a browser, we cannot use the Embassy executor, because it will loop forever awaiting actor tasks. Instead, we'll re-use the async spawn capability of `wasm-bindgen` and implement the `ActorSpawner` trait, which will enable it to be used when mounting a device:
 
 ```rust
 let spawner = WasmSpawner::new();

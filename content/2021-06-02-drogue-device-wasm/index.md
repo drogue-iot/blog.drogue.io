@@ -1,10 +1,10 @@
 +++
-title = "Drogue Device conquers the browser"
+title = "Drogue Device in the browser"
 extra.author = "lulf"
 extra.image = "browser.png"
 +++
 
-What does embedded development and WebAssembly have in common? Turns out it's quite a lot! Read on to see how Drogue Device have conquered the browser.
+What does embedded development and WebAssembly have in common? Turns out it's quite a lot! Read on to see how Drogue Device can run in your browser.
 
 <!-- more -->
 

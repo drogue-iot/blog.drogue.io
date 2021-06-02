@@ -129,6 +129,8 @@ And thats it! The same actors and framework used in the `nRF52`, `STM32` or `rPi
 
 ![Button and Led](browser.png)
 
+You can even try out this example [here](http://people.redhat.com/~ulilleen/drogue-device/).
+
 # Whats next?
 
 So, does this mean drogue device has changed focus and will be Web 4.0? Probably not! Instead, consider this an example how drogue-device can be used with any async executor in `no_std` land, with some minimal glue code attached.

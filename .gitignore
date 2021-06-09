@@ -9,3 +9,6 @@ public/
 
 # NPM
 node_modules/
+
+# OSX
+.DS_Store

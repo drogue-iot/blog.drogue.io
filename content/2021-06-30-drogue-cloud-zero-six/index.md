@@ -142,7 +142,9 @@ like Python. Creating some more examples and workshops using Kafka and Knative. 
 Quarkus and Funqy.
 
 Running on GKE is fine, but we also want to test Drogue Cloud on Azure, AWS, and others. If you have an interest in
-this too, feel free to join this effort. 
+this too, feel free to join this effort.
+
+We also labeled some issues now with [help wanted](https://github.com/drogue-iot/drogue-cloud/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22). Just in case you are looking for a way to contribute. 
 
 As always, you are welcome to join and give the new version a try on [our sandbox](https://sandbox.drogue.cloud).
 

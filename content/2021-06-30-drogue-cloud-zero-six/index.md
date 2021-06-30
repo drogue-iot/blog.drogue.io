@@ -48,7 +48,7 @@ Kustomize. Still, we found out that we need even more flexibility. We wanted to 
 features on or off. Swap out the container registry with a single setting, replace the provided Postgres or Kafka
 instance with an existing, external one. All of this is pretty simple when using Helm.
 
-Why didn't we pick Helm in the beginning. Well, creating Helm charts comes with a bit of complexity. Plain YAML files
+Why didn't we pick Helm in the beginning? Well, creating Helm charts comes with a bit of complexity. Plain YAML files
 are much simpler. In Drogue Cloud we try to start simple and adopt more complex technologies when we see a benefit.
 Like in this case, we figured out that we grew out of the plain YAML files and Kustomize, and so we moved on.
 

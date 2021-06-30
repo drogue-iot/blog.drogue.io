@@ -98,7 +98,7 @@ the application readable to anonymous users.
 For one, you can simply get the stream using the following command:
 
 ~~~
-mqtt sub --topic app/drogue-public-temperature --host mqtt-integration-drogue-dev.apps.wonderful.iot-playground.org --port 443 -s
+mqtt sub --topic app/drogue-public-temperature --host mqtt-integration.sandbox.drogue.cloud --port 443 -s
 ~~~
 
 This also allowed us to create a second workshop in our "book". The workshop uses Quarkus and

@@ -19,9 +19,41 @@ We'll explore the two latter options in this post.
 
 ## Secured gateway to cloud
 
-TODO: HAProxy setup
+If you have a too little RAM to do TLS on the device, and you are on a secure network, then you can setup a gateway between the device and cloud. One way to do that is to use [HAProxy](), which is fairly simple to setup. 
+
+Here is an example configuration that you can append to the HAProxy config for proxying Device -HTTP-> HAProxy -HTTPS-> Drogue Cloud:
+
+```
+#---------------------------------------------------------------------
+# main frontend which devices connect to
+#---------------------------------------------------------------------
+frontend main
+    bind *:80
+    default_backend drogue
+
+#---------------------------------------------------------------------
+# Drogue IoT backend
+#---------------------------------------------------------------------
+backend drogue
+    balance     roundrobin
+    http-request set-header Host http.sandbox.drogue.cloud
+    server      static      http.sandbox.drogue.cloud:443 check sni str(http.sandbox.drogue.cloud) ssl verify none
+```
+
+The frontend configuration configures the incoming port bound to where devices can connect. The backend configuration 
+configures the route to the Drogue IoT sandbox service. For the requests to be routed correctly, the HTTP Host header and the TLS Server Name (SNI) must be set to the destination host.
 
 ## Secured device to cloud
+
+Doing TLS on devices is the preferred approach if you have the available RAM. Unfortunately, to use TLS in Rust embedded, is has been necessary to "pollute" your Rust project with an existing TLS library like mbed TLS, which works, but is not as nice; Until now. 
+
+We've started a new implementation of TLS 1.3 in pure Rust and put it into the [`drogue-tls`]() crate. The goal is to implement the TLS 1.3 specification in pure Rust, using async. The project does not have any dependencies on other Drogue IoT projects, and can be used with any TCP stack, by implementing two traits used for I/O. 
+
+### Where did all my RAM go?
+
+We've tried to keep `drogue-tls` as small as possible. The overhead of the TLS connection is minimal, and highly correlated with the desired buffer size. To properly support any TLS compliant endpoint, the chosen buffer size should be at least the maximum TLS frame size, 16kB.
+
+Since Drogue TLS is built using async, the futures require some stack allocation.
 
 TODO: Introducing Drogue TLS
 

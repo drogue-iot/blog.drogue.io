@@ -100,8 +100,7 @@ log::info!("WiFi network joined");
 
 let socket = Socket::new(wifi, wifi.open().await);
 let socket = TlsSocket::wrap(socket,
-    TlsContext::new()
-        .with_rng(rng)
+    TlsContext::new(rng)
         .with_server_name(HOST));
 ```
 

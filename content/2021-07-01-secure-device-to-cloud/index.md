@@ -98,9 +98,11 @@ wifi.join(Join::Wpa {
 .expect("Error joining wifi");
 log::info!("WiFi network joined");
 
+static mut TLS_BUFFER: [u8; 16384] = [0; 16384];
 let socket = Socket::new(wifi, wifi.open().await);
 let socket = TlsSocket::wrap(socket,
-    TlsContext::new(rng)
+    TlsContext::new(rng,
+        unsafe { &mut TLS_BUFFER }) // We guarantee buffer to only be used by TLS
         .with_server_name(HOST));
 ```
 

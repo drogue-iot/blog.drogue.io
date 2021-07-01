@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Consuming Drogue messages with a Knative Service &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="How to extend the drogue platform with knative functions">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Consuming Drogue messages with a Knative Service" />
+<meta name="twitter:description" content="How to extend the drogue platform with knative functions">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Consuming Drogue messages with a Knative Service">
+<meta property="og:url" content="https://blog.drogue.io/consume-drogue-messages">
+<meta property="og:description" content="How to extend the drogue platform with knative functions">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+
+<div class="container is-fluid">
+  <div class="columns">
+    <div class="column is-offset-one-quarter-fullhd is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+      <article itemscope itemtype="http://schema.org/BlogPosting">
+
+        <section class="content">
+          <h1 class="title is-size-2" itemprop="name headline">Consuming Drogue messages with a Knative Service</h1>
+          <div class="subtitle has-text-grey">
+          
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>6 minute read</span>
+        <meta itemprop="wordCount" content="1144">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-05-27'>27 May 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jim Crossley</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;consume-drogue-messages&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+          </div>
+        </section>
+
+        <hr>
+
+        <section class="content post-content" itemprop="articleBody">
+          <p>For most IoT developers, drogue-cloud is designed to be used &quot;as a
+service&quot;. But if you have admin access to the cluster on which
+drogue-cloud is running, i.e. you installed it yourself on <a href="https://minikube.sigs.k8s.io/">minikube</a>
+or <a href="https://kind.sigs.k8s.io/">kind</a>, it's possible to &quot;extend&quot; the platform by triggering a
+function each time an event from a device is processed.</p>
+<span id="continue-reading"></span>
+<p>This article assumes you've <a href="https://book.drogue.io/drogue-cloud/dev/deployment/index.html">installed drogue-cloud per the
+instructions</a>,
+along with a few of its pre-requisites. Specifically, we'll be using
+<a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a> and <a href="https://github.com/boson-project/func">func</a>, discussed below, to deploy our event source and
+service. And we'll use <a href="https://github.com/drogue-iot/drg">drg</a> and <a href="https://httpie.io/">HTTPie</a> to test it.</p>
+<h1 id="the-kafkasource">The KafkaSource</h1>
+<p>We need two things: a knative <code>KafkaSource</code> to forward the Drogue
+<a href="https://cloudevents.io/">CloudEvents</a>, and a knative <code>Service</code> to receive them. Because
+drogue-cloud is built atop kafka and knative-eventing, the
+<code>KafkaSource</code> custom resource definition (CRD) is already on your
+cluster, along with the topic and bootstrap server listed in the
+following YAML. The only thing you may want to change is the
+<code>consumerGroup</code>, to ensure the &quot;sink&quot; receives all messages. If you
+create more than one <code>KafkaSource</code> for the same topic, you probably
+want to give each a unique <code>consumerGroup</code> name.</p>
+<pre style="background-color:#2b303b;">
+<code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">apiVersion</span><span style="color:#c0c5ce;">: </span><span style="color:#bf616a;">sources.knative.dev/v1alpha1
+kind</span><span style="color:#c0c5ce;">: </span><span style="color:#bf616a;">KafkaSource
+metadata</span><span style="color:#c0c5ce;">:
+  </span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: </span><span style="color:#bf616a;">drogue-messages
+spec</span><span style="color:#c0c5ce;">:
+  </span><span style="color:#bf616a;">consumerGroup</span><span style="color:#c0c5ce;">: </span><span style="color:#bf616a;">some-unique-name
+  bootstrapServers</span><span style="color:#c0c5ce;">:
+    - </span><span style="color:#bf616a;">kafka-eventing-kafka-bootstrap.knative-eventing.svc:9092
+  topics</span><span style="color:#c0c5ce;">:
+    - </span><span style="color:#bf616a;">knative-messaging-kafka.drogue-iot.iot-channel
+  sink</span><span style="color:#c0c5ce;">:
+    </span><span style="color:#bf616a;">ref</span><span style="color:#c0c5ce;">:
+      </span><span style="color:#bf616a;">apiVersion</span><span style="color:#c0c5ce;">: </span><span style="color:#bf616a;">serving.knative.dev/v1
+      kind</span><span style="color:#c0c5ce;">: </span><span style="color:#bf616a;">Service
+      name</span><span style="color:#c0c5ce;">: </span><span style="color:#a3be8c;">drogue-addict
+</span></code></pre>
+<p>Assuming you put that YAML in a file named <code>source.yaml</code> you would
+apply it like so:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">kubectl apply -f source.yaml
+</span></code></pre>
+<p>You can then observe that its status won't become &quot;Ready&quot; until we
+create the <code>drogue-addict</code> service, configured as its &quot;sink&quot; above:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">kubectl get kafkasource
+</span></code></pre><h1 id="our-knative-service-built-by-func">Our Knative Service, built by func</h1>
+<p>The <a href="https://github.com/boson-project/func">func</a> project aims to simplify the creation of Knative Services
+that respond to <a href="https://cloudevents.io/">CloudEvents</a>. It was designed to be run as either a
+self-contained CLI or a <a href="https://github.com/knative/client/blob/main/docs/README.md"><code>kn</code> plugin</a>. Unpack the <a href="https://github.com/boson-project/func/releases/latest">appropriate
+binary</a>
+somewhere on your <code>$PATH</code> and run the following to get started:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">func create drogue-addict &amp;&amp; cd drogue-addict
+</span></code></pre>
+<p>Though it supports an ever-expanding <a href="https://github.com/boson-project/func/blob/main/docs/guides/developers_guide.md">variety of popular
+languages</a>,
+its default is Node.js, which will serve our purposes for now, since
+we're just going to log the event we receive, along with the request
+context, just to show what data we have to work with.  Overwrite the
+entire <code>index.js</code> file it generated with the following:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-javascript" data-lang="javascript"><span style="color:#65737e;">/**
+ * Log the drogue event 
+ *
+ * </span><span style="color:#b48ead;">@param </span><span style="color:#65737e;">{Context} </span><span style="color:#bf616a;">context</span><span style="color:#65737e;"> the invocation context
+ * </span><span style="color:#b48ead;">@param</span><span style="color:#65737e;"> {</span><span style="color:#bf616a;">Object</span><span style="color:#65737e;">} event the CloudEvent 
+ */
+</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">handle</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">context</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">event</span><span style="color:#c0c5ce;">) {
+  </span><span style="color:#ebcb8b;">console</span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">log</span><span style="color:#c0c5ce;">(JSON.</span><span style="color:#96b5b4;">stringify</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">context</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">));
+  </span><span style="color:#ebcb8b;">console</span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">log</span><span style="color:#c0c5ce;">(JSON.</span><span style="color:#96b5b4;">stringify</span><span style="color:#c0c5ce;">(event, </span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">));
+};
+
+module.exports = </span><span style="color:#bf616a;">handle</span><span style="color:#c0c5ce;">;
+</span></code></pre>
+<p>We need to build our function image. Unfortunately, <a href="https://github.com/boson-project/func">func</a> currently
+requires a docker daemon for this. If you're using <a href="https://podman.io/">podman</a>, you can
+simulate that like so:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">podman system service --time=0 tcp:localhost:1234 &amp;
+export DOCKER_HOST=tcp://127.0.0.1:1234
+</span></code></pre>
+<p>With the daemon configured, we can now deploy our function. We'll need a
+docker registry to store our image:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">func deploy --registry docker.io/&lt;YOUR_ACCOUNT&gt;
+</span></code></pre><h1 id="testing-our-function">Testing our function</h1>
+<p>With any luck, when we publish an event from our &quot;device&quot; to the
+drogue-cloud, that event will be logged by our Node.js function. We can
+simulate a device sending data using a handy script in the same
+directory from which you initially installed drogue-cloud.</p>
+<p>The script will invoke the Drogue CLI, <code>drg</code>, to first authenticate
+you, and then create identifiers for your app and device, before
+finally publishing some fake data for that device.</p>
+<p>The first time you run it, you should be redirected to your browser
+and prompted for a username and password. Use <code>admin</code> and
+<code>admin123456</code>, respectively.</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">cd &lt;DROGUE_INSTALL_DIR&gt;
+./scripts/publish.sh
+</span></code></pre>
+<p>Assuming you see <code>HTTP/1.1 202 Accepted</code> output from the script, you
+should see a pod fire up containing our function:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">kubectl get pod
+</span></code></pre>
+<p>You should actually see <em>two</em> pods, one for our <code>drogue-addict</code>
+service, and one for the <code>KafkaSource</code> since its sink finally showed
+up. But because knative services will scale down to 0 when idle (to
+save you money!), the pod running our function will only hang around
+for a few minutes. While it's up, you can run this to view the
+messages logged by our function:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">kubectl logs -l serving.knative.dev/service=drogue-addict -c user-container --tail=-1
+</span></code></pre>
+<p>Fingers crossed, you'll see something resembling this:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-shell" data-lang="shell"><span style="color:#c0c5ce;">{
+  &quot;query&quot;: {},
+  &quot;body&quot;: {
+    &quot;temp&quot;: 42
+  },
+  &quot;headers&quot;: {
+    &quot;host&quot;: &quot;drogue-addict.default.svc.cluster.local&quot;,
+    &quot;user-agent&quot;: &quot;Go-http-client/1.1&quot;,
+    &quot;content-length&quot;: &quot;12&quot;,
+    &quot;accept-encoding&quot;: &quot;gzip&quot;,
+    &quot;ce-application&quot;: &quot;app_id&quot;,
+    &quot;ce-device&quot;: &quot;device_id&quot;,
+    &quot;ce-id&quot;: &quot;d28078c1-0d91-46aa-9e1c-4a167c237a76&quot;,
+    &quot;ce-instance&quot;: &quot;drogue&quot;,
+    &quot;ce-partitionkey&quot;: &quot;app%5Fid/device%5Fid&quot;,
+    &quot;ce-source&quot;: &quot;drogue://app%5Fid/device%5Fid&quot;,
+    &quot;ce-specversion&quot;: &quot;1.0&quot;,
+    &quot;ce-subject&quot;: &quot;anything&quot;,
+    &quot;ce-time&quot;: &quot;2021-05-27T22:27:30.758332796+00:00&quot;,
+    &quot;ce-traceparent&quot;: &quot;00-5a09559ee13eee3072e056b77bfa3656-950ab17c2959f944-00&quot;,
+    &quot;ce-type&quot;: &quot;io.drogue.event.v1&quot;,
+    &quot;content-type&quot;: &quot;application/json&quot;,
+    &quot;forwarded&quot;: &quot;for=172.17.0.9;proto=http&quot;,
+    &quot;k-proxy-request&quot;: &quot;activator&quot;,
+    &quot;traceparent&quot;: &quot;00-5a09559ee13eee3072e056b77bfa3656-48b4d717feb15d02-00&quot;,
+    &quot;x-forwarded-for&quot;: &quot;172.17.0.9, 172.17.0.2&quot;,
+    &quot;x-forwarded-proto&quot;: &quot;http&quot;,
+    &quot;x-request-id&quot;: &quot;6686fd85-cbaf-490b-a3b0-d1166ca3450a&quot;
+  },
+  &quot;method&quot;: &quot;POST&quot;,
+  &quot;httpVersion&quot;: &quot;1.1&quot;,
+  &quot;httpVersionMajor&quot;: 1,
+  &quot;httpVersionMinor&quot;: 1,
+  &quot;log&quot;: {},
+  &quot;cloudevent&quot;: {
+    &quot;id&quot;: &quot;d28078c1-0d91-46aa-9e1c-4a167c237a76&quot;,
+    &quot;time&quot;: &quot;2021-05-27T22:27:30.758Z&quot;,
+    &quot;type&quot;: &quot;io.drogue.event.v1&quot;,
+    &quot;source&quot;: &quot;drogue://app%5Fid/device%5Fid&quot;,
+    &quot;specversion&quot;: &quot;1.0&quot;,
+    &quot;datacontenttype&quot;: &quot;application/json&quot;,
+    &quot;subject&quot;: &quot;anything&quot;,
+    &quot;application&quot;: &quot;app_id&quot;,
+    &quot;device&quot;: &quot;device_id&quot;,
+    &quot;instance&quot;: &quot;drogue&quot;,
+    &quot;partitionkey&quot;: &quot;app%5Fid/device%5Fid&quot;,
+    &quot;traceparent&quot;: &quot;00-5a09559ee13eee3072e056b77bfa3656-950ab17c2959f944-00&quot;,
+    &quot;data&quot;: {
+      &quot;temp&quot;: 42
+    }
+  }
+}
+{
+  &quot;id&quot;: &quot;d28078c1-0d91-46aa-9e1c-4a167c237a76&quot;,
+  &quot;time&quot;: &quot;2021-05-27T22:27:30.758Z&quot;,
+  &quot;type&quot;: &quot;io.drogue.event.v1&quot;,
+  &quot;source&quot;: &quot;drogue://app%5Fid/device%5Fid&quot;,
+  &quot;specversion&quot;: &quot;1.0&quot;,
+  &quot;datacontenttype&quot;: &quot;application/json&quot;,
+  &quot;subject&quot;: &quot;anything&quot;,
+  &quot;application&quot;: &quot;app_id&quot;,
+  &quot;device&quot;: &quot;device_id&quot;,
+  &quot;instance&quot;: &quot;drogue&quot;,
+  &quot;partitionkey&quot;: &quot;app%5Fid/device%5Fid&quot;,
+  &quot;traceparent&quot;: &quot;00-5a09559ee13eee3072e056b77bfa3656-950ab17c2959f944-00&quot;,
+  &quot;data&quot;: {
+    &quot;temp&quot;: 42
+  }
+}
+</span></code></pre>
+<p>If you don't see that, run <code>./scripts/publish.sh</code> again and recheck
+the logs.</p>
+<h1 id="now-what">Now what?</h1>
+<p>We're not entirely sure! Some of this is just meant to show that our
+architecture -- loosely-coupled Knative services swapping cloud events
+-- is extensible by the same means in which it's implemented. It's
+turtles all the way down!</p>
+<p>This article exposes some of the drogue-cloud internals, specifically
+that all IoT events currently flow through a single kafka topic. This
+is likely to change, of course, partially based on whether users will
+even want to introduce their own knative services/functions to extend
+the platform. We obviously want to ensure users only receive their own
+device events in a multi-tenant environment, for example. So in the
+future, we might have topics dedicated to particular users or source
+types. Or maybe even use entirely different knative abstractions over
+kafka. There's still lots to explore and myriad use cases to support.</p>
+
+        </section>
+
+        <section id="comments" class="content">
+
+          <hr>
+
+          <h2>Comments</h2>
+
+          <div id='discourse-comments'></div>
+
+          <script type="text/javascript">
+              DiscourseEmbed = { discourseUrl: 'https://discourse.drogue.io/',
+                  discourseEmbedUrl: 'https://blog.drogue.io/consume-drogue-messages' };
+
+              (function() {
+                  var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
+                  d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+              })();
+          </script>
+        </section>
+
+      </article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop mx-5">
+      <div class="box is-sticky">
+        <div class="title is-size-3"><a href="#">Table of contents</a></div>
+        <nav class="menu">
+          <ul class="menu-list">
+            
+            <li>
+              <a data-for="the-kafkasource" href="https://blog.drogue.io/consume-drogue-messages/#the-kafkasource">The KafkaSource</a>
+              
+            </li>
+            
+            <li>
+              <a data-for="our-knative-service-built-by-func" href="https://blog.drogue.io/consume-drogue-messages/#our-knative-service-built-by-func">Our Knative Service, built by func</a>
+              
+            </li>
+            
+            <li>
+              <a data-for="testing-our-function" href="https://blog.drogue.io/consume-drogue-messages/#testing-our-function">Testing our function</a>
+              
+            </li>
+            
+            <li>
+              <a data-for="now-what" href="https://blog.drogue.io/consume-drogue-messages/#now-what">Now what?</a>
+              
+            </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+
+
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 +++
-title = "Introducing Drogue TLS"
+title = "(Re)introducing Drogue TLS"
 extra.author = "bob_and_ulf"
 +++
 

@@ -47,7 +47,7 @@ configures the route to the Drogue IoT sandbox service. For the requests to be r
 
 Doing TLS on devices is the preferred approach if you have the available RAM. Unfortunately, to use TLS in Rust embedded, is has been necessary to "pollute" your Rust project with an existing TLS library like mbed TLS, which is the old approach taken by [drogue-tls](https://github.com/drogue-iot/drogue-tls).
 
-We've started a new implementation of TLS 1.3 in pure Rust and replaced the mbedTLS-based version it. The goal is to implement the TLS 1.3 specification in pure Rust, with async support. The project does not have any dependencies on other Drogue IoT projects, and can be used with any TCP stack, by implementing two traits used for I/O. In fact, there are implementations of these traits for some common runtimes, and you can find examples of using Drogue TLS with [tokio](https://github.com/drogue-iot/drogue-tls/tree/main/examples/tokio) and [embassy + smoltcp](https://github.com/drogue-iot/drogue-tls/tree/main/examples/embassy), with trait implementations for [futures](https://github.com/drogue-iot/drogue-tls/tree/main/src/lib.rs) I/O traits as well.
+We've started a new implementation of TLS 1.3 in pure Rust and replaced the mbedTLS-based version. The goal is to implement the TLS 1.3 specification in pure Rust, with async support. The project does not have any dependencies on other Drogue IoT projects, and can be used with any TCP stack, by implementing two traits used for I/O. In fact, there are implementations of these traits for some common runtimes, and you can find examples of using Drogue TLS with [tokio](https://github.com/drogue-iot/drogue-tls/tree/main/examples/tokio) and [embassy + smoltcp](https://github.com/drogue-iot/drogue-tls/tree/main/examples/embassy), with trait implementations for [futures](https://github.com/drogue-iot/drogue-tls/tree/main/src/lib.rs) I/O traits as well.
 
 The project is still under development, and critical features such as certificate validation and client certificate authentication is still on the [TODO list](https://github.com/drogue-iot/drogue-tls/issues). 
 
@@ -69,15 +69,16 @@ $ size target/release/ping-embassy-net
 1094295   42040   16880 1153215  1198bf target/release/ping-embassy-net
 ```
 
-Whereas with TLS enabled using a 16 kB record buffer, the memory usage increases:
+Whereas with TLS enabled using a 16 kB record buffer, the memory usage increases (difference shown in the last row).
 
 ```
 $ size target/release/ping-embassy-net
-   text    data     bss     dec     hex filename
-1175083    44392   37296 1256771  132d43 target/release/ping-embassy-net
+   text     data     bss      dec     hex filename
+1175083    44392   37296  1256771  132d43 target/release/ping-embassy-net
+     8%       5%    2.2x       8%
 ```
 
-As you can see, the BSS overhead is about 20 kB when enabling TLS with a 16 kB record buffer. The same overhead can be observed when compiling to ARM architectures.
+Although the BSS increases to 2.2x, the 16kB is a large fraction of that increase. The BSS overhead of the library itself is about 4 kB when enabling TLS with a 16 kB record buffer. The same overhead can be observed when compiling to ARM architectures.
 
 We have not yet look at flash usage, so there are probably improvements to be made there as well.
 

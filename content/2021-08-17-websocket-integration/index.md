@@ -49,8 +49,7 @@ If you have an application generating a lot of traffic it's easy to split the lo
 
 A CLI tool is great for testing, but not an ideal base for a consuming application.
 Let's build a small application using rust and connect it to our websocket integration service. 
-As mentioned earlier the service supports authentication with API keys. In the context of a long-running application, 
-they are a better fit than open tokens. You can create an API key in the console, under the API > Access keys section.
+This example connects to a public application, so there is no need for credentials.
 
 Now we have everything we need, let's write some code. We'll use the great tungstenite crate for the websocket functionality :
 ```rust
@@ -85,7 +84,9 @@ pub fn main() -> Result<()> {
     }
 }
 ```
-And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async in there. \
+And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async and authentication in there. \
+
+In the context of a long-running application, API key are a better fit than openID tokens. You can create an API key in the console, under the API > Access keys section.
 You can find a buildable cargo project that shows how to use the API token authentication [here](example-app/).
 
 

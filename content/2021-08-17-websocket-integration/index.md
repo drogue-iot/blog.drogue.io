@@ -17,7 +17,8 @@ Give it a try ! With drg to get a valid token, opening a socket is as easy as :
 ```shell
 websocat wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org/drogue-public-temperature -H="Authorization: Bearer $(drg whoami -t)"
 ```
-As you can see connecting to a websocket requires authentication for now. The service supports both open ID tokens and API keys.
+As you can see we used authentication to open the websocket. The service accepts open ID tokens, API keys and nothing/anonymous (if your app is configured for public access).
+Authorization requests are made with a "read" permission.
 The above example showed how an openID token can be passed through the `Authorization: Bearer` header.
 API keys are used with the `Authorization: Basic` header. Keep on reading for more details. 
 
@@ -96,6 +97,5 @@ That's it ! If you have a default app already set in your context, then `drg str
 
 # What's next ? 
 
-There are a couple of features that should be added in a later release: 
-- Anonymous authentication, to stream events from public apps without credentials
-- Sending commands back to your devices using the websocket other direction
+The next stop is to be able to send commands back to your devices using the websocket other direction.
+Expect to see it in a later release ! 

@@ -84,9 +84,9 @@ pub fn main() -> Result<()> {
     }
 }
 ```
-And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async and authentication in there. \
+And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async and authentication in there.
 
-In the context of a long-running application, API key are a better fit than openID tokens. You can create an API key in the console, under the API > Access keys section.
+In the context of a long-running application, API key are a better fit than openID tokens. To create an API key in the console, browse the API > Access keys section.
 You can find a buildable cargo project that shows how to use the API token authentication [here](example-app/).
 
 

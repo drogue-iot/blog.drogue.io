@@ -22,6 +22,7 @@ pub fn main() -> Result<()> {
     let (mut socket, response) =
         connect(request).context("Error connecting to the Websocket endpoint:")?;
     println!("Connected to websocket");
+    // Reponse should be 101
     println!("HTTP response code: {}", response.status());
 
     // Now we can simply poll the connection for new messages.

@@ -34,7 +34,7 @@ If you have an application generating a lot of traffic it's easy to split the lo
 # Build an app !
 
 A CLI tool is great for testing, but not an ideal base for a consuming application.
-Let's build a web socket client using rust and connect it to our websocket integration service. 
+Let's build a small application using rust and connect it to our websocket integration service. 
 As mentioned earlier the service supports authentication with API keys. In the context of a long-running application, 
 they are a better fit than open tokens. You can create an API key in the console, under the API > Access keys section.
 
@@ -44,9 +44,7 @@ use anyhow::{anyhow, Context, Result};
 use tungstenite::connect;
 use tungstenite::http::{header, Request};
 
-
 pub fn main() -> Result<()> {
-
     // Here are our connection details
     let url = "wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org";
     let application = "drogue-public-temperature";
@@ -63,11 +61,10 @@ pub fn main() -> Result<()> {
         .body(())?;
 
     // And connect !
-    let (mut socket, response) = connect(request)
-         .context("Error connecting to the Websocket endpoint:")?;
+    let (mut socket, response) =
+        connect(request).context("Error connecting to the Websocket endpoint:")?;
     println!("Connected to websocket");
     println!("HTTP response code: {}", response.status());
-
 
     // Now we can simply poll the connection for new messages.
     loop {
@@ -85,7 +82,7 @@ pub fn main() -> Result<()> {
 }
 ```
 And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async in there.
-The dependencies are minimal for this, if you want you can find a buildable cargo project [here]().
+The dependencies are minimal for this, if you want you can find a buildable cargo project [here](./example-app/).
 
 
 # A new tool for drg's arsenal
@@ -99,6 +96,6 @@ That's it ! If you have a default app already set in your context, then `drg str
 
 # What's next ? 
 
-Regarding the websocket integratio there are a couple of features that should be added in a later release: 
+There are a couple of features that should be added in a later release: 
 - Anonymous authentication, to stream events from public apps without credentials
 - Sending commands back to your devices using the websocket other direction

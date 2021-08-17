@@ -2,9 +2,7 @@ use anyhow::{anyhow, Context, Result};
 use tungstenite::connect;
 use tungstenite::http::{header, Request};
 
-
 pub fn main() -> Result<()> {
-
     // Here are our connection details
     let url = "wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org";
     let application = "drogue-public-temperature";
@@ -21,8 +19,8 @@ pub fn main() -> Result<()> {
         .body(())?;
 
     // And connect !
-    let (mut socket, response) = connect(request)
-         .context("Error connecting to the Websocket endpoint:")?;
+    let (mut socket, response) =
+        connect(request).context("Error connecting to the Websocket endpoint:")?;
     println!("Connected to websocket");
     println!("HTTP response code: {}", response.status());
 

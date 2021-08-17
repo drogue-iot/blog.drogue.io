@@ -15,7 +15,7 @@ and forward any new events in the websocket. The events are pushed in their Clou
 
 Give it a try ! Opening a socket is as easy as : 
 ```shell
-websocat wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org/drogue-public-temperature"
+websocat wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org/drogue-public-temperature
 ```
 
 ## Authentication
@@ -25,12 +25,12 @@ Authorization requests are made with a "read" permission.
 
 An openID token can be passed through the `Authorization: Bearer` header. Here using `drg` to get a token : 
 ``` 
-websocat wss://websocket-integration.address/yourApplication -H="Authorization: Bearer $(drg whoami -t)`
+websocat wss://websocket-integration.address/yourApplication -H="Authorization: Bearer $(drg whoami -t)"
 ```
 
 For API keys you need to use the `Basic` header, where the password will be the API key. The header should look like this: 
 ```
-Authorization: Basic base64(your-username:your-api-key)`
+Authorization: Basic base64(your-username:your-api-key)
 ```
 
 ## Shared consumption

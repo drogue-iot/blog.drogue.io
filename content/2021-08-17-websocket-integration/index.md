@@ -10,22 +10,35 @@ Let's have a look and build a small demo apps to consume events.
 
 # The Websocket Integration service
 
-The service is pretty straight forward in it's design : it will connect to the appropriate Kafka topic for the application 
+The service is pretty straight forward in its design : it will connect to the appropriate Kafka topic for the application 
 and forward any new events in the websocket. The events are pushed in their Cloud-events format, as text messages.
 
-Give it a try ! With drg to get a valid token, opening a socket is as easy as : 
+Give it a try ! Opening a socket is as easy as : 
 ```shell
-websocat wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org/drogue-public-temperature -H="Authorization: Bearer $(drg whoami -t)"
+websocat wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org/drogue-public-temperature"
 ```
+
+## Authentication
+
 As you can see we used authentication to open the websocket. The service accepts open ID tokens, API keys and nothing/anonymous (if your app is configured for public access).
 Authorization requests are made with a "read" permission.
-The above example showed how an openID token can be passed through the `Authorization: Bearer` header.
-API keys are used with the `Authorization: Basic` header. Keep on reading for more details. 
 
+An openID token can be passed through the `Authorization: Bearer` header. Here using `drg` to get a token : 
+``` 
+websocat wss://websocket-integration.address/yourApplication -H="Authorization: Bearer $(drg whoami -t)`
+```
+
+For API keys you need to use the `Basic` header, where the password will be the API key. The header should look like this: 
+```
+Authorization: Basic base64(your-username:your-api-key)`
+```
+
+## Shared consumption
 The websocket integration service is built on top of the actix actors framework which makes mutlithreading a breeze, 
-so you can confidently open multiple connections and don't suffer any slowdowns. 
+so you can confidently open multiple connections and don't suffer any slowdowns. \
 To give you more flexibility, the `group_id` query parameter enables shared consumption.
-Grouping clients will result in the events split evenly between members of a group. The url would look like this:
+Grouping clients will result in the events split evenly between members of a group. \
+The url would look like this:
  ```shell
  wss://websocket-integration.address/yourApp?group_id=myGroup
  ```
@@ -44,26 +57,16 @@ Now we have everything we need, let's write some code. We'll use the great tungs
 use anyhow::{anyhow, Context, Result};
 use tungstenite::connect;
 use tungstenite::http::{header, Request};
+use url::Url;
 
 pub fn main() -> Result<()> {
     // Here are our connection details
     let url = "wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org";
     let application = "drogue-public-temperature";
-    let username = "jbtrystram";
-    let api_key = "put-your-secret-api-key-here";
-
-    // Preparing the authentication header
     let url = format!("{}/{}", url, application);
-    let basic_header = base64::encode(format!("{}:{}", username, api_key));
-
-    let request = Request::builder()
-        .uri(url)
-        .header(header::AUTHORIZATION, format!("Basic {}", basic_header))
-        .body(())?;
 
     // And connect !
-    let (mut socket, response) =
-        connect(request).context("Error connecting to the Websocket endpoint:")?;
+    let (mut socket, response) = connect(Url::parse(url).unwrap()).context("Error connecting to the Websocket endpoint:")?;
     println!("Connected to websocket");
     println!("HTTP response code: {}", response.status());
 
@@ -82,8 +85,8 @@ pub fn main() -> Result<()> {
     }
 }
 ```
-And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async in there.
-The dependencies are minimal for this, if you want you can find a buildable cargo project [here](./example-app/).
+And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async in there. \
+You can find a buildable cargo project that shows how to use the API token authentication [here](example-app/).
 
 
 # A new tool for drg's arsenal

@@ -87,7 +87,7 @@ pub fn main() -> Result<()> {
 And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async and authentication in there.
 
 In the context of a long-running application, API key are a better fit than openID tokens. To create an API key in the console, browse the API > Access keys section.
-You can find a buildable cargo project that shows how to use the API token authentication [here](example-app/).
+You can find a buildable cargo project that shows how to use the API token authentication [here](https://github.com/drogue-iot/blog.drogue.io/tree/main/content/2021-08-17-websocket-integration/example-app).
 
 
 # A new tool for drg's arsenal

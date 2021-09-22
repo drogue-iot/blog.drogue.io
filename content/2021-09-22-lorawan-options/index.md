@@ -9,37 +9,48 @@ then, the hardware support in the community has improved even more.
 <!-- more -->
 
 There are multiple efforts within Rust Embedded to improve LoRaWAN support. This post will walk
-through the state of the ecosystem and introduce some of the crates being worked on, and Drogue
-Device's approach.
+through the state of the ecosystem and introduce some of the crates being worked on, and some updates
+from Embassy and Drogue Device.
 
 # Hardware support
 
-The LoRaWAN capable hardware is dominated by Semtech-based radios. Up until now, the Sx127x family
-of radios have been the most common, with an SPI interface for accessing the radio state. This radio
-is well supported in Rust, and there are several crates for accessing it, such as [sx127x_lora]()
-and [radio-sx127x](). Drogue device uses a variant of the first.
+The LoRaWAN capable hardware is dominated by Semtech-based radios. Up until now, the Sx127x family of radios have been the most common, with an SPI interface for accessing the radio state. This radio is well supported in Rust, and there are several crates for accessing it, such as [sx127x_lora](https://crates.io/crates/sx127x_lora) and [radio-sx127x](https://crates.io/crates/radio-sx127x). Drogue device uses a variant of the first for its async [sx127x](https://github.com/drogue-iot/drogue-device/tree/main/device/src/drivers/lora/sx127x) driver.
 
-Another variant is the Sx126x family of radios, which is a more power efficient and has a smaller
-footprint. This is also used in the STM32WL family of chips, using a special SPI peripheral for
-accessing it. Recently, there have been efforts to add support for these chips and radios both in the
-[stm32wl-hal]() crate, and with a corresponding async version in [embassy](), where the radio peripheral 
-is reusing much of the same code. The STM32WL chip is also used in the new [Generic Node]() sensor
-from [The Things Industries (TTI)](). As drogue device is based on embassy, the radio peripheral can
-be used with this chip there as well.
+Another variant is the Sx126x family of radios, which is a more power efficient and has a smaller footprint. This is also used in the STM32WL family of chips, using a special SPI peripheral for accessing it. Recently, there have been efforts to add support for these chips and radios both in the [stm32wl-hal](https://github.com/newAM/stm32wl-hal/) crate from , and with a corresponding async version in [Embassy](https://github.com/embassy-rs/embassy), where the radio peripheral is reusing much of the same code. The STM32WL chip is also used in the new [Generic Node](https://www.genericnode.com/) sensor from The Things Industries (TTI). As drogue device is based on embassy, the radio peripheral can be used with this chip there as well.
 
 # The link layer
 
-The [rust-lorawan]() crate implements a LoRaWAN compliant MAC layer, and allows implementing a
-LoRaWAN driver using any radio peripheral, and this is in fact already part of drogue-device for the
-sx127x based radios.
+The [rust-lorawan](https://github.com/ivajloip/rust-lorawan/) crate implements a LoRaWAN compliant MAC layer, and allows implementing a
+LoRaWAN driver using any radio peripheral, and this is already part of drogue-device for the sx127x based radios used in the STM32 LoRa Discovery Board. Thanks to Ivaylo Petrov and Louis Thiery for starting this effort.
 
-With the new stm32wl-hal, the [lorawan-wl]() crate was created, and integrates the STM32WL radio with rust-lorawan. Likewise, drogue device integrates the same peripheral in embassy with the rust-lorawan crate.
+With the new stm32wl-hal, the [lorawan-wl](https://github.com/jorgeig-space/lorawan-wl) example was created by Jorge Iglesias Garcia, and it integrates the STM32WL radio with rust-lorawan. Likewise, drogue device integrates the same peripheral in embassy with the rust-lorawan crate.
+
+New developments in the link layer is [defmt support](https://github.com/ivajloip/rust-lorawan/pull/45) from Jorge, performance enhancements[1](https://github.com/ivajloip/rust-lorawan/pull/42)[2](https://github.com/ivajloip/rust-lorawan/pull/48) and introducing an [async radio](https://github.com/ivajloip/rust-lorawan/issues/41) interface, allowing async-await syntax to be used with the link layer stack.
+
 
 # Embassy
 
+Embassy aims to be an async runtime for embedded Rust, which we've covered in [an earlier post](https://blog.drogue.io/drogue-device-rebase/). Since then, the community set out to build a new PAC (Peripheral Access Crate) for STM32, named stm32-metapac, that can be used both by Embassy and other HALs. The PAC relies on generating code for specific chip variants at compile time using cargo features. The code is generated based on the STM32 CubeDB XML, C header files and [SVD](https://github.com/stm32-rs/stm32-rs/tree/master/svd) files. Adding support for new chips can be as easy as adding it to a list of chip families that it should support, and if you're lucky, register definitions for the peripherals already exists.
 
+
+On top of stm32-metapac lies embassy-stm32, which is an async HAL using the generated metapac underneath. This is a "unified" HAL that aims to work with _any_ STM32 chip that can be generated by stm32-metapac. This is in contrast to some of the [existing HALs](https://github.com/stm32-rs) for STM32 that suffer from both code duplication and a high maintenance load. The reason the unified approch works is that STM32 peripherals are versioned (SPI v1, SPI v2, GPIO v1 etc.), and reused in different chip families. The HAL therefore only needs to implement access to peripherals of a given version, and will automatically work with the generated PAC supporting that version.
+
+Another enhancement that landed in Embassy is an async MPSC (Multiple Producer Single Consumer) implementation from Christopher Hunt, which has now replaced the channel implementation in Drogue Device.
 
 # Drogue device
+
+Drogue device have changed slightly to simplify it's actor model even further. Instead of requiring an Actor to implement both an `on_mount`, `on_start` and `on_message` methods, now only an `on_mount` method, which is handed an `Inbox` to pull messages from. This greatly simplifies actor implementations.
+
+
+# New LoRaWAN examples
+
+Back to LoRaWAN. The set of examples for LoRaWAN have now expanded:
+
+
+* [RAK811]() - STM32 L1 + Semtech Sx1276 radio
+* [STM32WL]() - STM32WL with builtin Semtech Sx126x radio
+
+These in combination of the existing [STM32 LoRa Discovery]() example, cover some of the most popular devices used for LoRaWAN sensors.
 
 # Summary
 

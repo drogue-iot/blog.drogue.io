@@ -37,7 +37,7 @@ Another enhancement that landed in Embassy is an async MPSC (Multiple Producer S
 
 Drogue Device have changed slightly to simplify it's Actor model even further. Instead of requiring an Actor to implement both an `on_mount`, `on_start` and `on_message` methods, now only an `on_mount` method, which is handed an `Inbox` to pull messages from. This greatly simplifies actor implementations. Lets say you have a shared counter that you want to make an actor for:
 
-```
+```rust
 pub struct Counter {
     count: u32,
 }
@@ -69,7 +69,7 @@ impl Actor for Counter {
 
 After the restructuring, the API is now changed to this:
 
-```
+```rust
 impl Actor for Counter {
     type Message<'a> = Increment;
 

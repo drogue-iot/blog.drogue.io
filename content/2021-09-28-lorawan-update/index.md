@@ -1,5 +1,5 @@
 +++
-title = "Expanding the set of LoRaWAN drivers"
+title = "State of LoRaWAN support"
 extra.author = "lulf"
 +++
 

@@ -9,6 +9,21 @@ Read on to learn how you can run Drogue Cloud standalone.
 
 <!-- more -->
 
+# Use cases
+
+The primary use cases we envision for running Drogue Cloud Server are the following:
+
+* Local development - building and running a local instance while developing new features in Drogue Cloud.
+* Local testing - having an instance of Drogue Cloud available locally to test applications.
+* Training and evaluation - getting a Drogue Cloud instance running immediately for trying it out.
+* Running on devices without Kubernetes support - running on more constrainted devices where Kubernetes cannot run or architectures not supported by Kubernetes.
+
+There are some limitations as well, particularily when doing a production deployment:
+
+* It does not provide a production ready and fully secure out of the box installation.
+* Scaling the services must be done manually and by running multiple instances and assigning roles - something the existing Kubernetes-based installation helps you with already
+* Not all Drogue Cloud services are available (more on this later).
+
 # Appreciating Kubernetes
 
 Drogue Cloud on Kubernetes automatically installs some dependencies of Drogue Cloud such as:
@@ -18,7 +33,6 @@ Drogue Cloud on Kubernetes automatically installs some dependencies of Drogue Cl
 * [Kafka](https://kafka.apache.org/)
 
 However, running outside of Kubernetes also means that you need to run or configure these services yourself. You can do this by installing the software manually and ensuring they are accessible locally. You can also rely on (tada!) containers using `docker-compose` or `podman-compose` if it is available on your platform, and we provide a [compose file](https://github.com/drogue-iot/drogue-cloud/blob/main/server/container-compose.yml) just for that purpose.
-
 
 # Installing The Binary
 

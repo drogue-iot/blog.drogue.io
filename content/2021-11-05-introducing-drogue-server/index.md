@@ -31,7 +31,7 @@ Once installed, it's time to run. You can find the detailed instructions in [the
 Once you have the dependencies running, we can start the server:
 
 ```rust
-./drogue-server run --enable-all
+./drogue-cloud-server run --enable-all
 ```
 
 When starting, the server will perform the following steps (in order):
@@ -49,7 +49,7 @@ Using `--enable-all` will run all Drogue Cloud services supported. At the time o
 * HTTP endpoint
 * MQTT endpoint
 
-We plan to support all the Drogue Cloud services.
+We plan to expose all the Drogue Cloud services.
 
 The server will print some info to the terminal on how to log into the server using the [drg](https://github.com/drogue-iot/drg) client, creating applications and devices, and publishing telemtry data:
 
@@ -93,7 +93,7 @@ The server can also be run with other options, we'll quickly cover the most impo
 
 With the server running, testing it is super easy. If you have the hardware, there is already a lot of [examples](https://book.drogue.io/drogue-device/dev/examples.html#_drogue_cloud_connectivity_examples) that will work with the server out of the box (just point them to the correct IP of your server). 
 
-If you don't have any supported microcontroller hardware, don't worry! We've got you covered with the [std cloud](https://github.com/drogue-iot/drogue-device/tree/main/examples/std/cloud) example that runs out of the box on any Linux/Mac OS X/Windows.
+If you don't have any microcontroller hardware, don't worry! We've got you covered with the [std cloud](https://github.com/drogue-iot/drogue-device/tree/main/examples/std/cloud) example that runs out of the box on any Linux/Mac OS X/Windows.
 
 All you need to do is specify the device username and password in the example configuration (see the README for the example), edit the expected IP and port of your server instance, and run.
 
@@ -116,8 +116,8 @@ We have seen how you can get up and running with Drogue Cloud running on bare me
 
 But, this is only showing some of the potential. Future work includes:
 
-* Support configuring PostgreSQL, Keycloak and Kafka host and credentials
-* Support more Drogue Cloud services such as the CoAP endpoint, MQTT integration and Websocket integration services.
+* Configuring different PostgreSQL, Keycloak and Kafka host and credentials
+* Expose more Drogue Cloud services such as the CoAP endpoint, MQTT integration and Websocket integration services.
 
 
 If you'd like to help out in these areas, join our [community](https://matrix.to/#/#drogue-iot:matrix.org)!

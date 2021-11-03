@@ -22,7 +22,7 @@ However, running outside of Kubernetes also means that you need to run or config
 
 # Installing The Binary
 
-One of the goals with running Drogue Cloud locally was to encapsulate the functionality in a single binary, `drogue-cloud-server`. You can [build it yourself](https://github.com/drogue-iot/drogue-cloud/tree/main/server#building), or you can [download]() prebuilt binaries for your platform.
+One of the goals with running Drogue Cloud locally was to encapsulate the functionality in a single binary, `drogue-cloud-server`. You can [build it yourself](https://github.com/drogue-iot/drogue-cloud/tree/main/server#building), or you can [download prebuilt binaries]() for your platform.
 
 # Running
 
@@ -51,17 +51,24 @@ Using `--enable-all` will run all Drogue Cloud services supported. At the time o
 
 We plan to support all the Drogue Cloud services.
 
-The server will print some info to the terminal on how to log into the server using the [drg]() client, creating applications and devices, and publishing telemtry data:
+The server will print some info to the terminal on how to log into the server using the [drg](https://github.com/drogue-iot/drg) client, creating applications and devices, and publishing telemtry data:
 
 ```bash
 
 ```
 
+## Other options
+
+The server can also be run with other options, we'll quickly cover the most important:
+
+* `--server-cert` and `--server-key` - enable TLS for the endpoints. Both arguments should refer to PEM-encoded files.
+* `--bind-address` - bind to a different network interface (uses localhost by default).
+
 # Connecting from Drogue Device
 
-With the server running, testing it is super easy. If you have the hardware, there is already a lot of [examples]() that will work with the server out of the box (just point them to the correct IP of your server). 
+With the server running, testing it is super easy. If you have the hardware, there is already a lot of [examples](https://book.drogue.io/drogue-device/dev/examples.html#_drogue_cloud_connectivity_examples) that will work with the server out of the box (just point them to the correct IP of your server). 
 
-If you don't have any supported microcontroller hardware, don't worry! We've got you covered with the [std cloud]() example that runs out of the box on any Linux/Mac OS X/Windows.
+If you don't have any supported microcontroller hardware, don't worry! We've got you covered with the [std cloud](https://github.com/drogue-iot/drogue-device/tree/main/examples/std/cloud) example that runs out of the box on any Linux/Mac OS X/Windows.
 
 All you need to do is specify the device username and password in the example configuration (see the README for the example), edit the expected IP and port of your server instance, and run.
 
@@ -73,7 +80,7 @@ The output should look something like this when running the PC example:
 
 # Summary
 
-We have seen how you can get up and running with Drogue Cloud running on bare metal using a single binary. This enables quicker turneround times when developing Drogue Cloud, but also paves the way for running Drogue Cloud in more environments. Finally, we've seen examples of using [Drogue Device]() applications to connect.
+We have seen how you can get up and running with Drogue Cloud running on bare metal using a single binary. This enables quicker turneround times when developing Drogue Cloud, but also paves the way for running Drogue Cloud in more environments. Finally, we've seen examples of using [Drogue Device](https://github.com/drogue-iot/drogue-device) applications to connect.
 
 But, this is only showing some of the potential. Future work includes:
 
@@ -81,4 +88,4 @@ But, this is only showing some of the potential. Future work includes:
 * Support more Drogue Cloud services such as the CoAP endpoint, MQTT integration and Websocket integration services.
 
 
-If you'd like to help out in these areas, join our [community]()!
+If you'd like to help out in these areas, join our [community](https://matrix.to/#/#drogue-iot:matrix.org)!

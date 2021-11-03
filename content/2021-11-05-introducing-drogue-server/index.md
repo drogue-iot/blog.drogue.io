@@ -54,7 +54,32 @@ We plan to support all the Drogue Cloud services.
 The server will print some info to the terminal on how to log into the server using the [drg](https://github.com/drogue-iot/drg) client, creating applications and devices, and publishing telemtry data:
 
 ```bash
+$ drogue-cloud-server run --enable-all
+Migrating database schema...
+Migrating database schema... done!
+Configuring keycloak... done!
+Drogue Cloud is running!
 
+Endpoints:
+        API:     http://localhost:10001
+        HTTP:    http://localhost:8088
+        MQTT:    mqtt://localhost:1883
+
+Keycloak Credentials:
+        User: admin
+        Password: admin123456
+
+Logging in:
+        drg login http://localhost:10001
+
+Creating an application:
+        drg create app example-app
+
+Creating a device:
+        drg create device --app example-app device1 --spec '{"credentials":{"credentials":[{"pass":"hey-rodney"}]}}'
+
+Publishing data to the HTTP endpoint:
+        curl -u 'device1@example-app:hey-rodney' -d '{"temp": 42}' -v -H "Content-Type: application/json" -X POST http://localhost:8088/v1/foo
 ```
 
 ## Other options
@@ -75,7 +100,14 @@ All you need to do is specify the device username and password in the example co
 The output should look something like this when running the PC example:
 
 ```bash
-
+$ cargo run
+   Compiling cloud v0.1.0 (/home/lulf/dev/drogue-iot/drogue-device/examples/std/cloud)
+    Finished dev [optimized + debuginfo] target(s) in 2.39s
+     Running `/home/lulf/dev/drogue-iot/drogue-device/examples/std/target/debug/cloud`
+[2021-11-03T13:17:52.263210627Z INFO  drogue_temperature] Sending temperature measurement
+[2021-11-03T13:17:52.263368651Z INFO  drogue_device::clients::http] Connected to 127.0.0.1:8088
+[2021-11-03T13:17:52.272848575Z INFO  drogue_temperature] Response status: Accepted
+[2021-11-03T13:17:52.272879316Z INFO  drogue_temperature] No response body
 ```
 
 # Summary

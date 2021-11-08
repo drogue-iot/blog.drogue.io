@@ -36,7 +36,7 @@ However, running outside of Kubernetes also means that you need to run or config
 
 # Installing The Binary
 
-One of the goals with running Drogue Cloud locally was to encapsulate the functionality in a single binary, `drogue-cloud-server`. You can [build it yourself](https://github.com/drogue-iot/drogue-cloud/tree/main/server#building), or you can [download prebuilt binaries](https://github.com/drogue-iot/drogue-cloud/actions/runs/1433967720) for your platform.
+One of the goals with running Drogue Cloud locally was to encapsulate the functionality in a single binary, `drogue-cloud-server`. You can [build it yourself](https://github.com/drogue-iot/drogue-cloud/tree/main/server#building), or you can [download prebuilt binaries](https://github.com/drogue-iot/drogue-cloud/actions/runs/1434565406) for your platform.
 
 # Running
 

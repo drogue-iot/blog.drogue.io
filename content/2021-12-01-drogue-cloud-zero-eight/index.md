@@ -58,7 +58,7 @@ Drogue Cloud. With 0.8, you can!
 Assuming you have an existing Kafka, Keycloak, and PostgreSQL instance, it is as easy as:
 
 ~~~shell
-drogue-cloud-server run --enable-all
+drogue-cloud-server --enable-all
 ~~~
 
 And, it also works on Apple M1 machines. Does it bring all the features? No, it can't. There are a few that we will
@@ -70,7 +70,7 @@ If you are curious, you can read more about it in a [previous blog post](@/2021-
 
 ## More workshops
 
-The idea behind out workshops is to give you concrete examples on how to use Drogue Device and Drogue Cloud. And to
+The idea behind our workshops is to give you concrete examples on how to use Drogue Device and Drogue Cloud. And to
 enable you, to replicate this on your own. And since the last release, we added two more workshops to our list.
 
 ### Eclipse IoT package – Telemetry end-to-end
@@ -114,7 +114,11 @@ API keys, which we renamed to "access tokens" in 0.8, can now be used in more si
 management API. This allows you to more easily create applications, which struggle with the OAuth2 way of doing things.
 
 In 0.7 we also switched the time-series database of our example to TimescaleDB. Thanks for some help from Timescale,
-we have been able to really improve this part of the example. Many thanks for that. If you are interested, take a look. 
+we have been able to really improve this part of the example. Many thanks for that. If you are interested, take a look.
+
+Our CLI companion tool `drg` has also been released as `0.8.0`, to catch up with API changes. We also added a new
+subcommand: `admin` which helps you to manage applications, users, and transfer ownership, as well as manage access
+tokens for all your consuming apps.
 
 ## What's next
 

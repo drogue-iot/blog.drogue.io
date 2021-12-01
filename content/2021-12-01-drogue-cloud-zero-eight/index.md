@@ -58,7 +58,7 @@ Drogue Cloud. With 0.8, you can!
 Assuming you have an existing Kafka, Keycloak, and PostgreSQL instance, it is as easy as:
 
 ~~~shell
-drogue-cloud-server --enable-all
+drogue-cloud-server run --enable-all
 ~~~
 
 And, it also works on Apple M1 machines. Does it bring all the features? No, it can't. There are a few that we will

@@ -299,7 +299,7 @@ it within the provsioner.
 	Virtual addr: bda5, label: 1d3ffe292725f6cb64eaed53dba1d979
 ```
 
-Still, nobody knows about, beside the provisioner.
+Still, nobody knows about it, beside the provisioner.
 
 ### Publishing
 

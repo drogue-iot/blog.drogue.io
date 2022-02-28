@@ -346,7 +346,7 @@ Subscr Addr	bda5
 Here, I've done the above process with two boards, so that we can see how a virtual address
 allows communication between several devices that have no knowledge of each other.
 
-{{ vimeo(id="683002256") }}
+{{ vimeo(id="683002256", class="vimeo") }}
 
 # Firmware
 

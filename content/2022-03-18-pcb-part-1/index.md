@@ -9,15 +9,16 @@ For some time now, we've wanted to have a Printed Circuit Board (PCB) that we co
 
 # Motivation
 
-A few months back, an opportunity for designing our own PCB presented it self: Red Hat summit needed a large volume of custom devices for demos and workshops. Without going further into specifics, the devices will send and receive data to/from the cloud. Since this is a good match for the Drogue IoT project, we started to gather some requirements. The initial list was:
+A few months back, an opportunity for designing our own PCB presented it self: there was a need to produce some custom devices for demos and workshops. Without going further into specifics, the devices will send and receive data to/from the cloud that runs Red Hat services on the Red Hat cloud. Since this is a good match for the Drogue IoT project, we started to gather some requirements. The initial list was:
 
 * Must run on battery
-* About 200-800 devices
-* Report data and receive commands over radio, ideally with low latency
+* Report sensor data at regular intervals
+* Receive commands over radio
 * Sensors such as temperature and light sensors
 * Buttons and some way to indicate status
+* Wireless
 
-The experience of designing PCBs in the group was almost non-existing, and even then there is the challenge of logistics: a large amount of devices when there is a global chip shortage going on needs some careful planning.
+The experience of designing PCBs in the group was almost non-existing, and even then there is the challenge of logistics: a potential large amount of devices when there is a global chip shortage going on needs some careful planning.
 
 # Communication
 
@@ -25,13 +26,13 @@ For communicating with the outside world, we needed to look into RF protocols.
 
 We started exploring the possibility of using plain Bluetooth Low Energy (BLE) for the device communication since we've already used that a few times. However, with a large number of devices, spread over big area, broadcasting to all devices using plain peer-to-peer BLE connections might not work well with gateways. In addition, this would require all devices to be within the range of a gateway. Luckily, the BLE Mesh standard solves a lot of these problems, and should work with up to 32768 devices, so it should be good enough for our use case.
 
-An alternative to using BLE Mesh would be to use ZigBee/Thread, but due to the great driver support for BLE, especially on the nRF52 which we've used before, it seemed like the safest choice.
+An alternative to using BLE Mesh would be to use ZigBee/Thread, but due to the great driver support for BLE, especially on the nRF52 which we've used before, it seemed like the safest choice. You can read more about our BLE Mesh stack in [https://blog.drogue.io/bluetooth-mesh/](this post).
 
 Likewise, LoRaWAN is not that great for this use case due to the bandwidth limits, and the additional latency added by the larger RF time slots.
 
 # Selecting the microcontroller
 
-With a global chip shortage, selecting the microcontroller to use was a challenge. Since we decided to use BLE, using nRF52 is a natural choice given the great support in Embassy. However, finding nRF52 available in larger volumes was harder than we thought.
+With a global chip shortage, selecting the microcontroller to use was a challenge. Since we decided to use BLE, using nRF52 was a natural choice given the great support in Embassy. However, finding nRF52 available in larger volumes was harder than we thought due to chip shortage.
 
 With the risk of not having the hardware available to us in time, we need to look into other options. Unfortunately, most STM32 chips that would fit our use case are also out of stock, which meant that we would need to spend more time on supporting new hardware.
 
@@ -49,7 +50,6 @@ The Feather boards with nRF52840 are available in two variants:
 
 * Feather Express
 * Feather Sense
-
 
 The Feather Sense has a lot of sensors on board, which is great in that our PCB could be simpler. On the other hand, some sensors on board for temperature and light sensing are not easily identifiable, which we need for the types of applications that we will be running. Another disadvantage of the Feather Sense is the lack of a connector for debug probes.
 
@@ -110,7 +110,7 @@ The rest of the schematic contains
 * A jumper header to ensure we don't accidentally connect battery in case of errors
 * Headers matching the Adafruit Feather form factor
 
-All the components are wired together in the schematic. You can find the KiCad project for Revision 1 [here](https://github.com/drogue-iot/burrboard/tree/1.0/feather). Note that the current revision as of this writing is 3.0, located in the main branch.
+All the components are wired together in the schematic. You can find the KiCad project for Revision 1 [here](https://github.com/drogue-iot/burrboard/tree/1.0/feather). Note that the current revision as of this writing is 3.5, located in the main branch.
 
 # Bill of Materials (BOM)
 

@@ -26,7 +26,7 @@ For communicating with the outside world, we needed to look into RF protocols.
 
 We started exploring the possibility of using plain Bluetooth Low Energy (BLE) for the device communication since we've already used that a few times. However, with a large number of devices, spread over big area, broadcasting to all devices using plain peer-to-peer BLE connections might not work well with gateways. In addition, this would require all devices to be within the range of a gateway. Luckily, the BLE Mesh standard solves a lot of these problems, and should work with up to 32768 devices, so it should be good enough for our use case.
 
-An alternative to using BLE Mesh would be to use ZigBee/Thread, but due to the great driver support for BLE, especially on the nRF52 which we've used before, it seemed like the safest choice. You can read more about our BLE Mesh stack in [https://blog.drogue.io/bluetooth-mesh/](this post).
+An alternative to using BLE Mesh would be to use ZigBee/Thread, but due to the great driver support for BLE, especially on the nRF52 which we've used before, it seemed like the safest choice. You can read more about our BLE Mesh stack in [this post](https://blog.drogue.io/bluetooth-mesh/).
 
 Likewise, LoRaWAN is not that great for this use case due to the bandwidth limits, and the additional latency added by the larger RF time slots.
 

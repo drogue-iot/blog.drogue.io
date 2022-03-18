@@ -135,12 +135,14 @@ There are many PCB suppliers, but in our case we needed someone who could manufa
 
 Unfortunately, the boards from Aisler took a lot longer than expected to arrive, and we actually ended up finishing revision 2 after some more thought and feedback. Lesson: if you're not in a hurry, make sure you take some time to ensure all requirements are captured before ordering.
 
-When the PCB arrived, it looked like this:
+We received the first PCB based on revision 2.0 of the design. The PCB contains many SMD components, which can be a challenge to hand-solder. Luckily, yours truly owns a [mini hot plate](http://www.miniware.com.cn/product/mhp30-mini-hot-plate-preheater/)! As this was the first time soldering SMD components with this, I was amazed at how easy and quick this was compared to hand-soldering through-hole components. The biggest challenge is that you need a steady hand and good eyesight! 
 
-<img src="pcb_rev_physical.png" alt="PCB" />
+<img src="rev2_soldered.png" width = "400px" alt="PCB rev 2.0" />
+
+As you can see from dark patches here and there, some experimentation was needed before figuring out the technique. The ADXL345 accelerometer was by far the hardest component to solder, as it has very little spacing between the pads, so adding too much solder paste would cause it to misalign. 
 
 # Summary
 
 We've seen the evolution of our PCB from initial requirements, and the different design choices we've made throughout the process.
 
-In the next post, we'll go on to describe the new requirements, have a look at the next revision of the design, and look at how soldering and testing of the prototype went along with the lessons we've learned.
+In the next post, we'll go on to describe the new requirements, have a look at the next revision of the design, and look at how testing of the prototype went along with the lessons we've learned.

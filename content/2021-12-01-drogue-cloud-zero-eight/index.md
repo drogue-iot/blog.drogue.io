@@ -1,7 +1,7 @@
 +++
 title = "Drogue Cloud: Release 0.8.0"
 extra.author = "ctron"
-description = "Drogue Cloud 0.8.0 make a lot of things easier: Improved web console, topic provisioning using the Kafka Admin Client, improved gateway device support, static server binary, and more."
+description = "Drogue Cloud 0.8.0 makes a lot of things easier: Improved web console, topic provisioning using the Kafka Admin Client, improved gateway device support, static server binary, and more."
 +++
 
 This is our "end of the year" release, and we did want to focus on improving what we already have, rather than

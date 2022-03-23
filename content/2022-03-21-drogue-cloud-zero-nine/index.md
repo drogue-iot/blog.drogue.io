@@ -14,7 +14,7 @@ focus on the positive! Because otherwise the terrorists have won!
 
 ## Application monitoring: Metrics and Tracing
 
-I am not sure, I need to advertise the benefits of application monitoring. We wanted to have that for a while. Not only
+I am not sure if I need to advertise the benefits of application monitoring. We wanted to have that for a while. Not only
 as a feature, but actually for using that ourselves in our public sandbox. And, as we have been testing performance and
 throughput, having metrics and tracing comes in handy too.
 
@@ -30,7 +30,7 @@ integration with a digital twin component too. So, why not go ahead and bring to
 [Eclipse Ditto](https://eclipse.org/ditto/)?
 
 Eclipse Ditto is an open source digital twin solution, and sounds like a perfect fit. Bringing those two together took
-a bit of an effort, and isn't finished until now. This will be a topic, that for sure spans over multiple releases.
+a bit of an effort, and isn't fully finished yet. This will be a topic, that for sure spans over multiple releases.
 However, a lot of things are already in good shape, and I would also encourage you to try it out. The existing
 digital twin Helm charts have been adapted to install the integration if you opt-in for that. When you installed it,
 you can:
@@ -73,7 +73,7 @@ That was several Drogue Cloud releases back. Actix decided to do all kind of bre
 the migration to tokio 1.0 also was a breaking change.
 
 A few weeks back, actix-web 4 was finally released. And with that, most on-top features, like the Cloud Events SDK, too.
-Finally, we could drop a lot of carefully curated "beta" dependencies and git patches from out `Cargo.toml` files.
+Finally, we could drop a lot of carefully curated "beta" dependencies and git patches from our `Cargo.toml` files.
 
 Sure, we also updated Strimzi, Keycloak, and a bunch of other dependencies. But none of these felt as good as ripping
 off all the duct tape.

@@ -87,7 +87,7 @@ Both alternatives work for a few devices, but with the potential of 500 devices 
 
 In order to do that, we did research on the use of spring loaded pins, aka [pogo pins](https://en.wikipedia.org/wiki/Pogo_pin). After initial experimentation to understand how these pins behaved, we ended up with a setup that worked quite well, and would allow us to spend most time only waiting for the flash operation to succeed.
 
-In order to build the jig, we needed another custom PCB which had the appropriate footprints for the pogo pins, as well as a way to power the feather using the VUSB and GND pins. After some trial and error, we found some pins that worked out nicely with the feather pins. The board draws power from USB, which will also power the feather when pressed down on the jig. The debug probe is connected to the 4 pins (VTarget, SWDIO, SWDCLK, GND).
+In order to build the jig, we needed another custom PCB which had the appropriate footprints for the pogo pins, as well as a way to power the feather using the VUSB and GND pins. After some trial and error, we found some pins that worked out nicely with the feather pins. The board draws power from USB, which will also power the feather when pressed down on the jig. The debug probe is connected to the 4 pins (VTarget, SWDIO, SWDCLK, GND). When the feather touches the standoffs, it will touch all 4 pogo pins as well, at which point one can program the device with the debug probe.
 
 We also published a [video](https://www.youtube.com/watch?v=1Ntq5H2DcYU) of how to operate the flash jig with one hand.
 

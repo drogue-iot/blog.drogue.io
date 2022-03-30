@@ -1,6 +1,6 @@
 +++
 title = "The making of a PCB: Part 1"
-extra.author = "ulf"
+extra.author = "lulf"
 +++
 
 For some time now, we've wanted to have a Printed Circuit Board (PCB) that we could use to demonstrate Drogue Device and Drogue Cloud. This is the first post in a series of post telling the tale of this journey.

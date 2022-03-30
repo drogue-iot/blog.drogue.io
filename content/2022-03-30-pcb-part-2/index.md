@@ -3,7 +3,7 @@ title = "The making of a PCB: Part 2"
 extra.author = "lulf"
 +++
 
-Producing 1 PCB is very different from producing 500 PCBs, especially considering the logistics of assembling and testing. In this blog post, we'll continue the story from [last time](https://blog.drogue.io/pcb-part-1/).
+Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we'll continue the story from [last time](https://blog.drogue.io/pcb-part-1/) and look at the revised versions and how to scale up the production with PCB assembly and a flash jig.
 
 <!-- more -->
 
@@ -83,7 +83,7 @@ Flashing the Adafruit Feather nRF52840 Express/Sense without the builtin bootloa
 * Solder wires to SWD solder pads on the back side of the feather
 
 
-Both alternatives work for a few devices, but for 500 devices we needed a better and more efficient way to program the devices. After reading about [test jigs](https://learn.adafruit.com/how-to-build-a-testing-fixture), we decided to build a custom flash jig for the feather, with the goal of not needing any connectors to be attached in order to program the feather.
+Both alternatives work for a few devices, but with the potential of 500 devices being made, we needed a better and more efficient way to program them. After reading about [test jigs](https://learn.adafruit.com/how-to-build-a-testing-fixture), we decided to build a custom flash jig for the feather, with the goal of not needing any connectors to be attached in order to program the feather.
 
 In order to do that, we did research on the use of spring loaded pins, aka [pogo pins](https://en.wikipedia.org/wiki/Pogo_pin). After initial experimentation to understand how these pins behaved, we ended up with a setup that worked quite well, and would allow us to spend most time only waiting for the flash operation to succeed.
 

@@ -31,6 +31,23 @@ The `embassy-boot` bootloader is a lightweight bootloader supporting firmware ap
 
 The bootloader consists of two parts, a platform independent part and a platform dependent part. The platform independent part is a standard Rust library (and there are unit tests using a in-memory 'flash' for testing correctness) and that can be used to build your custom bootloader. The platform-dependent part which ties the generic library to a specific hardware platform, such as nRF or STM32. This provides some hardware-specific functionality, for instance integration with nrf-softdevice or a watchdog timer for nRF devices.
 
+
+<figure>
+    <img src="dependencies.png" alt="Bootloader dependencies" />
+    <figcaption>Bootloader Dependencies</figcaption>
+</figure>
+
+
+<figure>
+    <img src="partitions.png" alt="Bootloader partitions" />
+    <figcaption>Bootloader partitions</figcaption>
+</figure>
+
+## Initial boot
+
+## Updating the firmware
+
+
 ## Swap algorithm
 
 At the core of the bootloader is the bank swapping algorithm, which is not tied to any specific
@@ -46,7 +63,7 @@ avoid a situation where the wrong index value is set (page write size is "atomic
 The initial state of the Active, DFU and State partitions are shown below:
 
 <figure>
-    <img src="swap_step1.png" alt="Initial state" />
+    <img src="swap_initial.png" alt="Initial state" />
     <figcaption>Initial State</figcaption>
 </figure>
 
@@ -54,7 +71,7 @@ The algorithm starts by copying 'backwards', and after the first step, the layou
 as follows:
 
 <figure>
-    <img src="swap_step2.png" alt="Copy state 1" />
+    <img src="swap_step1.png" alt="Copy state 1" />
     <figcaption>Copy State 1</figcaption>
 </figure>
 
@@ -81,7 +98,20 @@ on power failure.
 
 The revert algorithm works forwards, by starting copying into the 'unused' DFU page at the start.
 
+Once the swap process is complete, the bootloader may jump to the application at beginning of the active partition.
+
+This is a platform-specific step done in the `embassy-boot-stm32` or `embassy-boot-nrf` part of the bootloader.
+
+NOTE: The new application is responsible for marking itself as successfully booted, otherwise the bootloader will attempt to revert to the previous application when restarted!
+
 ### Power fail safety
+
+What happens if the swap process is interrupted during the copy? Can we still revert back to the old version in a half-copied state? Yes! After a power failure, the device may be in one of the following states during the update process:
+
+* Firmware has been written, but not instructed to update. In this case, no action is taken and the old firmware will be used.
+* Should swap, but swap is not complete. In this case, the bootloader will continue the swap operation from where it left off. The crucial step in this process is that the page copy progress state is written atomically.
+* Swap is complete, but is still instructed to update. In this case, the bootloader will assume that something went wrong with the new application and will start to revert to the previous application.
+* Should revert, but revert is not complete. Similar to the previous state, the revert process will continue where it left off until complete.
 
 ## Bootloader binary
 

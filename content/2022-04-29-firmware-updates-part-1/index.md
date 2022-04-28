@@ -31,22 +31,43 @@ The `embassy-boot` bootloader is a lightweight bootloader supporting firmware ap
 
 The bootloader consists of two parts, a platform independent part and a platform dependent part. The platform independent part is a standard Rust library (and there are unit tests using a in-memory 'flash' for testing correctness) and that can be used to build your custom bootloader. The platform-dependent part which ties the generic library to a specific hardware platform, such as nRF or STM32. This provides some hardware-specific functionality, for instance integration with nrf-softdevice or a watchdog timer for nRF devices.
 
+NOTE: Do I need to use embassy with `embassy-boot`? Absolutely not! `embassy-boot` just happens to use embassy internally for the platform dependent parts. The application side uses async APIs to write firmware (preventing you blocking other tasks while writing firmware to flash).
 
-<figure>
-    <img src="dependencies.png" alt="Bootloader dependencies" />
-    <figcaption>Bootloader Dependencies</figcaption>
-</figure>
-
+The bootloader flash memory is divided into logical areas named `Partitions`:
 
 <figure>
     <img src="partitions.png" alt="Bootloader partitions" />
     <figcaption>Bootloader partitions</figcaption>
 </figure>
 
+Each partition is an area of flash on a microcontroller, but only the `Bootloader` and `Active` partitions need to be on the same physical flash storage. This means you can use off-chip flash to store the firmware update if desired.
+
+The `Bootloader` partition contains the bootloader application itself, usually around 8kB if disabling debug logging. The `Bootloader State` partition contains a flag indicating if firmware within the `Active` and `DFU` partitions should be swapped or not, as well as a progress index used by the swap and revert algorithm.
+
+The `Active` partition contains the currently running firmware, and the bootloader will always jump to the application at the start of the `Active`  partition. The `DFU` partition contains the "next" firmware to be updated, until the update is signaled, at which point the bootloader will gradually swap it with the "old" firmware.
+
 ## Initial boot
+
+At initial boot, the bootloader performs the following operations:
+
+1. Read current bootloader state magic word.
+1. If no "SWAP" magic bytes found, boot the current firmware.
+1. If "SWAP" magic bytes found, perform the swap between the Active and DFU firmwares.
+1. Boot the new current firmware.
 
 ## Updating the firmware
 
+An application that wants to be firmware update capable will need to create an instance of a `FirmwareUpdater`. This is provided by the `embassy-boot` library, with defaults available if using the `embassy-boot-nrf` or `embassy-boot-stm32` libraries. The `FirmwareUpdater` is capable of the following operations:
+
+* Write firmware to any offset within the `DFU` partition.
+* Mark the current running firmware as 'OK', to prevent a firmware rollback to occur.
+* Mark the current firwmare to be swapped by the new firmware.
+
+How the firmware gets to the device is not the responsibility of the `FirmwareUpdater`, which leaves this problem to the application itself. In the next blog post, we will cover different ways you can get the firmware to the device.
+
+Once the new firmware is written, and marked to be swapped with the current firmware, the application needs to reset the device. Upon reset, the device will enter the bootloader once again, and attempt to swap the firmware before booting the next version.
+
+NOTE: By structuring your application accordingly, you may update the firmware in parallel while running other tasks. This reduces the downtime of your application to a minimum.
 
 ## Swap algorithm
 
@@ -104,6 +125,7 @@ This is a platform-specific step done in the `embassy-boot-stm32` or `embassy-bo
 
 NOTE: The new application is responsible for marking itself as successfully booted, otherwise the bootloader will attempt to revert to the previous application when restarted!
 
+
 ### Power fail safety
 
 What happens if the swap process is interrupted during the copy? Can we still revert back to the old version in a half-copied state? Yes! After a power failure, the device may be in one of the following states during the update process:
@@ -113,9 +135,18 @@ What happens if the swap process is interrupted during the copy? Can we still re
 * Swap is complete, but is still instructed to update. In this case, the bootloader will assume that something went wrong with the new application and will start to revert to the previous application.
 * Should revert, but revert is not complete. Similar to the previous state, the revert process will continue where it left off until complete.
 
-## Bootloader binary
+## Bootloader and application binaries
 
-## Application binary
+The bootloader may be used as a library or as a standalone binary. In the case where it's used as a standalone binary, it must be compiled with the linker script setting the partition boundaries. If desired, you can use it as a library and provide the partitions programatically if you require a high degree of customization.
+
+The application binary can depend on the platform dependent bootloader library for convenience, which will also use the linker script to derive the partition boundaries. In the same way as for making a customized bootloader, you can define the partition boundaries programatically for your application as well.
+
+A typical dependency graph of an application `myapp` using `embassy-boot` is shown below:
+
+<figure>
+    <img src="dependencies.png" alt="Bootloader dependencies" />
+    <figcaption>Bootloader Dependencies</figcaption>
+</figure>
 
 ## Alternatives
 
@@ -124,3 +155,7 @@ There are many existing bootloaders, like [mcuboot](https://www.mcuboot.com/), w
 Another bootloader with a similar approach to `embassy-boot` is [moonboot](https://jhbruhn.de/posts/moonboot/), which shares a similar design with a split responsibility between the bootloader and application but is even more generic (not tied to embassy, but also means more work to use) and (at the time of writing) not power fail safe. Clearly there is an opportunity of collaboration in the future.
 
 # Summary
+
+In this first post in a series, we have looked at the fundamental microcontroller component required to support firmware updates. We first had a look at the features required from a bootloader, and then had a look at the newly created `embassy-boot`and learned how it swaps firmware. Finally we've discussed what it means to be power safe and how `embassy-boot` ensures that application updates are reliable, with some delegation of that responsibility of the application to mark itself as 'OK'.
+
+In the next blog post, we will have a look at different mechanisms for getting the firmware onto the device itself.

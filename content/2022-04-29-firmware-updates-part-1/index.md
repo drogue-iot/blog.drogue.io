@@ -71,15 +71,9 @@ NOTE: By structuring your application accordingly, you may update the firmware i
 
 ## Swap algorithm
 
-At the core of the bootloader is the bank swapping algorithm, which is not tied to any specific
-platform. The algorithm keeps an internal state of the copy progress in flash, using 1 word per page to spread the writes.
+At the core of the bootloader is the bank swapping algorithm, which is not tied to any specific platform. The algorithm keeps an internal state of the copy progress in flash, using 1 word per page to spread the writes.
 
-Assume a flash size of 3 pages for the active partition, and 4 pages for the DFU partition.
-The swap index contains the copy progress, as to allow detecting if copy is completed or not
-on power failure. The index counter is represented within 1 or more pages (depending on total
-flash size), where a page X is considered swapped if index at location (X + WRITE_SIZE)
-contains a non-erased value. This ensures that index updates can be performed atomically and
-avoid a situation where the wrong index value is set (page write size is "atomic").
+Lets assume a flash size of 3 pages for the Active partition, and 4 pages for the DFU partition. The swap index contains the copy progress, as to allow detecting if copy is completed or not on power failure. The index counter is represented within 1 or more pages (depending on total flash size), where a page X is considered swapped if index at location (X + WRITE_SIZE) contains a non-erased value. This ensures that index updates can be performed atomically and avoid a situation where the wrong index value is set (page write size is "atomic").
 
 The initial state of the Active, DFU and State partitions are shown below:
 
@@ -88,43 +82,39 @@ The initial state of the Active, DFU and State partitions are shown below:
     <figcaption>Initial State</figcaption>
 </figure>
 
-The algorithm starts by copying 'backwards', and after the first step, the layout is
-as follows:
+The `State` partition is only showing the index for the `Active` partition for simplicity. The algorithm starts by copying 'backwards', and after the first step, the layout is as follows:
 
 <figure>
     <img src="swap_step1.png" alt="Copy state 1" />
     <figcaption>Copy State 1</figcaption>
 </figure>
 
-The next iteration performs the same steps
+The next iteration performs the same steps:
 
 <figure>
     <img src="swap_step2.png" alt="Copy state 2" />
     <figcaption>Copy State 2</figcaption>
 </figure>
 
-And again until we're done
+And again until we're done:
 
 <figure>
     <img src="swap_final.png" alt="Final state" />
     <figcaption>Final State</figcaption>
 </figure>
 
-The reverting algorithm uses the swap index to check if images were swapped, or that
-the application failed to mark the boot successful. In this case, the revert algorithm will
+The reverting algorithm uses the swap index to check if images were swapped, or that the application failed to mark the boot successful. In this case, the revert algorithm will
 run.
 
-The revert index is located separately from the swap index, to ensure that revert can continue
-on power failure.
+The revert index is located separately from the swap index, to ensure that revert can continue on power failure.
 
-The revert algorithm works forwards, by starting copying into the 'unused' DFU page at the start.
+Another thing to note is that the revert algorithm works forwards, by starting copying into the 'unused' DFU page at the start.
 
 Once the swap process is complete, the bootloader may jump to the application at beginning of the active partition.
 
 This is a platform-specific step done in the `embassy-boot-stm32` or `embassy-boot-nrf` part of the bootloader.
 
 NOTE: The new application is responsible for marking itself as successfully booted, otherwise the bootloader will attempt to revert to the previous application when restarted!
-
 
 ### Power fail safety
 
@@ -134,6 +124,15 @@ What happens if the swap process is interrupted during the copy? Can we still re
 * Should swap, but swap is not complete. In this case, the bootloader will continue the swap operation from where it left off. The crucial step in this process is that the page copy progress state is written atomically.
 * Swap is complete, but is still instructed to update. In this case, the bootloader will assume that something went wrong with the new application and will start to revert to the previous application.
 * Should revert, but revert is not complete. Similar to the previous state, the revert process will continue where it left off until complete.
+
+## Rolling back
+
+So your application got updated, but you had a bug in your application causing it to crash! Now what? Well, there are a few key principles that should be met within your application to ensure that you don't get 'stuck'. On a reset, the bootloader will take care of swapping back the existing firmware, so make sure that:
+
+* In the event of an unrecoverable error, panic! Make sure you use a panic handler that allows your device to reset and start over (causing the bootloader to roll back).
+* Your application is running correctly before marking itself as successfully booted. Doing this too early could cause your application to be stuck with the new faulty firmware.
+
+For IoT connected devices, there is an addition trick: make sure you can connect to the required services (such as the firmware update service) before marking the firmware as succesfully booted. This increases the chance that you will be able to recover and fix bugs by rolling out a new version of your firmware. We'll cover this in the next blog posts of this series.
 
 ## Bootloader and application binaries
 

@@ -3,25 +3,25 @@ title = "Firmware updates, part 1: Bootloader"
 extra.author = "lulf"
 +++
 
-This is the first post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We'll explore the different parts of a complete end to end system with this capability.
+This is the first post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
 
-This post will be about a fundamental component in such a system, the bootloader.
+This post will be about a fundamental component in such a system: the bootloader.
 
 <!-- more -->
 
 # Background
 
-For a connected devices to be maintainable at scale, they must be able to update themselves just like any other software. However, managing a fleet of occasionally connected devices with little bandwidth require a different approach to delivering software updates to regular applications. One goal for Drogue IoT is to support the entire software update workflow on tiny devices, all the way from building your firmware to delivering it to the device, just like any other modern application.
+For a connected devices to be maintainable at scale, they must be able to update themselves just like any other software. However, managing a fleet of occasionally connected devices with little bandwidth requires a different approach to delivering software updates to regular applications. One goal for Drogue IoT is to support the entire software update workflow on tiny devices, all the way from building your firmware to delivering it to the device, just like any other modern application.
 
 # Bootloader
 
-A fundamental component in an updatable system is the ability to boot different versions of an application. Making a generic bootloader is hard, because there is a big number of different possible device configurations. The complexity and size of a bootloader is also determined by it's functionality: a bootloader being able to retrieve firmware from a network has a bigger footprint than one that only loads an application from a fixed location in flash.
+A fundamental component in an updatable system is the ability to boot different versions of an application. Making a generic bootloader is hard, because there is a large number of different possible device configurations. The complexity and size of a bootloader is also determined by its functionality: a bootloader being able to retrieve firmware from a network has a bigger footprint than one that only loads an application from a fixed location in flash.
 
 Since we're focused on IoT, we can assume that our devices have some form of network connectivity, but we do not wish to tie ourselves to any specific connectivity type. 
 
-Moreover, for many applications, it's desirable to retrieve the updates while the application is running, which excludes some bootloader designs that do the firmware update within the bootloader.
+Moreover, for many applications, it's desirable to retrieve the updates while the application is running, which excludes some bootloader designs that do the firmware update within the bootloader. Given some connectivity strategies may be slow, this may result in an exceedingly long time not executing the application itself.
 
-What happens on power failure while updating? With devices installed in hard to reach locations, it is important that we can gracefully handle such a scenario and fall back to an existing version and try again. Likewise, should the new application not work properly, we want to allow falling back to the previous version known to work.
+What happens on power failure while updating? With devices installed in hard-to-reach locations, it is important that we can gracefully handle such a scenario and fall back to an existing version and try again. Likewise, should the new application not work properly, we want to allow falling back to the previous version known to work.
 
 Finally, we want to be able to store firmware in external flash, which has potentially different page and transfer sizes than the internal on-chip flash.
 
@@ -29,7 +29,7 @@ Finally, we want to be able to store firmware in external flash, which has poten
 
 The `embassy-boot` bootloader is a lightweight bootloader supporting firmware application upgrades in a power-fail-safe way, with trial boots and rollbacks. 
 
-The bootloader consists of two parts, a platform independent part and a platform dependent part. The platform independent part is a standard Rust library (and there are unit tests using a in-memory 'flash' for testing correctness) and that can be used to build your custom bootloader. The platform-dependent part which ties the generic library to a specific hardware platform, such as nRF or STM32. This provides some hardware-specific functionality, for instance integration with nrf-softdevice or a watchdog timer for nRF devices.
+The bootloader consists of two parts, a platform independent part and a platform dependent part. The platform independent part is a standard Rust library (and there are unit tests using an in-memory 'flash' for testing correctness) that can be used to build your custom bootloader. The platform-dependent part ties the generic library to a specific hardware platform, such as nRF or STM32. This provides some hardware-specific functionality, for instance integration with nrf-softdevice or a watchdog timer for nRF devices.
 
 NOTE: Do I need to use embassy with `embassy-boot`? Absolutely not! `embassy-boot` just happens to use embassy internally for the platform dependent parts. The application side uses async APIs to write firmware (preventing you blocking other tasks while writing firmware to flash).
 
@@ -57,10 +57,10 @@ At initial boot, the bootloader performs the following operations:
 
 ## Updating the firmware
 
-An application that wants to be firmware update capable will need to create an instance of a `FirmwareUpdater`. This is provided by the `embassy-boot` library, with defaults available if using the `embassy-boot-nrf` or `embassy-boot-stm32` libraries. The `FirmwareUpdater` is capable of the following operations:
+An application that wants to be capable of firmware update will need to create an instance of a `FirmwareUpdater`. This is provided by the `embassy-boot` library, with defaults available if using the `embassy-boot-nrf` or `embassy-boot-stm32` libraries. The `FirmwareUpdater` is capable of the following operations:
 
 * Write firmware to any offset within the `DFU` partition.
-* Mark the current running firmware as 'OK', to prevent a firmware rollback to occur.
+* Mark the current running firmware as 'OK', to prevent a firmware rollback.
 * Mark the current firwmare to be swapped by the new firmware.
 
 How the firmware gets to the device is not the responsibility of the `FirmwareUpdater`, which leaves this problem to the application itself. In the next blog post, we will cover different ways you can get the firmware to the device.
@@ -108,9 +108,9 @@ run.
 
 The revert index is located separately from the swap index, to ensure that revert can continue on power failure.
 
-Another thing to note is that the revert algorithm works forwards, by starting copying into the 'unused' DFU page at the start.
+Another thing to note is that the revert algorithm works forwards, by copying into the 'unused' DFU page at the start.
 
-Once the swap process is complete, the bootloader may jump to the application at beginning of the active partition.
+Once the swap process is complete, the bootloader may jump to the application at the beginning of the active partition.
 
 This is a platform-specific step done in the `embassy-boot-stm32` or `embassy-boot-nrf` part of the bootloader.
 
@@ -132,11 +132,11 @@ So your application got updated, but you had a bug in your application causing i
 * In the event of an unrecoverable error, panic! Make sure you use a panic handler that allows your device to reset and start over (causing the bootloader to roll back).
 * Your application is running correctly before marking itself as successfully booted. Doing this too early could cause your application to be stuck with the new faulty firmware.
 
-For IoT connected devices, there is an addition trick: make sure you can connect to the required services (such as the firmware update service) before marking the firmware as succesfully booted. This increases the chance that you will be able to recover and fix bugs by rolling out a new version of your firmware. We'll cover this in the next blog posts of this series.
+For IoT connected devices, there is an additional trick: make sure you can connect to the required services (such as the firmware update service) before marking the firmware as successfully booted. This increases the chance you will be able to recover and fix bugs by rolling out a new version of your firmware. We'll cover this in future blog posts of this series.
 
 ## Bootloader and application binaries
 
-The bootloader may be used as a library or as a standalone binary. In the case where it's used as a standalone binary, it must be compiled with the linker script setting the partition boundaries. If desired, you can use it as a library and provide the partitions programatically if you require a high degree of customization.
+The bootloader may be used as a library or as a standalone binary. In the case where it's used as a standalone binary, it must be compiled with the linker script setting the partition boundaries. If you require a high degree of customization, you can use it as a library and provide the partitions programatically.
 
 The application binary can depend on the platform dependent bootloader library for convenience, which will also use the linker script to derive the partition boundaries. In the same way as for making a customized bootloader, you can define the partition boundaries programatically for your application as well.
 
@@ -151,7 +151,7 @@ A typical dependency graph of an application `myapp` using `embassy-boot` is sho
 
 There are many existing bootloaders, like [mcuboot](https://www.mcuboot.com/), which probably has the best device and feature support. However, building and running a C based bootloader and adapting it to work with `embassy` is also not as nice as using Rust tooling and being able to reuse the hardware support already in embassy. 
 
-Another bootloader with a similar approach to `embassy-boot` is [moonboot](https://jhbruhn.de/posts/moonboot/), which shares a similar design with a split responsibility between the bootloader and application but is even more generic (not tied to embassy, but also means more work to use) and (at the time of writing) not power fail safe. Clearly there is an opportunity of collaboration in the future.
+Another bootloader with a similar approach to `embassy-boot` is [moonboot](https://jhbruhn.de/posts/moonboot/), which shares a similar design with a split responsibility between the bootloader and application but is even more generic (not tied to embassy, but also means more work to use) and (at the time of writing) not power fail safe. Clearly there is an opportunity for collaboration in the future.
 
 # Summary
 

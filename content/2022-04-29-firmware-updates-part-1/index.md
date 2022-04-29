@@ -265,9 +265,9 @@ As we've seen above, only a small amount of code is required to write your own b
 
 To get started using `embassy-boot`, you can find ready-made examples in [embassy](https://github.com/embassy-rs/embassy/tree/master/examples/boot) for several chips. If you have a board that is not listed, reach out in the [embassy chat](https://matrix.to/#/#embassy-rs:matrix.org) or contribute an example yourself.
 
-We also have a demonstrating the use of `embassy-boot` and a firmware update tool:
+We also have a demonstrating the use of `embassy-boot` and the swap + rollback logic:
 
-[![Firmware updates](https://img.youtube.com/vi/ISw7jcJdtBM/0.jpg)](https://youtu.be/ISw7jcJdtBM)
+[![Firmware updates](https://img.youtube.com/vi/3QkA58GObJU/0.jpg)](https://youtu.be/3QkA58GObJU)
 
 ## Alternatives
 

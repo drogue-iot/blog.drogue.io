@@ -275,6 +275,8 @@ There are many existing bootloaders, like [mcuboot](https://www.mcuboot.com/), w
 
 Another bootloader with a similar approach to `embassy-boot` is [moonboot](https://jhbruhn.de/posts/moonboot/), which shares a similar design with a split responsibility between the bootloader and application but is even more generic (not tied to embassy, but also means more work to use) and (at the time of writing) not power fail safe. Clearly there is an opportunity for collaboration in the future.
 
+UPDATE: An alternative to using a swap algorithm could be to have two active partitions, and have the bootloader switch between loading each of them. However, this would require using different linker scripts depending on which partition you wanted to use, because Rust does not yet support position independent code.
+
 # Future work
 
 * Adding support for more hardware platforms. At present, the nRF52 and STM32 platforms are supported, but not all STM32 families have a working flash driver. Supporting hardware like the Raspberry Pi Pico is also on the wish list.

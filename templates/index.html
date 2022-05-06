@@ -65,8 +65,9 @@
   {% block main %}
   <div class="container is-fluid">
     <div class="columns is-multiline">
-      {% block linkbox %}
+
       <aside class="column is-one-quarter-fullhd">
+      {% block linkbox %}
         <div class="is-sticky">
           <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
           <ul class="link-list">
@@ -82,41 +83,83 @@
             <li>{{ common::link_list_item(label='Community Calls', href='https://calendar.google.com/calendar/u/0/embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com') }}</li>
           </ul>
         </div>
-      </aside>
       {% endblock linkbox %}
-      {% block content %}
-      <div class="column is-half-fullhd is-full">
-        <div class="posts">
-          {% for page in section.pages %}
-          <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        {% block content %}
+          <div class="posts">
+            {% for page in paginator.pages %}
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="{{ page.path }}">
+                  {{ page.title }}
+                  </a>
+                </h2>
+                </div>
 
               <div class="content">
-              <h2 class="title is-2 is-spaced" itemprop="name headline">
-                <a href="{{ page.path }}">
-                {{ page.title }}
-                </a>
-              </h2>
+                <div itemprop="articleSummary">
+                  {{ page.summary | safe }}
+                </div>
               </div>
 
-            <div class="content">
-              <div itemprop="articleSummary">
-                {{ page.summary | safe }}
+              <div class="content has-text-grey">
+                {{ post_macros::post_info(page=page,more=true) }}
               </div>
+
             </div>
 
-            <div class="content has-text-grey">
-              {{ post_macros::post_info(page=page,more=true) }}
-            </div>
-
-          </div>
-          <hr/>
+            <hr/>
 
           {% endfor %}
+
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" {% if not paginator.previous %}disabled{% else %} href="{{ paginator.previous }}" {% endif %}>Previous</a>
+            <a class="pagination-next"     {% if not paginator.next %}disabled    {% else %} href="{{ paginator.next }}"     {% endif %}>Next</a>
+
+            <ul class="pagination-list">
+              {% for i in range(end=paginator.number_pagers) %}
+
+                <li>
+                  <a
+                      href="{{ paginator.base_url}}{{i+1}}"
+                      class="pagination-link {% if paginator.current_index == i + 1 %}is-current{% endif %}" {% if paginator.current_index == i + 1 %}aria-current="page"{% endif %} aria-label="Page {{ i + 1 }}" aria-current="page">{{ i + 1}}</a>
+                </li>
+              {% endfor %}
+            </ul>
+
+          </nav>
+
         </div>
-      </div>
+      {% endblock content %}
     </div>
-    {% endblock content %}
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      {% block rightbox %}
+        <div class="mx-5">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Archive</h2>
+          <ul>
+            {% set all_content = get_section(path="_index.md") %}
+            {% for year, posts in all_content.pages | group_by(attribute="year") %}
+            <li><h3 class="title is-4 my-3">{{ year }}</h3>
+              <ul class="link-list archive">
+                {% for post in posts %}
+                  <li><a href="{{ post.permalink }}" title="{{ post.title }}">{{ post.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endblock rightbox %}
+    </aside>
+
+    </div>
   </div>
+
   {% endblock main %}
 </section>
 

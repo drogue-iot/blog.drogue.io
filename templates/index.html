@@ -71,7 +71,8 @@
         <div class="is-sticky">
           <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
           <ul class="link-list">
-            <li><a href="{{ get_url(path='/') | safe }}">Homepage</a></li>
+            <li><a href="{{ get_url(path='/') | safe }}">Blog</a></li>
+            <li>{{ common::link_list_item(label='Project Homepage', href='https://drogue.io') }}</li>
             <li>{{ common::link_list_item(label='GitHub Organization', href='https://github.com/drogue-iot') }}</li>
             <li>{{ common::link_list_item(label='Documentation', href='https://book.drogue.io') }}</li>
             <li>{{ common::link_list_item(label='Community Chat', href='https://matrix.to/#/#drogue-iot:matrix.org') }}</li>

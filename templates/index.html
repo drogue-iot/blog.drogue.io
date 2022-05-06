@@ -62,14 +62,15 @@
 </section>
 
 <section class="section">
-  {% block content %}
+  {% block main %}
   <div class="container is-fluid">
     <div class="columns is-multiline">
+      {% block linkbox %}
       <aside class="column is-one-quarter-fullhd">
         <div class="is-sticky">
           <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
           <ul class="link-list">
-            <li>{{ common::link_list_item(label='Homepage', href='https://drogue.io') }}</li>
+            <li><a href="{{ get_url(path='/') | safe }}">Homepage</a></li>
             <li>{{ common::link_list_item(label='GitHub Organization', href='https://github.com/drogue-iot') }}</li>
             <li>{{ common::link_list_item(label='Documentation', href='https://book.drogue.io') }}</li>
             <li>{{ common::link_list_item(label='Community Chat', href='https://matrix.to/#/#drogue-iot:matrix.org') }}</li>
@@ -79,9 +80,11 @@
             <li>{{ common::link_list_item(label='Twitter', href='https://twitter.com/DrogueIoT') }}</li>
             <li>{{ common::link_list_item(label='Sandbox', href='https://sandbox.drogue.cloud') }}</li>
             <li>{{ common::link_list_item(label='Community Calls', href='https://calendar.google.com/calendar/u/0/embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com') }}</li>
-	  </ul>
+          </ul>
         </div>
       </aside>
+      {% endblock linkbox %}
+      {% block content %}
       <div class="column is-half-fullhd is-full">
         <div class="posts">
           {% for page in section.pages %}
@@ -112,8 +115,9 @@
         </div>
       </div>
     </div>
+    {% endblock content %}
   </div>
-  {% endblock content %}
+  {% endblock main %}
 </section>
 
 <footer class="footer">

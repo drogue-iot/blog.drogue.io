@@ -17,8 +17,7 @@ TODO: The big picture
 
 In this article we'll have a look at the most familiar alternatives:
 
-* WiFi
-* Ethernet
+* IP-based
 * LoRaWAN
 * LTE-M / NB-IoT
 * BLE (Bluetooth Low Energy)/ Thread / ZigBee
@@ -28,11 +27,18 @@ Some of these protocols work transparently with a IPv4/IPv6-based network, such 
 
 Other protocols like BLE require software to translate between the protocol and an IP network. For these, we'll demonstrate the `drgdfu` tool, which supports updating devices over BLE and Serial.
 
-## WiFi and Ethernet
+## IP-based
 
 If your devices has WiFi and/or Ethernet capabilities, then talking to the cloud becomes a lot easier. The downsides are power usage and range (WiFi) or the need for using wires (Ethernet). Even with these protocols, you need a TCP/IP implementation. Many WiFi adapters already provide a TCP/IP implementation which you interact with using [AT commands](). [Drogue Device]() contains drivers for the [ESP8266]() and [eS-WiFi]() that you can use with [embassy](). 
 
 In the cases where you don't have a TCP/IP implementation, you can use an open source implementation. In the C world, there is [LwIP](), but in the world _we_ care about (Rust), there is [smoltcp](). 
+
+Rather than going via an additional process for retrieving the firmware data, we can use the [embedded-dfu-ota]() crate to help running the firmware update process. It can perform the firmware update protocol process if you supply it with implementations for the `Client` and `FirmwareDevice` traits.
+
+```
+```
+
+For the full details, have a look at the [STM32L4 (WiFi)]() or [STM32H7 (Ethernet)]() examples.
 
 ## LoRaWAN
 
@@ -40,9 +46,16 @@ LoRaWAN is a great protocol for devices that infrequently sends sensor data from
 
 The being said, spending 4 hours or 4 days to update firmware of IoT sensors might not be problem for many applications, and as long as the firmware can be fetched at such a low pace, it works as expected.
 
+Similar to the IP based example, we can use the same `embedded-dfu-ota` crate to enable firmware updates for our lorawan device:
+
+```
+```
+
 ## LTE-M / NB-IoT
 
 LTE-M/NB-IoT device consume more power than LoRaWAN devices. On the other hand, the network coverage and bandwidth is a lot higher. With LTE-M you can get up to 1 mbit downlink speeds (under ideal conditions!), which allows you to quickly download firmware when there is an update. These devices often contains a TCP/IP implementation allowing you to connect directly to firmware update services. If you can live with the higher power usage and the additional cost (as it usually involves a montly subscription to the provider), this transport can be a good way to ensure you have firmware update capability for your device.
+
+We don't have any examples for LTE-M / NB-IoT at present, but in general the approach would be similar to IP based networks.
 
 ## BLE / Thread / ZigBee
 

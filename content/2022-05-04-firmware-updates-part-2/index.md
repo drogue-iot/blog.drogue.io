@@ -22,7 +22,6 @@ In this article we'll have a look at the most familiar connectivity options:
 * BLE (Bluetooth Low Energy)
 * Serial/UART
 
-
 # Protocols/transports
 
 Some of the protocols can easily be adapted to a IPv4/IPv6-based network, and may therefore run directly on the embedded devices. Other protocols like BLE require custom software or services to translate between the protocol and the IP network. For BLE and serial, we'll demonstrate the `drgdfu` tool. For LoRaWAN, integration with the network provider such as [TTN](https://www.thethingsnetwork.org/) handles the translation.
@@ -99,15 +98,14 @@ Besides, the `embedded-update` crate provides a `SerialUpdateService` implementa
 
 ## An example
 
-Let's look at an example running firmeware updates over BLE on a BBC micro:bit. The full example can be found [here](https://github.com/drogue-iot/drogue-device/tree/main/examples/nrf52/microbit/ble).
+Let's look at an example running firmeware updates over a BLE connection. The full example can be found [here](https://github.com/drogue-iot/drogue-device/tree/main/examples/nrf52/microbit/ble).
 
+You can find more examples in the same git repository:
 
-You can find more examples in `drogue-device`.
-
-* [BLE + BBC Micro:bit using `drgdfu`]()
-* [Serial + Microbit using `drgdfu`]()
 * [TCP/IP + STM32 L4 IoT01a (WiFi) using Drogue Cloud]()
 * [TCP/IP + STM32 H7 Nucleo-144 (Ethernet) using Drogue Cloud]()
 * [LoRaWAN + LoRA-E5 Mini using The Things Network + Drogue Cloud]()
+
+Common to all is that they use the `embassy-boot` bootloader for the ability to swap firmware images.
 
 # Next steps

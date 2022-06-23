@@ -3,9 +3,9 @@ title = "Firmware updates, part 2: Transporting the update"
 extra.author = "lulf"
 +++
 
-This is the second post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
+This is the second post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
 
-This post will be about the different transports and how you can manage firmware updates for them.
+This post will be about the different networks and how you can manage firmware updates using them.
 
 <!-- more -->
 
@@ -18,26 +18,26 @@ In the [previous post](https://blog.drogue.io/firmware-updates-part-1/), we expl
     <figcaption>Target system</figcaption>
 </figure>
 
-It is assumed that there is some kind of update service that the device communicates with. This could be a direct connection, or via a gateway. In this article we'll have a look at the most familiar connectivity options:
+It is assumed that there is some kind of update service that the device communicates with. This could be a direct connection in the network, or via a gateway. In this article we'll have a look at some widely used alternatives:
 
 * WiFi/Ethernet/LTE-M
 * LoRaWAN
 * BLE (Bluetooth Low Energy)
 * Serial/UART
 
-Some of the transports can easily be adapted to a IPv4/IPv6-based network, and may therefore run directly on the embedded devices. Other transports like BLE require custom software or services to translate between the GATT service and the IP network. For BLE and serial, one can use the `drgdfu` tool. For LoRaWAN, integration with the network provider such as [TTN](https://www.thethingsnetwork.org/) handles the forwarding of data to/from the update service.
+Some of these can easily be adapted to a IPv4/IPv6-based network, and may therefore run directly on the embedded devices. Others like BLE require a custom component to translate between the GATT services and the IP network. For BLE and serial, one can use the `drgdfu` library and tool for this purpose. For LoRaWAN, integration with the network provider such as [TTN](https://www.thethingsnetwork.org/) handles the forwarding of data to/from the update service.
 
 ## IP-based
 
-If your devices has WiFi and/or Ethernet capabilities, then talking to the server becomes a lot easier. The downsides are power usage and range (WiFi) or the need for using wires (Ethernet). Even with these transports, you need a TCP/IP implementation. Many WiFi adapters already provide a TCP/IP implementation which you interact with using [AT commands](https://www.espressif.com/sites/default/files/documentation/4b-esp8266_at_command_examples_en.pdf). [Drogue Device](https://github.com/drogue-iot/drogue-device) contains drivers for the [ESP8266](https://en.wikipedia.org/wiki/ESP8266) and [eS-WiFi](https://www.inventeksys.com/es-wifi-support/) that you can use with [embassy](https://embassy.dev/). 
+If your devices has WiFi and/or Ethernet capabilities, then talking to the server becomes a lot easier. The downsides are power usage and range (WiFi) or the need for using wires (Ethernet). Even with these transports, you might need a TCP/IP implementation. Many WiFi adapters already provide a TCP/IP implementation which you interact with using [AT commands](https://www.espressif.com/sites/default/files/documentation/4b-esp8266_at_command_examples_en.pdf). [Drogue Device](https://github.com/drogue-iot/drogue-device) contains drivers for the [ESP8266](https://en.wikipedia.org/wiki/ESP8266) and [eS-WiFi](https://www.inventeksys.com/es-wifi-support/) that you can use with [embassy](https://embassy.dev/). 
 
-In the cases where you don't have a TCP/IP implementation, you can use an open source implementation. In the C world, there is [LwIP](https://savannah.nongnu.org/projects/lwip/), but in the world _we_ care about (Rust), there is [smoltcp](https://github.com/smoltcp-rs/smoltcp). 
+In the cases where you don't have a TCP/IP implementation, you can use an open source implementation. In the C world, there is [LwIP](https://savannah.nongnu.org/projects/lwip/), but in the world _we_ care most about (Rust), there is [smoltcp](https://github.com/smoltcp-rs/smoltcp). 
 
 ## LoRaWAN
 
-LoRaWAN is a protocol for devices that infrequently sends sensor data from devices. Devices can also use little power and transmit data over long distances compared to WiFi or BLE. However, LoRaWAN networks also have bandwidth limitations. For instance, doing a 64kB firmware update using the [TTN free tier](https://www.thethingsnetwork.org/) network would take 4 days! Things look a bit better if running your own network, but you'll still be limited by regulated bandwith usage and the lower limit is 4 hours for 64kB.
+LoRaWAN is a wide area wireless protocol for devices that infrequently sends sensor data. Devices consume little power and transmit data over long distances compared to WiFi or BLE. However, LoRaWAN networks also have bandwidth limitations. For instance, doing a 64kB firmware update using the [TTN free tier](https://www.thethingsnetwork.org/) network would take 4 days! Things look a bit better if running your own network, but you'll still be limited by regulated bandwith usage and the lower limit is 4 hours for 64kB.
 
-The being said, spending 4 hours or 4 days to update firmware of IoT sensors might not be problem for many applications, and as long as the firmware can be fetched at such a low pace, it works as expected.
+The being said, spending 4 hours or 4 days to update firmware of IoT sensors might not be problem for many applications, and as long as the update service supports such a low pace, it works as expected.
 
 ## LTE-M / NB-IoT
 
@@ -53,20 +53,20 @@ For BLE, there is no standard firmware update GATT service UUID defined, so a cu
 
 ## Serial
 
-The good old serial interface is a simple but flexible way to upload firmware. The downside of serial is of course that it is wired, but it can be a nice 'fallback' for cases where you need to go on site anyway as it's quite fast and efficient.
+The good old serial interface is a simple but flexible way to upload firmware. The downside of serial is of course that it is wired, but it can be a nice 'fallback' for cases where you need to go on site anyway as it's reasonably fast and efficient.
 
 ## Introducing embedded-update
 
-For transports that maps well to a "pull" model for retrieving firmware updates, we've created the [embedded-update](https://crates.io/crates/embedded-update) crate. `embedded-update` defines a firmware update protocol than can be plugged in to different firmware update services and update capable devices. It performs the firmware update process using implementations for the `UpdateService` and `FirmwareDevice` traits from the application. 
+For devices that can connect directly to the network and maps well to a "pull" model for retrieving firmware updates, we've created the [embedded-update](https://crates.io/crates/embedded-update) crate. `embedded-update` defines a firmware update protocol than can be plugged in to different firmware update services and update capable devices. It performs the firmware update process using implementations for the `UpdateService` and `FirmwareDevice` traits from the application. 
 
 <figure>
     <img src="dfu_part2_overview.drawio.png" alt="Target system" />
     <figcaption>Overview of embedded-update</figcaption>
 </figure>
 
-At the time of writing, `drogue-device` contains an implementation of `UpdateService` for `Drogue Cloud`, and an implementation of `FirmwareDevice` based on `embassy-boot`. For the full example, have a look at [this STM32L4 (WiFi) example](https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32l4/iot01a/wifi).
+At the time of writing, `drogue-device` contains an implementation of `UpdateService` for [Drogue Cloud](www.drogue.iot), and an implementation of `FirmwareDevice` based on `embassy-boot`. For the full example, have a look at [this STM32L4 (WiFi) example](https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32l4/iot01a/wifi).
 
-Let's look at an example using `embedded-update` with `Drogue Cloud` and `embassy-boot`. 
+Let's look at an example using `embedded-update` with Drogue Cloud and the [embassy-boot](https://github.com/embassy-rs/embassy) bootloader.
 
 The firmware revision is embedded into the firmware by reading it from the environment at build time:
 
@@ -91,7 +91,7 @@ let mut device: FirmwareManager<Flash, 2048, 256> = FirmwareManager::new(flash, 
 
 The `FirmwareManager` ensures that writes to the flash are done in page size chunks, configurable using the const generics.
 
-Next we need to create an instance of the `UpdateService` we want to use. There are several options here, but in this case we are using [`drogue-cloud`](https://github.com/drogue-iot/drogue-cloud) directly, in which case we can use the `DrogueHttp` update service, which uses HTTPS with the Drogue Cloud endpoints:
+Next we need to create an instance of the `UpdateService` we want to use. There are several options here, but in this case we are using [Drogue Cloud](https://github.com/drogue-iot/drogue-cloud) directly, in which case we can use the `DrogueHttp` update service, which uses HTTPS with the Drogue Cloud endpoints:
 
 ```
 let service: DrogueHttpUpdateService<'_, _, _, 256> = DrogueHttpUpdateService::new(
@@ -167,7 +167,7 @@ In addition, the `embedded-update` crate provides a `Serial` implementation of t
 
 ## Updating BLE devices
 
-With BLE, a "push" model for firmware is more appropriate because the BLE peripheral is the service. For this case, we have implemented a `FirmwareService` using the `nrf-softdevice` crate supported by the nRF52 chip families:
+With BLE, a "push" model for firmware is more appropriate because the BLE peripheral acts as the server. For this case, we have implemented a `FirmwareService` using the `nrf-softdevice` crate supported by the nRF52 chip families:
 
 <figure>
     <img src="dfu_part2_ble.drawio.png" alt="Updates over Bluetooth Low Energy (BLE)" />

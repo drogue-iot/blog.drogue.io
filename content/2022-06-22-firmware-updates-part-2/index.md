@@ -29,7 +29,7 @@ Some of these can easily be adapted to a IPv4/IPv6-based network, and may theref
 
 ## IP-based
 
-If your devices has WiFi and/or Ethernet capabilities, then talking to the server becomes a lot easier. The downsides are power usage and range (WiFi) or the need for using wires (Ethernet). Even with these transports, you might need a TCP/IP implementation. Many WiFi adapters already provide a TCP/IP implementation which you interact with using [AT commands](https://www.espressif.com/sites/default/files/documentation/4b-esp8266_at_command_examples_en.pdf). [Drogue Device](https://github.com/drogue-iot/drogue-device) contains drivers for the [ESP8266](https://en.wikipedia.org/wiki/ESP8266) and [eS-WiFi](https://www.inventeksys.com/es-wifi-support/) that you can use with [embassy](https://embassy.dev/). 
+If your devices has WiFi and/or Ethernet capabilities, then talking to the server becomes a lot easier. The downsides are power usage and range (WiFi) or the need for using wires (Ethernet). Even so, you might need a TCP/IP implementation. Many WiFi adapters already provide a TCP/IP implementation which you interact with using [AT commands](https://www.espressif.com/sites/default/files/documentation/4b-esp8266_at_command_examples_en.pdf). [Drogue Device](https://github.com/drogue-iot/drogue-device) contains drivers for the [ESP8266](https://en.wikipedia.org/wiki/ESP8266) and [eS-WiFi](https://www.inventeksys.com/es-wifi-support/) that you can use with [embassy](https://embassy.dev/). 
 
 In the cases where you don't have a TCP/IP implementation, you can use an open source implementation. In the C world, there is [LwIP](https://savannah.nongnu.org/projects/lwip/), but in the world _we_ care most about (Rust), there is [smoltcp](https://github.com/smoltcp-rs/smoltcp). 
 
@@ -41,7 +41,7 @@ The being said, spending 4 hours or 4 days to update firmware of IoT sensors mig
 
 ## LTE-M / NB-IoT
 
-LTE-M/NB-IoT device consume more power than LoRaWAN devices. On the other hand, the network coverage and bandwidth is a lot higher. With LTE-M you can get up to 1 mbit downlink speeds (under ideal conditions!), which allows you to quickly download firmware when there is an update. These devices often contains a TCP/IP implementation allowing you to connect directly to firmware update services. If you can live with the higher power usage and the additional cost (as it usually involves a montly subscription to the provider), this transport can be a good way to ensure you have firmware update capability for your device.
+LTE-M/NB-IoT device consume more power than LoRaWAN devices. On the other hand, the network coverage and bandwidth is a lot higher. With LTE-M you can get up to 1 mbit downlink speeds (under ideal conditions!), which allows you to quickly download firmware when there is an update. These devices often contains a TCP/IP implementation allowing you to connect directly to firmware update services. If you can live with the higher power usage and the additional cost (as it usually involves a montly subscription to the provider), this option can be a good way to ensure you have firmware update capability for your device.
 
 We don't have any examples for LTE-M / NB-IoT at present, but in general the approach would be similar to IP based networks. Have a look at [this repository](https://github.com/titanclass/thingy91-lorawan-nbiot/) for an example sending data over LTE-M/NB-IoT.
 

@@ -237,3 +237,5 @@ We've compared the different options for connecting devices to a firmware update
 As mentioned earlier, some of the implementations for the `embedded-update` traits are still located in `drogue-device`. Once `embedded-nal-async` stabilizes, we'd like to move these implementations to `embedded-update`. There are also other update services that would be interesting to integrate with, and implementing one for `Eclipse Hawkbit` is high on the todo list.
 
 If you are building your own service or are using existing services that you would like to see supported in `embedded-update`, reach out to us in the chat or on GitHub! Likewise, if you have devices that do not work with the current `embedded-storage` and `embassy-boot` based device, we are more than happy to extend the capabilites in `embedded-update`.
+
+In the next and final article in the series, we'll look at how you can manage firmware and automatically deploy them to devices using Drogue Cloud.

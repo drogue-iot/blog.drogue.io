@@ -59,8 +59,9 @@ However, in this case, it feels a bit less custom and much more generic. So we d
 [drogue-ajour](https://github.com/drogue-iot/drogue-ajour).
 
 Drogue Ajour is a service, which defines an update protocol, and provides ready-to-use implementations for
-Drogue Device. It also interfaces with existing sources for updates, like the
-[Open Container Initiative](https://opencontainers.org/) (OCI) or [Eclipse hawkBit](https://www.eclipse.org/hawkbit/).
+Drogue Device. But of course it can be used with other frameworks as well. It also interfaces with existing sources
+for updates, like the [Open Container Initiative](https://opencontainers.org/) (OCI) or
+[Eclipse hawkBit](https://www.eclipse.org/hawkbit/).
 
 We will tell you more about Ajour in a future blog post, but just to get you excited: Think about creating a
 [Tekton](https://tekton.dev/docs/concepts/overview/) build pipeline, uploading your firmware blob to a container

@@ -61,7 +61,8 @@ However, in this case, it feels a bit less custom and much more generic. So we d
 Drogue Ajour is a service, which defines an update protocol, and provides ready-to-use implementations for
 Drogue Device. But of course it can be used with other frameworks as well. It also interfaces with existing sources
 for updates, like the [Open Container Initiative](https://opencontainers.org/) (OCI) or
-[Eclipse hawkBit](https://www.eclipse.org/hawkbit/).
+[Eclipse hawkBit](https://www.eclipse.org/hawkbit/). And using Drogue Cloud as foundation, it can be used over all
+the protocols which Drogue Cloud supports, like MQTT, HTTP, or even LoRaWAN.
 
 We will tell you more about Ajour in a future blog post, but just to get you excited: Think about creating a
 [Tekton](https://tekton.dev/docs/concepts/overview/) build pipeline, uploading your firmware blob to a container

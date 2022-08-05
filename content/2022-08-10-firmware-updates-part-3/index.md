@@ -13,14 +13,19 @@ This post will be about how firmware is delivered to devices and how to build a 
 
 In the [previous post](https://blog.drogue.io/firmware-updates-part-2/), we explored the ways which you can transport the firmware onto devices across different transports.
 
-Now we're going to look at the final steps: building and delivering the firmware, based on the update protocol defined by [`embedded-update`](https://github.com/drogue-iot/embedded-update).
+Now we're going to look at the final steps: building and delivering the firmware, based on the update protocol defined by [`embedded-update`](https://github.com/drogue-iot/embedded-update). First, let's keep in mind what types of devices we're updating:
+
+* No operating system
+* Limited/reduced network connectivty
+* Small amounts of RAM
+
+For devices that are not as light weight and can run Linux, there are other options such as [Flotta](https://project-flotta.io/) that might be a better fit.
 
 Supporting firmware updates in Drogue Cloud is something we've been thinking about for a while, since it's a common piece of any IoT infrastructure. There are many ways to distribute software, but there are a few special properties important when dealing with tiny IoT devices:
 
 * Unreliable connectivity - embedded devices may not be able to retrieve the entire firware in one go
 * Protocol support - embedded devices can connect to Drogue Cloud using different protocols
 * Low footprint - bandwidth may be limited, therefore the update protocol messages must be small
-
 
 The first thought was to offload this functionality to an existing project like [Eclipse Hawkbit](https://www.eclipse.org/hawkBit). The update protocol of Eclipse Hawkbit is stateless and allows devices to fetch firmware in chunks. The downside is that Eclipse Hawkbit update service only supports HTTP with a JSON protocol, not really suitable for tiny devices. 
 

@@ -75,7 +75,7 @@ Of these, only the firmware delivery component is mandatory.
     <figcaption>Drogue Ajour Architecture</figcaption>
 </figure>
 
-#### Firmware delivery
+## Firmware delivery
 
 Firmware delivery is the main functionality of Drogue Ajour. This involves transporting the firmware to devices using a CBOR-based protocol. The transport protocol is designed for minimal overhead, and to allow devices to consume updates at their own pace.
 
@@ -98,7 +98,7 @@ When a device reports it's firmware status to Drogue Cloud, Drogue Ajour will lo
 </figure>
 
 
-##### Update protocol
+### Update protocol
 
 Drogue Ajour uses a custom application level protocol sent on a special 'dfu' channel in Drogue Cloud to communicate with a device or gateway. The protocol is stateless, meaning that Drogue Ajour will track only send out firmware updates to devices that are reporting their status.
 
@@ -106,7 +106,7 @@ The protocol is designed so that devices do not have to be online continuously d
 
 The protocol uses Consise Binary Object Representation (CBOR), to ensure a small message size that works well with embedded devices.
 
-#### Firmware build
+## Firmware build
 
 This is an optional component that allow you to build your firmware from source and make it available to the delivery component for rolling out to your devices.
 
@@ -117,7 +117,7 @@ Drogue Ajour provides Tekton pipeline definitions that can build container image
     <figcaption>Drogue Ajour Console - Build View</figcaption>
 </figure>
 
-##### Build specification
+### Build specification
 
 The specification put on the `Application` and `Device` can be detailed further to add build capabilities, but this is only available for firmware stored in container images (OCI) at the moment:
 

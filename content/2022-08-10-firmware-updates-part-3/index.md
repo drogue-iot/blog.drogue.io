@@ -16,14 +16,14 @@ In the [previous post](https://blog.drogue.io/firmware-updates-part-2/), we expl
 Now we're going to look at the final steps: building and delivering the firmware, based on the update protocol defined by [`embedded-update`](https://github.com/drogue-iot/embedded-update). First, let's keep in mind what types of devices we're updating:
 
 * No operating system
-* Limited/reduced network connectivty
+* Limited/reduced network connectivity
 * Small amounts of RAM
 
 For devices that are not as light weight and can run Linux, there are other options such as [Flotta](https://project-flotta.io/) that might be a better fit.
 
 Supporting firmware updates in Drogue IoT is something we've been thinking about for a while, since it's a common piece of any IoT infrastructure. There are many ways to distribute software, but there are a few important properties when dealing with tiny IoT devices:
 
-* Connectivity - embedded devices may not be connected at all times and not able to retrieve the entire firware in one batch
+* Connectivity - embedded devices may not be connected at all times and not able to retrieve the entire firmware in one batch
 * Protocol support - embedded devices may use a wide rang of different protocols as discussed in the [previous post](https://blog.drogue.io/firmware-updates-part-2).
 * Footprint - memory on devices and bandwidth may be limited, therefore the protocol must impose minimal overhead
 
@@ -35,7 +35,7 @@ With the telemetry and command API of Drogue Cloud, we have all the building blo
 * The service can integrate with different backends, such as Eclipse Hawkbit
 * The service can provide updates over any protocol supported by Drogue Cloud
 
-Another lesson in our experimentation with Rust on embedded devices, is that writing Rust feels like writing software running on a server. This had some implications on how we thought about software for embedded: what if we could apply the same mechanisms and tooling we use for building "normal" software to firmware for embedded devices? After all, projects like [Tekton](https://tekton.dev) allow you to declaratively define a CI/CD pipeline that builds any software using container images on Kubernetes. Moreover, container registries are used to store and retrieve software, so maybe we could store firmware in those registries as well?
+Another lesson in our experimentation with Rust on embedded devices, is that writing Rust feels like writing software running on a server. This had some implications on how we thought about software for embedded: what if we could apply the same mechanisms and tooling we use for building "normal" software to firmware for embedded devices? After all, projects like [Tekton](https://tekton.dev) allow you to define a CI/CD pipeline that builds any software using container images on Kubernetes. Moreover, container registries are used to store and retrieve software, so maybe we could store firmware in those registries as well?
 
 The end result after exploring the above ideas is an add-on to Drogue Cloud named Drogue Ajour (à jour => updated).
 
@@ -43,7 +43,7 @@ To learn more about Drogue Ajour than what is covered by this article, have a lo
 
 ## Drogue Ajour
 
-Drogue Ajour is a firmware update and build service for tiny devices conneted to Drogue IoT Cloud. It supports a wide range of IoT protocols and uses a low footprint update protocol.
+Drogue Ajour is a firmware update and build service for tiny devices connected to Drogue IoT Cloud. It supports a wide range of IoT protocols and uses a low footprint update protocol.
 
 <figure>
     <img src="ajour1.png" alt="Drogue Ajour Console - Overview" />
@@ -56,7 +56,7 @@ It offers:
  * Protocol support - any protocol supported by Drogue Cloud (HTTP, MQTT, CoAP, LoRaWAN)
  * Firmware build - building firmware and storing it in a firmware repository.
     * RESTful API for inspecting and triggering builds
- * Management console to inspect firmware build and rollout status for all your Drogue Cloud devices
+ * Management console to inspect firmware build and roll-out status for all your Drogue Cloud devices
 
 It is built on top of:
 
@@ -83,7 +83,7 @@ Of these, only the firmware delivery component is mandatory.
 
 Firmware delivery is the main functionality of Drogue Ajour. This involves transporting the firmware to devices using a CBOR-based protocol (Concise Binary Object Representation). Although more compact formats than CBOR exists, it is an IETF standard as well as having implementations in [many languages](https://cbor.io/impls.html). The CBOR messages are designed for minimal overhead, and to allow devices to consume updates at their own pace.
 
-The update service can use the filesystem, Eclipse Hawkbit or a Docker/Container registry for retrieving firmware.
+The update service can use the file system, Eclipse Hawkbit or a Docker/Container registry for retrieving firmware.
 
 To enable firmware updates, the Drogue Cloud `Application` and `Device` schema is extended with a section for specifying the firmware source, which looks like this for a container registry:
 
@@ -144,9 +144,9 @@ spec:
                     path: myartifact.bin
 ```
 
-The builder image contains the toolchain required to build your project. Clearly, a public service offering Drogue Ajour could be exploited to run bitcoin mining, so to avoid that the Drogue Ajour installation can be configured with a set of applications that are allowed to build firmware.
+The builder image contains the tool chain required to build your project. Clearly, a public service offering Drogue Ajour could be exploited to run bitcoin mining, so to avoid that the Drogue Ajour installation can be configured with a set of applications that are allowed to build firmware.
 
-NOTE: It doesn't have to be a Rust project! It can be any project capable of producing an binary artifact to be delivered to a device as long sa your builder image can build it.
+NOTE: It doesn't have to be a Rust project! It can be any project capable of producing an binary artifact to be delivered to a device as long as your builder image can build it.
 
 ## Next steps
 

@@ -122,9 +122,12 @@ which really isn't the ideal way to go about it. The GATT bearer uses connection
 communications between the provisioner and the device being configured. It doesn't use the
 normal underlying advertising-based bearer used by the devices to communicate with each other.
 
-First you have to stop `bluetoothd` on your linux node, and instead install and run 
-`bluetooth-meshd`, which can speak native advertising-bearer Bluetooth Mesh.  Instead of
-using `meshctl`, you then use `mesh-cfgclient` to provision nodes.
+First you have to stop `bluetoothd` on your linux node then install 
+the `bluez-mesh` package on fedora, or `bluez-meshd` on debian/ubuntu.
+The `bluetooth-meshd` tool can speak native advertising-bearer Bluetooth Mesh.
+
+You can run the ble mesh in a separate terminal: `sudo /usr/libexec/bluetooth/bluetooth-meshd`. 
+Instead of using `meshctl`, you then use `mesh-cfgclient` to provision nodes.
 
 # Let's walk through an example.
 
@@ -141,6 +144,7 @@ they are unprovisioned, or not a part of any mesh network. As it learns from unp
 devices, it'll display it on the console.
 
 ```shell
+mesh-cfgclient
 [mesh-cfgclient]# discover-unprovisioned on
 Unprovisioned scan started
 Scan result:

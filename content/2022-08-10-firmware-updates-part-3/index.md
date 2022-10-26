@@ -3,7 +3,7 @@ title = "Firmware updates, part 3: Firmware Delivery and Building"
 extra.author = "lulf"
 +++
 
-This is the third post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
+This is the third post in a series ([part 1](https://blog.drogue.io/firmware-updates-part-1/), [part 2](https://blog.drogue.io/firmware-updates-part-3)) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
 
 This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.
 

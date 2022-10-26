@@ -3,7 +3,7 @@ title = "Firmware updates, part 2: Transporting the update"
 extra.author = "lulf"
 +++
 
-This is the second post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
+This is the second post in a series ([part 1](https://blog.drogue.io/firmware-updates-part-1/), [part 3](https://blog.drogue.io/firmware-updates-part-3)) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
 
 This post will be about the different networks and how you can manage firmware updates using them.
 
@@ -238,4 +238,4 @@ As mentioned earlier, some of the implementations for the `embedded-update` trai
 
 If you are building your own service or are using existing services that you would like to see supported in `embedded-update`, reach out to us in the chat or on GitHub! Likewise, if you have devices that do not work with the current `embedded-storage` and `embassy-boot` based device, we are more than happy to extend the capabilites in `embedded-update`.
 
-In the next and final article in the series, we'll look at how you can manage firmware and automatically deploy them to devices using Drogue Cloud.
+In the [next](https://blog.drogue.io/firmware-updates-part-3/) and final article in the series, we'll look at how you can manage firmware and automatically deploy them to devices using Drogue Cloud.

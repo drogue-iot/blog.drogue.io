@@ -3,7 +3,7 @@ title = "Firmware updates, part 1: Bootloader"
 extra.author = "lulf"
 +++
 
-This is the first post in a series about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
+This is the first post in a series ([part 2](https://blog.drogue.io/firmware-updates-part-2/), [part 3](https://blog.drogue.io/firmware-updates-part-3)) about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.
 
 This post will be about a fundamental component in such a system: the bootloader.
 
@@ -288,5 +288,5 @@ UPDATE: An alternative to using a swap algorithm could be to have two active par
 In this first post in a series, we have looked at the fundamental microcontroller component required to support firmware updates. We first had a look at the features required from a bootloader, and then had a look at the newly created `embassy-boot`and learned how it swaps firmware. Finally we've discussed what it means to be power safe and how `embassy-boot` ensures that application updates are reliable, with some delegation of that responsibility of the application to mark itself as 'OK'.
 
 
-In the next blog post, we will have a look at different mechanisms for getting the firmware onto the device itself.
+In the next [blog post](https://blog.drogue.io/firmware-updates-part-2/), we will have a look at different mechanisms for getting the firmware onto the device itself.
 

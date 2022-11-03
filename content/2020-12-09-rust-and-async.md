@@ -22,7 +22,7 @@ is theirs, just sometimes (while other threads are running), it's just a very
 slow processor.
 
 To accomplish this magic of appearing to own the entire processor, threads
-also have to actually give each thread it's own space for it's stack 
+also have to actually give each thread its own space for its stack 
 to grow. Additionally, the kernel has to occasionally freeze one thread, swap
 out that thread's stack for another waiting thread's, and then unfreeze the other 
 thread to run for a bit. This is _context switching_.

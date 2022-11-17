@@ -94,6 +94,11 @@ We do have a set of [example snippets](https://github.com/drogue-iot/drogue-dopp
 <figcaption>The same hierarchy in an OPC UA client</figcaption>
 </figure>
 
+<figure>
+<img src="twin4.png" alt="Screenshot #4">
+<figcaption>A desired value sync in action</figcaption>
+</figure>
+
 And to give you a bit of context to the screenshots, this shows the web based debugger on a Doppelgänger instance we used for the IoT hackathon at EclipseCon 2022. The data came from micro:bits, through a Bluetooth Mesh network, connected via gateways to Drogue Cloud. The OPC UA twin integration shows the same data, just using OPC UA as the API instead of a simple WebSocket API.
 
 ## What's next

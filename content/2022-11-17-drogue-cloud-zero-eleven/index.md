@@ -4,7 +4,7 @@ extra.author = "ctron"
 description = "Drogue Cloud 0.11.0 is mostly improving existing functionality, polishing what is already there."
 +++
 
-This release is another release with a focus on improving existing functionality. The reason for this is simple, it works just fine. True, there is always room for improvement, but also to build upon what is
+This release is another release with a focus on improving existing functionality. The reason for this is simple: it works just fine. True, there is always room for improvement, but also to build upon what is
 there, so maybe, read on …
 
 <!-- more -->
@@ -42,18 +42,18 @@ This is already possible, and just to show you "how", we added two more examples
 * https://github.com/drogue-iot/arduino-examples
 
 Both examples target microcontrollers, with existing, well known platforms (MicroPython and Arduino). As you
-can see, it only takes a few lines of connect to the cloud side.
+can see, it only takes a few lines to connect to the cloud side.
 
 ## Digital twin
 
 So, if we didn't implement a bunch of new features in Drogue Cloud, what did we do instead (I mean aside from
 [EclipseCon](https://twitter.com/lulf/status/1584248208015777792))?
 
-Digital twin! We mentioned in the last release blog post, that we needed some more time to think about it. And so we did.
+Digital twin! We mentioned in the last release blog post that we needed some more time to think about it. And so we did.
 
 Drogue Cloud is intended to normalize IoT connectivity.
 [Drogue Doppelgänger](https://github.com/drogue-iot/drogue-doppelgaenger) is there to normalize IoT payload.
-And once you normalized payload, you also want to work with the data. And, some tasks are just so common, that
+And once you've normalized payload, you also want to work with the data. And some tasks are just so common that
 it makes sense to provide them out of the box. One might call that "IoT middleware", or "Digital Twin", as it
 works with the mirrored state of the devices. The name of the project is
 [Doppelgänger](https://en.wikipedia.org/wiki/Doppelg%C3%A4nger), and it mainly provides digital twin functionality.
@@ -61,13 +61,13 @@ works with the mirrored state of the devices. The name of the project is
 The goals of Doppelgänger are:
 
 * Work with any IoT connectivity layer: True, we focus on Drogue Cloud. But with a bit of code, it should easily be possible to attach it to e.g. a standard MQTT broker.
-* Normalize IoT payload: The tricky part. As you never know what data you get, unless you adopt some existing schema. And this is what we aim for. We do have a simple internal data model, which should be able to support existing data models, like OPC UA. And we like with the connectivity layer, we provide a translation layer to convert data into the Doppelgänger thing model.
+* Normalize IoT payload: The tricky part. As you never know what data you get, unless you adopt some existing schema. And this is what we aim for. We do have a simple internal data model, which should be able to support existing data models, like OPC UA. And like the connectivity layer, we provide a translation layer to convert data into the Doppelgänger thing model.
 * Provide out of the box functionality to work with data: Renaming properties, transforming values, evaluating state, reconciling between desired and actual state, aggregating data, building thing relations.
-* Provide APIs to the things state and configuration: Not only our own APIs, but also support APIs like OPC UA or Web of Things.
+* Provide APIs to the things state and configuration: not only our own APIs, but also support APIs like OPC UA or Web of Things.
 
 So, if these are the goals, what is the current state of the project? We do have a 0.1 release. That sounds early, and it is. But it is the right time to check it out, and come up with your feedback 😉.
 
-And just to make you a bit curious, here are a few features the 0.1 release already bring:
+And just to make you a bit curious, here are a few features the 0.1 release already brings:
 
 * IoT connectivity with Drogue Cloud
 * Updating state from JSON messages
@@ -77,7 +77,7 @@ And just to make you a bit curious, here are a few features the 0.1 release alre
 * Reconciliation of desired state based on actual state (e.g. drive the actual state towards the desired state using commands, with re-try and scripts)
 * Subscribing to the thing state using WebSocket and OPC UA
 
-We do have a set of [example snippets](https://github.com/drogue-iot/drogue-doppelgaenger/tree/main/examples), which might show this in more technical way.
+We do have a set of [example snippets](https://github.com/drogue-iot/drogue-doppelgaenger/tree/main/examples) which might show this in a more technical way.
 
 <figure>
 <img src="twin1.png" alt="Screenshot #1">
@@ -94,7 +94,7 @@ We do have a set of [example snippets](https://github.com/drogue-iot/drogue-dopp
 <figcaption>The same hierarchy in an OPC UA client</figcaption>
 </figure>
 
-And to give you a bit of context to the screenshots. This shows the web based debugger on a Doppelgänger instance we used for IoT hackathon at EclipseCon 2022. The data came from micro:bits, through a Bluetooth Mesh network, connected via gateways to Drogue Cloud. The OPC UA twin integration shows the same data, just using OPC UA as the API instead of a simple WebSocket API.
+And to give you a bit of context to the screenshots, this shows the web based debugger on a Doppelgänger instance we used for the IoT hackathon at EclipseCon 2022. The data came from micro:bits, through a Bluetooth Mesh network, connected via gateways to Drogue Cloud. The OPC UA twin integration shows the same data, just using OPC UA as the API instead of a simple WebSocket API.
 
 ## What's next
 
@@ -110,7 +110,7 @@ maybe some nice charts.
 
 ### Digital twin
 
-We only got started with digital twin. It is a 0.1 release, and a some basic tasks still need to be completed.
+We only got started with digital twin. It is a 0.1 release, and some basic tasks still need to be completed.
 But we already have some ideas on what to do next:
 
 * Supporting additional data models and APIs: [VSS](https://covesa.github.io/vehicle_signal_specification/), [Web of Things](https://www.w3.org/WoT/), [Asset Administration Shell](https://www.plattform-i40.de/IP/Redaktion/EN/Downloads/Publikation/Details_of_the_Asset_Administration_Shell_Part1_V3.html) come into our mind.
@@ -119,7 +119,7 @@ But we already have some ideas on what to do next:
 
 There are so many possibilities, and we would encourage you to
 [reach out to us](https://matrix.to/#/#drogue-iot:matrix.org), and let us know what is important for you. This helps us
-priorities, and give you the opportunity to steer the project into a direction that helps you most.
+prioritize, and gives you the opportunity to steer the project in a direction that helps you most.
 
 But of course, contribution in the form of code is also very welcome 😉 
 

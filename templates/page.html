@@ -16,26 +16,6 @@
     {{ page.content | safe }}
   </section>
 
-  <section id="comments" class="content">
-
-    <hr>
-
-    <h2>Comments</h2>
-
-    <div id='discourse-comments'></div>
-
-    <script type="text/javascript">
-        DiscourseEmbed = { discourseUrl: 'https://discourse.drogue.io/',
-            discourseEmbedUrl: '{{ get_url(path=page.path) | safe  }}' };
-
-        (function() {
-            var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
-            d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
-        })();
-    </script>
-  </section>
-
 </article>
 {% endblock content %}
 

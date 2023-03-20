@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Rebasing Drogue Device &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="For the past few weeks, we explored removing the allocator from drogue-device and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Rebasing Drogue Device" />
+<meta name="twitter:description" content="For the past few weeks, we explored removing the allocator from drogue-device and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Rebasing Drogue Device">
+<meta property="og:url" content="https://blog.drogue.io/drogue-device-rebase">
+<meta property="og:description" content="For the past few weeks, we explored removing the allocator from drogue-device and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Rebasing Drogue Device</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>11 minute read</span>
+        <meta itemprop="wordCount" content="2126">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-04-27'>27 April 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-device-rebase&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>For the past few weeks, we explored removing the allocator from <a href="https://github.com/drogue-iot/drogue-device">drogue-device</a> and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.</p>
+<span id="continue-reading"></span><h1 id="background">Background</h1>
+<p>After the initial <a href="https://blog.drogue.io/introducing-drogue-device/">announcement</a> of drogue-device, we've expanded the set of drivers that cover <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32l4/iot01a">WiFi</a> and <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32l0/lora-discovery">LoRa</a>, and have demonstrated that drogue-device can <a href="https://blog.drogue.io/drogue-device-to-cloud/">talk to drogue-cloud</a>. The actor model as improved after feedback from the Rust community, and we think that writing firmware composed of <code>Actors</code> is a nice way to program. </p>
+<p>At the same time, we sometimes touched on a issues related to memory management and missing async features in Rust, so we felt that the time was right to evaluate our approach so far and look at some of the challenges:</p>
+<ul>
+<li>Although Rust async is great, there are some features that makes async harder on embedded.</li>
+<li>The actor model allows implementing handlers for arbitrary messages for an actor. This flexibility of the current actor model requires a static allocator, and in turn prevents knowing memory usage of an application upfront.</li>
+<li>A driver package could end up using 2-3 actors, thereby significantly increasing the memory footprint of an application, causing issues when doing encryption and things that have a high peak memory use.</li>
+<li>With a goal of developing a bootloader and supporting firmware updates from drogue-cloud, and working with TLS, we needed to reduce the footprint.</li>
+</ul>
+<p>For the past few weeks, we have been working on a way to remove the static allocator from drogue-device, and re-use the ongoing <a href="https://github.com/embassy-rs/embassy">async embedded</a> effort driven by the community.</p>
+<p>But first, lets have a look at what a simple drogue-device application with a single &quot;counter actor&quot; looks like today:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>CounterActor {
+</span><span>    </span><span style="color:#bf616a;">counter</span><span>: </span><span style="color:#b48ead;">u32
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Increment;
+</span><span style="color:#b48ead;">struct </span><span>GetCount;
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Actor </span><span style="color:#b48ead;">for </span><span>CounterActor {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Configuration = ();
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">on_start</span><span>(</span><span style="color:#bf616a;">self</span><span>) -&gt; Completion&lt;</span><span style="color:#b48ead;">Self</span><span>&gt; {
+</span><span>        Completion::defer(async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.counter = </span><span style="color:#d08770;">0</span><span>;
+</span><span>        });
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>NotifyHandler&lt;Increment&gt; </span><span style="color:#b48ead;">for </span><span>CounterActor {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">on_notify</span><span>(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">message</span><span>: Increment) -&gt; Completion&lt;</span><span style="color:#b48ead;">Self</span><span>&gt; {
+</span><span>        Completion::defer(async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.counter += </span><span style="color:#d08770;">1</span><span>;
+</span><span>            </span><span style="color:#bf616a;">self
+</span><span>        });
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>RequestHandler&lt;GetCount&gt; </span><span style="color:#b48ead;">for </span><span>CounterActor {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Response = </span><span style="color:#b48ead;">u32</span><span>;
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">on_request</span><span>(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">message</span><span>: GetCount) -&gt; Response&lt;</span><span style="color:#b48ead;">Self::</span><span>Response&gt; {
+</span><span>        Request::defer(async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            (</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">self</span><span>.counter)
+</span><span>        });
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>MyDevice {
+</span><span>    </span><span style="color:#bf616a;">counter</span><span>: ActorContext&lt;CounterActor&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Device </span><span style="color:#b48ead;">for </span><span>MyDevice {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">mount</span><span>(&amp;</span><span style="color:#b48ead;">&#39;static </span><span style="color:#bf616a;">self</span><span>, _: DeviceConfiguration&lt;</span><span style="color:#b48ead;">Self</span><span>&gt;, </span><span style="color:#bf616a;">supervisor</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> Supervisor) {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> address = </span><span style="color:#bf616a;">self</span><span>.counter.</span><span style="color:#96b5b4;">mount</span><span>((), supervisor);
+</span><span>        address.</span><span style="color:#96b5b4;">notify</span><span>(Increment);
+</span><span>        </span><span style="color:#65737e;">// Pass address of to some other actor
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">configure</span><span>() -&gt; MyDevice {
+</span><span>    MyDevice {
+</span><span>        counter: ActorContext::new(CounterActor{ counter: </span><span style="color:#d08770;">0 </span><span>});
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">entry</span><span>]
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() -&gt; ! {
+</span><span>    device!(MyDevice = configure; </span><span style="color:#d08770;">1024</span><span>);
+</span><span>}
+</span></code></pre>
+<p>To keep the example small, additional actors that use the counter are left out. </p>
+<p>At the core is the Device, which holds on to a set of actors. An actor implements the <code>Actor</code> trait, and for every message type it handles, it implements a <code>NotifyHandler</code> or a <code>RequestHandler</code>. Messages are sent using an <code>Address</code> handle, that is produced when mounting an actor.</p>
+<p>For further introductions to drogue-device, have a look at our <a href="https://book.drogue.io/drogue-device/dev/concepts.html">book</a>.</p>
+<p>So, lets talk about the problems and how that impacts the framework.</p>
+<h2 id="problem-1-what-type-of-message-can-an-actor-handle">Problem 1: what type of message can an <code>Actor</code> handle?</h2>
+<p>In drogue-device, an actor may handle different types of messages. To handle a new message type, a <code>RequestHandler</code> or <code>NotifyHandler</code> trait implementation for the message type is written.</p>
+<p>Each actor in drogue-device is accompanied by a <code>ActorContext</code>, which owns the Actor and, amongst other things, a queue for the incoming messages.</p>
+<p>What type is the element in the queue? Because an <code>Actor</code> can have a <code>RequestHandler</code> implemented for any Rust type, it can be any type! Therefore, we cannot know at compile time the size of the queue. In practice this means that the message must be stored on a heap, so alloc and <code>Box</code> must be used in order to get a fixed size element.</p>
+<p>Solution:</p>
+<p>To avoid alloc, the <code>ActorContext</code> must know the type of messages beforehand. This requires putting some restrictions on an <code>Actor</code>: it must only handle messages of a single type. So, instead of writing a <code>RequestHandler</code> for different message types, the <code>Actor</code> trait tself defines an associated type <code>Message</code>, which the implementor uses to specify the message type. In addition, the message handler function signature for that type is part of the <code>Actor</code> trait.</p>
+<p>In short, instead of this:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">trait </span><span>Actor { }
+</span><span>
+</span><span style="color:#b48ead;">trait </span><span>RequestHandler&lt;M&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">on_request</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">message</span><span>: M);
+</span><span>}
+</span></code></pre>
+<p>The <code>RequestHandler</code> trait is removed, and the <code>Actor</code> trait is modified to this:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">trait </span><span>Actor {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Message;
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">on_message</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">message</span><span>: </span><span style="color:#b48ead;">Self::</span><span>Message);
+</span><span>}
+</span></code></pre>
+<p>But, all is not lost: To handle multiple message types, an enum can be used, and the implementation can use pattern matching to perform the appropriate action. The end result is that the size of incoming message queue is known at compile time, yay!</p>
+<h2 id="problem-2-what-is-the-size-of-an-async-function">Problem 2: what is the size of an async function?</h2>
+<p>The second problem was more difficult, and relates to how async-await works in Rust. So, first a little side-track.</p>
+<h3 id="futures-in-rust">Futures in Rust</h3>
+<p>The async-await syntax is quite compact:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>async </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">double_it</span><span>(</span><span style="color:#bf616a;">arg</span><span>: </span><span style="color:#b48ead;">u32</span><span>) -&gt; </span><span style="color:#b48ead;">u32 </span><span>{
+</span><span>    arg * </span><span style="color:#d08770;">2
+</span><span>}
+</span></code></pre>
+<p>This function gets translated to a 'unit of code' that can be executed (polled) later, aka. a <code>Future</code>. The way Rust does that is to generate a type that implements the <code>Future</code> trait. The future trait has a method that allows you to <code>poll</code> the future, which will drive it to completion, or allow you to register a <code>Waker</code> used to signal the runtime that the future can be polled again.</p>
+<p>To run the future, a runtime also called an  <code>executor</code> is used, and there are several of those out there. Drogue-device has had its own executor that runs actors, and each actor may have one &quot;current&quot; future that can be polled. The implementation simply iterates over all the actors, ask them if they have any futures stored that it should poll, and then polls them. </p>
+<p>There are many resources on this topic, such as the <a href="https://rust-lang.github.io/async-book/02_execution/01_chapter.html">async book</a>, or this excellent blog post on <a href="https://fasterthanli.me/articles/pin-and-suffering">pin and suffering</a>.</p>
+<h3 id="back-to-the-problem">Back to the problem</h3>
+<p>Well, the problem relates to the <em>size</em> of a future. When drogue device calls an <code>Actor</code>s <code>RequestHandler</code>for a given message, the <code>RequestHandler</code> returns a <code>Future</code>! However, the <em>size</em> of that <code>Future</code> depends on the code within it (so, it can know how much stack memory is needed by code).</p>
+<p>If you want to store a future (on the <code>ActorContext</code>) to be polled at some later point by the executor, how do you do that? By using alloc and putting the future in a <code>Box</code>!</p>
+<p>In drogue device this can be seen in the signature of <code>RequestHandler</code>, which returns a <code>Response</code>. What this does behind the scene is to use alloc and store the future in a <code>Box</code> so that it can be stored on the <code>ActorContext</code>. </p>
+<p>Solution:</p>
+<p>To resolve this we need to constrain the <code>Actor</code> even more: For each <code>Actor</code> implementation, we must know the size of the future it returns. This, in turn, means that it can only return a &quot;known&quot; future that the compiler can understand the size of.</p>
+<p>In rust stable, this means that all actors have to return something that implements the <code>Future</code> trait, and that just makes writing Actors too hard.</p>
+<p>The ideal feature needed to handle this is really &quot;Async Traits&quot; - being able to define async functions in traits (the <code>Actor</code> trait) and then have the compiler magically figure out which implementation is used and calculate the known size. </p>
+<p>Unfortunately, this will not come to Rust for some time. In Rust nightly, however, there are a few compiler features we can enable, that gives us the ability to use nice async {} blocks in the <code>Actor</code> implementations:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#![</span><span style="color:#bf616a;">feature</span><span>(min_type_alias_impl_trait)]
+</span><span>#![</span><span style="color:#bf616a;">feature</span><span>(impl_trait_in_bindings)]
+</span><span>#![</span><span style="color:#bf616a;">feature</span><span>(generic_associated_types)]
+</span><span>#![</span><span style="color:#bf616a;">feature</span><span>(type_alias_impl_trait)]
+</span></code></pre>
+<p>Combined, these allow us to use associated types in traits with lifetimes, in combination with <code>impl Future</code> as a type. </p>
+<p>To sum it up, instead of defining the trait like this and requiring alloc:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">trait </span><span>Actor {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">do_something</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; Box&lt;dyn Future&gt;;
+</span><span>}
+</span></code></pre>
+<p>One can do this instead:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">trait </span><span>Actor {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>TheFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;: Future&lt;Output = ()&gt; + </span><span style="color:#b48ead;">&#39;m</span><span>;
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">do_something</span><span>&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; </span><span style="color:#b48ead;">Self::</span><span>TheFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;;
+</span><span>}
+</span></code></pre>
+<p>And the resulting implementation can look like this:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>impl Actor for MyActor {
+</span><span>    type TheFuture&lt;&#39;m&gt; = impl Future&lt;Output = ()&gt; + &#39;m;
+</span><span>    fn do_something&lt;&#39;m&gt;(&amp;self) -&gt; Self::TheFuture&lt;&#39;m&gt; {
+</span><span>        async move {
+</span><span>            // Do some cool async-await stuff!
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Ok, so thats not too bad. It's still a bit away from fully async traits, but it will have to do.</p>
+<h2 id="drogue-device-reborn">Drogue-device reborn</h2>
+<p>With these things sorted out, we are able to remove the static allocator, at the cost of requiring Rust nightly features. </p>
+<p>Another project doing async rust embedded that were already going for Rust nightly was the <a href="https://github.com/embassy-rs/embassy">Embassy Project</a>. </p>
+<p>If we were anyway going to use nightly, what if we reused the executor and HAL from Embassy?</p>
+<h1 id="embassy">Embassy</h1>
+<p>Embassy is a project to make async/await a first-class option for embedded development. All the way from the Hardware Abstraction Layers (HAL), to the executor and running tasks. </p>
+<p>All interaction with peripherals can be done using async-await, which is a great model to work with when dealing with timers, interrupts and so on. One can write code like the following to wait for an interrupt with a timeout:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">let</span><span> interrupt_fut = </span><span style="color:#bf616a;">self</span><span>.irq.</span><span style="color:#96b5b4;">wait_for_rising_edge</span><span>();
+</span><span style="color:#b48ead;">let</span><span> timeout_fut = Timer::after(timeout);
+</span><span>
+</span><span style="color:#b48ead;">match </span><span style="color:#96b5b4;">select</span><span>(interrupt_fut, timeout_fut).await {
+</span><span>    Either::Left((r, _)) =&gt; </span><span style="color:#65737e;">// Handle interrupt
+</span><span>    Either::Right(_) =&gt; </span><span style="color:#65737e;">// Handle timeout
+</span><span>}
+</span></code></pre>
+<p>After playing around with Embassy and, we decided that using embassy as the foundation of our acter model was a viable approach.</p>
+<h1 id="drogue-device-rebased">Drogue-device rebased</h1>
+<p>Having modified drogue-device actor model and rebased it on embassy, we see the following improvements:</p>
+<ul>
+<li>Flash usage reduced by 2x</li>
+<li>Static RAM usage reduced by ~7x</li>
+</ul>
+<p>We also have good reasons to believe stack usage is somewhat reduced by only using Actors for the cases where shared access to some resource, or the ease of composition is desired.</p>
+<p>There are additional benefits like running drogue-device the host, which can simplify driver development.</p>
+<h1 id="so-what-does-it-look-like">So what does it look like?</h1>
+<p>So, lets take a look at what the example at the beginning of this post will look like when rewritten to the new world:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>CounterActor {
+</span><span>    </span><span style="color:#bf616a;">counter</span><span>: </span><span style="color:#b48ead;">u32
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">enum </span><span>CounterRequest {
+</span><span>    Increment,
+</span><span>    GetCount(</span><span style="color:#b48ead;">u32</span><span>),
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Actor </span><span style="color:#b48ead;">for </span><span>CounterActor {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Configuration = ();
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Message&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; = CounterRequest;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">type </span><span>StartFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; = </span><span style="color:#b48ead;">impl </span><span>Future&lt;Output = ()&gt; + </span><span style="color:#b48ead;">&#39;m</span><span>;
+</span><span>    fn on_start&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;(&amp;mut self) -&gt; Self::StartFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; {
+</span><span>        async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.counter = </span><span style="color:#d08770;">0</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">type </span><span>MessageFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; = </span><span style="color:#b48ead;">impl </span><span>Future&lt;Output = ()&gt; + </span><span style="color:#b48ead;">&#39;m</span><span>;
+</span><span>    fn on_message(&amp;mut self, message: Self::Message&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;) -&gt; Self::MessageFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; {
+</span><span>        async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#b48ead;">match</span><span> message {
+</span><span>                CounterRequest::Increment =&gt; </span><span style="color:#bf616a;">self</span><span>.counter += </span><span style="color:#d08770;">1</span><span>,
+</span><span>                CounterRequest::GetCount(c) =&gt; *c = </span><span style="color:#bf616a;">self</span><span>.counter,
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">derive</span><span>(Device)]
+</span><span style="color:#b48ead;">struct </span><span>MyDevice {
+</span><span>    </span><span style="color:#bf616a;">counter</span><span>: ActorContext&lt;</span><span style="color:#b48ead;">&#39;static</span><span>, CounterActor&gt;,
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">drogue</span><span>::</span><span style="color:#bf616a;">main</span><span>]
+</span><span>async </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">context</span><span>: DeviceContext&lt;MyDevice&gt;) {
+</span><span>    context.</span><span style="color:#96b5b4;">configure</span><span>(MyDevice {
+</span><span>        counter: ActorContext::new(CounterActor { counter: </span><span style="color:#d08770;">0 </span><span>}),
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> address = context.</span><span style="color:#96b5b4;">mount</span><span>(|</span><span style="color:#bf616a;">device</span><span>| {
+</span><span>        device.counter.</span><span style="color:#96b5b4;">mount</span><span>(())
+</span><span>    });
+</span><span>    address.</span><span style="color:#96b5b4;">notify</span><span>(CounterRequest::Increment).await;
+</span><span>}
+</span></code></pre>
+<p>Notice that the main function is now fully async, which in turn simplifies the rest of the work around configuring the device, mounting the actors and from then using the addresses to send messages to actors.</p>
+<p>You can also see the restrictions imposed in order to allow zero alloc: a single message type per actor, and using associated types to define the futures that are returned by the actor.</p>
+<p>Unit testing is also simplified:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>#[drogue::test]
+</span><span>async fn mytest(context: TestContext&lt;MyDevice&gt;) {
+</span><span>    // Do the stuff you&#39;d normally do in main + assertions
+</span><span>}
+</span></code></pre>
+<p>The <code>TestContext</code> has the same API as the <code>DeviceContext</code>, extended with methods to create async signals, dummy pins and a controlled shutdown of the test.</p>
+<h1 id="whats-next">Whats next?</h1>
+<p>At the time of writing, all the work is done in a <a href="https://github.com/drogue-iot/drogue-device-ng">separate repository</a>, with the goal of replacing the existing <a href="https://github.com/drogue-iot/drogue-device">drogue-device repository</a> once most of the remaining drivers and examples have been moved over. If you want to contribute to this effort, reach out in the drogue iot chat.</p>
+<h1 id="summary">Summary</h1>
+<p>For the past few weeks, we explored removing the static allocator from drogue-device and adapt drivers to a more restrictive Actor model. After several attempts, we could not find a way to do this without starting to use features from Rust nightly. Having moved to nightly, the barrier for adopting an existing framework like embassy as the foundation was lower. And the outcome have been all positive. The Embassy project have been very helpful in answering questions, discussing our problems and reviewing patches that we've submitted.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="background" href="https://blog.drogue.io/drogue-device-rebase/#background">Background</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="problem-1-what-type-of-message-can-an-actor-handle" href="https://blog.drogue.io/drogue-device-rebase/#problem-1-what-type-of-message-can-an-actor-handle">Problem 1: what type of message can an Actor handle?</a>
+          </li>
+          
+          <li>
+            <a data-for="problem-2-what-is-the-size-of-an-async-function" href="https://blog.drogue.io/drogue-device-rebase/#problem-2-what-is-the-size-of-an-async-function">Problem 2: what is the size of an async function?</a>
+          </li>
+          
+          <li>
+            <a data-for="drogue-device-reborn" href="https://blog.drogue.io/drogue-device-rebase/#drogue-device-reborn">Drogue-device reborn</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="embassy" href="https://blog.drogue.io/drogue-device-rebase/#embassy">Embassy</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="drogue-device-rebased" href="https://blog.drogue.io/drogue-device-rebase/#drogue-device-rebased">Drogue-device rebased</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="so-what-does-it-look-like" href="https://blog.drogue.io/drogue-device-rebase/#so-what-does-it-look-like">So what does it look like?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="whats-next" href="https://blog.drogue.io/drogue-device-rebase/#whats-next">Whats next?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="summary" href="https://blog.drogue.io/drogue-device-rebase/#summary">Summary</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

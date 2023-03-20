@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Drogue IoT</title>
+      <link>https://blog.drogue.io/</link>
+      <description>IoT &amp; Rust</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://blog.drogue.io/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Thu, 17 Nov 2022 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Drogue Cloud: Release 0.11.0</title>
+          <pubDate>Thu, 17 Nov 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-eleven/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-eleven/</guid>
+          <description>&lt;p&gt;This release is another release with a focus on improving existing functionality. The reason for this is simple: it works just fine. True, there is always room for improvement, but also to build upon what is
+there, so maybe, read on …&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Firmware updates, part 3: Firmware Delivery and Building</title>
+          <pubDate>Wed, 10 Aug 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/firmware-updates-part-3/</link>
+          <guid>https://blog.drogue.io/firmware-updates-part-3/</guid>
+          <description>&lt;p&gt;This is the third post in a series (&lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-1&#x2F;&quot;&gt;part 1&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-3&quot;&gt;part 2&lt;&#x2F;a&gt;) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We&#x27;ll explore the different parts of a complete end-to-end system with this capability.&lt;&#x2F;p&gt;
+&lt;p&gt;This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.10.0</title>
+          <pubDate>Wed, 06 Jul 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-ten/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-ten/</guid>
+          <description>&lt;p&gt;For this release, we had a focus on improving existing functionality. Mostly extending what was already there, but
+lacked a few features, knobs to tweak, or as postponed in previous releases. And yes, we fixed a few bugs too. &lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Firmware updates, part 2: Transporting the update</title>
+          <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/firmware-updates-part-2/</link>
+          <guid>https://blog.drogue.io/firmware-updates-part-2/</guid>
+          <description>&lt;p&gt;This is the second post in a series (&lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-1&#x2F;&quot;&gt;part 1&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-3&quot;&gt;part 3&lt;&#x2F;a&gt;) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We&#x27;ll explore the different parts of a complete end-to-end system with this capability.&lt;&#x2F;p&gt;
+&lt;p&gt;This post will be about the different networks and how you can manage firmware updates using them.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Firmware updates, part 1: Bootloader</title>
+          <pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/firmware-updates-part-1/</link>
+          <guid>https://blog.drogue.io/firmware-updates-part-1/</guid>
+          <description>&lt;p&gt;This is the first post in a series (&lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-2&#x2F;&quot;&gt;part 2&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-3&quot;&gt;part 3&lt;&#x2F;a&gt;) about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We&#x27;ll explore the different parts of a complete end-to-end system with this capability.&lt;&#x2F;p&gt;
+&lt;p&gt;This post will be about a fundamental component in such a system: the bootloader.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>The making of a PCB: Part 2</title>
+          <pubDate>Wed, 30 Mar 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/pcb-part-2/</link>
+          <guid>https://blog.drogue.io/pcb-part-2/</guid>
+          <description>&lt;p&gt;Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we&#x27;ll continue the story from &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;pcb-part-1&#x2F;&quot;&gt;last time&lt;&#x2F;a&gt; and look at the revised versions and how to scale up the production with PCB assembly and a test jig.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.9.0</title>
+          <pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-nine/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-nine/</guid>
+          <description>&lt;p&gt;A lot has happened since the last release of Drogue Cloud. Unfortunately, the only thing that seems to stick out
+is the ongoing war in Ukraine. And whatever you think might have led to this, there is never, ever a justification
+for bombing the civilian population of a country. So, in a situation like that, can we simply celebrate what we achieved
+in Drogue IoT, like we usually do? I believe the answer to that must be &amp;quot;yes&amp;quot;. Do what you think is right, but also
+focus on the positive! Because otherwise the terrorists have won!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>The making of a PCB: Part 1</title>
+          <pubDate>Fri, 18 Mar 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/pcb-part-1/</link>
+          <guid>https://blog.drogue.io/pcb-part-1/</guid>
+          <description>&lt;p&gt;For some time now, we&#x27;ve wanted to have a Printed Circuit Board (PCB) that we could use to demonstrate Drogue Device and Drogue Cloud. This is the first post in a series of post telling the tale of this journey.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Bluetooth Mesh</title>
+          <pubDate>Mon, 28 Feb 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/bluetooth-mesh/</link>
+          <guid>https://blog.drogue.io/bluetooth-mesh/</guid>
+          <description>&lt;p&gt;Bluetooth Mesh is a brokerless system for devices to communicate within
+a local area. We&#x27;ve implemented a Bluetooth Mesh stack, in Rust, on top
+of Drogue-Device, our async framework for embedded development.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.8.0</title>
+          <pubDate>Wed, 01 Dec 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-eight/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-eight/</guid>
+          <description>&lt;p&gt;This is our &amp;quot;end of the year&amp;quot; release, and we did want to focus on improving what we already have, rather than
+introducing a bunch of new functionality, before leaving for the holiday season&#x2F;Christmas. So we put a lot of
+effort into cleaning up, filling some gaps that we identified, and polish the current functionality.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Introducing Drogue Cloud Server</title>
+          <pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/introducing-drogue-server/</link>
+          <guid>https://blog.drogue.io/introducing-drogue-server/</guid>
+          <description>&lt;p&gt;We love Kubernetes and the standardized API it brings to deploying applications in the cloud. For running a local instance of Drogue Cloud, &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;minikube-roundtrip&#x2F;&quot;&gt;minikube&lt;&#x2F;a&gt; is already a great alternative. But sometimes, you just want to have an easy getting started experience, to reduce turnaround time when testing changes to Drogue Cloud itself, or for running in environments where Kubernetes is not available.&lt;&#x2F;p&gt;
+&lt;p&gt;Read on to learn how you can run Drogue Cloud standalone.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>State of LoRaWAN support</title>
+          <pubDate>Tue, 28 Sep 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/lorawan-update/</link>
+          <guid>https://blog.drogue.io/lorawan-update/</guid>
+          <description>&lt;p&gt;Earlier we&#x27;ve seen examples of drogue device using LoRaWAN using an STM32 discovery board. Since then, the hardware support in the community has improved even more.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.7.0</title>
+          <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-seven/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-seven/</guid>
+          <description>&lt;p&gt;The 0.7 release cycle ran through summer and with that, two things happened: people got on vacation, and
+Google Summer of Code was going on. So instead of forcing out a release, we decided to just wait and release at a later
+time. By the way, a decision we discussed during our open community calls: &lt;a href=&quot;https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com&quot;&gt;come and join&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Using X509 Client certificates for devices authentication with drogue-cloud</title>
+          <pubDate>Thu, 26 Aug 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drg-trust/</link>
+          <guid>https://blog.drogue.io/drg-trust/</guid>
+          <description>&lt;p&gt;This article shows how you can setup X.509 certificates to authenticate devices connecting to Drogue Cloud and an example of how &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;drogue-iot&#x2F;drg&quot;&gt;&lt;code&gt;drg&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; makes it easy.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Introducing Websocket integration: another way to consume drogue events</title>
+          <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/websocket-integration/</link>
+          <guid>https://blog.drogue.io/websocket-integration/</guid>
+          <description>&lt;p&gt;We recently added a websocket endpoint in drogue cloud, to easily get a stream of events for an application, using the well-known websocket protocol.
+Let&#x27;s have a look and build a small demo apps to consume events. &lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>(Re)introducing Drogue TLS</title>
+          <pubDate>Thu, 01 Jul 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/secure-device-to-cloud/</link>
+          <guid>https://blog.drogue.io/secure-device-to-cloud/</guid>
+          <description>&lt;p&gt;As we all know, the S in IoT stands for security. However, one reason IoT has a bad security track record is that it consumes a lot of resources and is not that easy to setup. One piece of this puzzle is having good client side libraries for doing TLS. Read on to learn more about how you can secure your device to cloud communication.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.6.0</title>
+          <pubDate>Wed, 30 Jun 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-six/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-six/</guid>
+          <description>&lt;p&gt;Drogue Cloud 0.6.0 ran a bit late. But, it is ready when it is ready! This time, the focus was more on improving on what we already have. And taking a look back, we improved a lot.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Implement payload mapper with Func and Quarkus</title>
+          <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/quarkus-func-payload-mapper/</link>
+          <guid>https://blog.drogue.io/quarkus-func-payload-mapper/</guid>
+          <description>&lt;p&gt;In &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;consume-drogue-messages&#x2F;&quot;&gt;the previous post&lt;&#x2F;a&gt; we introduced &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;boson-project&#x2F;func&quot;&gt;Func project&lt;&#x2F;a&gt; as a very useful framework for writing serverless functions in the Knative world. The post ended with the question what can we do with it? So let&#x27;s explore one practical use case now.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Device in the browser</title>
+          <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-device-wasm/</link>
+          <guid>https://blog.drogue.io/drogue-device-wasm/</guid>
+          <description>&lt;p&gt;What does embedded development and WebAssembly have in common? Turns out it&#x27;s quite a lot! Read on to see how Drogue Device can run in your browser.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Consuming Drogue messages with a Knative Service</title>
+          <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/consume-drogue-messages/</link>
+          <guid>https://blog.drogue.io/consume-drogue-messages/</guid>
+          <description>&lt;p&gt;For most IoT developers, drogue-cloud is designed to be used &amp;quot;as a
+service&amp;quot;. But if you have admin access to the cluster on which
+drogue-cloud is running, i.e. you installed it yourself on &lt;a href=&quot;https:&#x2F;&#x2F;minikube.sigs.k8s.io&#x2F;&quot;&gt;minikube&lt;&#x2F;a&gt;
+or &lt;a href=&quot;https:&#x2F;&#x2F;kind.sigs.k8s.io&#x2F;&quot;&gt;kind&lt;&#x2F;a&gt;, it&#x27;s possible to &amp;quot;extend&amp;quot; the platform by triggering a
+function each time an event from a device is processed.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.5.0</title>
+          <pubDate>Wed, 12 May 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-five/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-five/</guid>
+          <description>&lt;p&gt;Today we released Drogue Cloud 0.5.0. It brings together a lot of things that have been cooking for a while. &lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>The Book: documentation and workshops</title>
+          <pubDate>Thu, 06 May 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/the-book-workshops/</link>
+          <guid>https://blog.drogue.io/the-book-workshops/</guid>
+          <description>&lt;p&gt;Writing code is easy, writing documentation is hard. True, some people might disagree with that. We wanted to make it
+easier for everyone to understand what we already have, and how it works. As we have multiple major topics
+(embedded and cloud), we need a modular way of structuring our documentation. Here is our approach. &lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Rebasing Drogue Device</title>
+          <pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-device-rebase/</link>
+          <guid>https://blog.drogue.io/drogue-device-rebase/</guid>
+          <description>&lt;p&gt;For the past few weeks, we explored removing the allocator from &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;drogue-iot&#x2F;drogue-device&quot;&gt;drogue-device&lt;&#x2F;a&gt; and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>drg for easy drogue cloud administration tasks</title>
+          <pubDate>Fri, 16 Apr 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drg-guided-tour/</link>
+          <guid>https://blog.drogue.io/drg-guided-tour/</guid>
+          <description>&lt;p&gt;A guided tour of &lt;code&gt;drg&lt;&#x2F;code&gt;, the command line client that aims to make your life easier when interracting with a &lt;code&gt;drogue-cloud&lt;&#x2F;code&gt; instance.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.4.0</title>
+          <pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-cloud-zero-four/</link>
+          <guid>https://blog.drogue.io/drogue-cloud-zero-four/</guid>
+          <description>&lt;p&gt;Today we released Drogue Cloud 0.4.0. This is a huge step forward in so many areas, let&#x27;s take a look.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Drogue Cloud: Release 0.3.0</title>
+          <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/release-030/</link>
+          <guid>https://blog.drogue.io/release-030/</guid>
+          <description>&lt;p&gt;So far, we didn&#x27;t really &lt;em&gt;release&lt;&#x2F;em&gt; anything. We created tagged versions, so that you don&#x27;t need to rely on &lt;code&gt;latest&lt;&#x2F;code&gt;,
+which might change any second. We had a &lt;em&gt;release&lt;&#x2F;em&gt; pipeline in the CI. Still, it just didn&#x27;t feel &lt;em&gt;ready&lt;&#x2F;em&gt; enough.
+This time it is different.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>From drogue-device to drogue-cloud</title>
+          <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/drogue-device-to-cloud/</link>
+          <guid>https://blog.drogue.io/drogue-device-to-cloud/</guid>
+          <description>&lt;p&gt;In previous posts we&#x27;ve seen how to &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-cloud-side-of-things&#x2F;&quot;&gt;run drogue-cloud&lt;&#x2F;a&gt;, how to &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-lora&#x2F;&quot;&gt;use LoRaWAN in rust&lt;&#x2F;a&gt;, and the introduction of the &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;introducing-drogue-device&#x2F;&quot;&gt;drogue-device&lt;&#x2F;a&gt;. In this post, we&#x27;ll tie this together and walk through the process of running LoRa on drogue-device, sending data to drogue-cloud. &lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>All things Rust: Frontend, Backend, Embedded</title>
+          <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/all-things-rust/</link>
+          <guid>https://blog.drogue.io/all-things-rust/</guid>
+          <description>&lt;p&gt;You might have noticed, we talk about Rust a lot. Mostly in the context of embedded programming. However, we also
+have a few bits and pieces in &lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-cloud-side-of-things&#x2F;&quot;&gt;the cloud side of things&lt;&#x2F;a&gt;. If you have
+a device that gathers data, you might want to send that data somewhere for further processing and storage. Now, if we
+are using Rust to implement the embedded side, why not use it on the backend as well?&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Introducing Drogue Device</title>
+          <pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/introducing-drogue-device/</link>
+          <guid>https://blog.drogue.io/introducing-drogue-device/</guid>
+          <description>&lt;p&gt;Trying to bring reusable and efficient components to embedded Rust has been a challenge for our team.
+We think we&#x27;ve started to make headway, and want to introduce the &lt;code&gt;Drogue Device&lt;&#x2F;code&gt; project.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Coming up: Google Summer of Code 2021</title>
+          <pubDate>Mon, 25 Jan 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/coming-up-gsoc-2021/</link>
+          <guid>https://blog.drogue.io/coming-up-gsoc-2021/</guid>
+          <description>&lt;p&gt;Good news, everyone! &lt;a href=&quot;https:&#x2F;&#x2F;summerofcode.withgoogle.com&#x2F;&quot;&gt;Google Summer of Code&lt;&#x2F;a&gt; 2021 is coming up. This gives you
+the chance to throw yourself at some horrifying tech problems, learn some new skills, and maybe get to know a few more
+memes. We are participating, how about you?&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Command your devices</title>
+          <pubDate>Thu, 21 Jan 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/command-your-devices/</link>
+          <guid>https://blog.drogue.io/command-your-devices/</guid>
+          <description>&lt;p&gt;So far when we talked about serverless IoT cloud we focused only on one way communication, devices sending &lt;em&gt;telemetry&lt;&#x2F;em&gt; data to the cloud.
+But in order to have a complete IoT solution, we need to be able to control our devices as well, by sending &lt;em&gt;commands&lt;&#x2F;em&gt; back to them.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Rust and LoRa</title>
+          <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/rust-and-lora/</link>
+          <guid>https://blog.drogue.io/rust-and-lora/</guid>
+          <description>&lt;p&gt;LoRa is a low power long range wireless protocol that operates in a lower frequency spectrum than WiFi, ZigBee and Bluetooth. This enables IoT use cases not possible with the shorter range technologies. And, you can use Rust!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>&quot;Hey Rodney, … restart console pods&quot;</title>
+          <pubDate>Fri, 18 Dec 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/hey-rodney/</link>
+          <guid>https://blog.drogue.io/hey-rodney/</guid>
+          <description>&lt;p&gt;Pushing temperature readings in JSON structures to the cloud is fun, but more fun is to restart your pods by saying:
+&amp;quot;Hey Rodney, …&amp;quot;. It also is a nice demo, and a good test, to see what fails when your &lt;code&gt;Content-Type&lt;&#x2F;code&gt; is &lt;code&gt;audio&#x2F;wav&lt;&#x2F;code&gt;
+instead of &lt;code&gt;application&#x2F;json&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>More Rust &amp; Async (and hand-rolled PWM)</title>
+          <pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/more-async-and-pwm/</link>
+          <guid>https://blog.drogue.io/more-async-and-pwm/</guid>
+          <description>&lt;p&gt;If we start living the async lifestyle, we can potentially get more
+use out of our limited hardware resources.  Maybe not, but it&#x27;s worth
+exploring. Let&#x27;s explore.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Rust on the BBC micro:bit</title>
+          <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/rust-and-microbit/</link>
+          <guid>https://blog.drogue.io/rust-and-microbit/</guid>
+          <description>&lt;p&gt;The BBC micro:bit is a popular development kit often used to teach kids how fun programming can be. Lets see how we can hook it up to the cloud!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Rust and Async (on embedded devices)</title>
+          <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/rust-and-async/</link>
+          <guid>https://blog.drogue.io/rust-and-async/</guid>
+          <description>&lt;p&gt;&lt;code&gt;async&lt;&#x2F;code&gt;&#x2F;&lt;code&gt;await&lt;&#x2F;code&gt; within Rust is a convenient way to gain parallelism,
+even on an embedded device where we ostensibly have exactly one userland
+thread by default.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Testing IoT services with Minikube, Knative and Rust</title>
+          <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/minikube-roundtrip/</link>
+          <guid>https://blog.drogue.io/minikube-roundtrip/</guid>
+          <description>&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;minikube.sigs.k8s.io&#x2F;docs&#x2F;&quot;&gt;Minikube&lt;&#x2F;a&gt; is a convenient tool
+for developing cloud services on your laptop, but how can you access
+them from your IoT device? In this article, we&#x27;ll walk through
+deploying the
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;drogue-iot&#x2F;drogue-cloud&quot;&gt;drogue-cloud&lt;&#x2F;a&gt; project on
+minikube and then use some drogue crates to post data to its knative
+endpoint via an ESP8266 WiFi module.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Digital Twins, and how they can help</title>
+          <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/digital-twins/</link>
+          <guid>https://blog.drogue.io/digital-twins/</guid>
+          <description>&lt;p&gt;Exchanging messages with devices is great. As I tried to explain in the last blog post about
+&lt;a href=&quot;https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-cloud-side-of-things&#x2F;&quot;&gt;the cloud side of things&lt;&#x2F;a&gt;, having a modular system, and
+normalizing the transport protocol can make things a lot easier. However, exchanging messages is only the first
+step towards an IoT application.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>The cloud side of things</title>
+          <pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/the-cloud-side-of-things/</link>
+          <guid>https://blog.drogue.io/the-cloud-side-of-things/</guid>
+          <description>&lt;p&gt;Up until now, we have focused on &amp;quot;Rust on embedded devices&amp;quot;, at least when it comes to writing blog posts. Let&#x27;s
+change that.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Meet Rodney</title>
+          <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/meet-rodney/</link>
+          <guid>https://blog.drogue.io/meet-rodney/</guid>
+          <description>&lt;p&gt;&lt;em&gt;Non-technical post&lt;&#x2F;em&gt; -- Hey, we have a new logo!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Motion &amp; MPU-6050</title>
+          <pubDate>Mon, 19 Oct 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/mpu-6050/</link>
+          <guid>https://blog.drogue.io/mpu-6050/</guid>
+          <description>&lt;p&gt;While the &lt;em&gt;S&lt;&#x2F;em&gt; in IoT stands for &amp;quot;security&amp;quot;, the &lt;em&gt;T&lt;&#x2F;em&gt; stands for &amp;quot;things&amp;quot;, and things move. 
+Wouldn&#x27;t it be nice to know how they move, exactly?&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Nom Parser</title>
+          <pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/nom-parser/</link>
+          <guid>https://blog.drogue.io/nom-parser/</guid>
+          <description>&lt;p&gt;Routinely we have to deal with recognizing patterns within text or byte streams. 
+While LL(k) and LALR are common types of parsers, the &lt;a href=&quot;https:&#x2F;&#x2F;crates.io&#x2F;crates&#x2F;nom&quot;&gt;nom crate&lt;&#x2F;a&gt; brings &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Parser_combinator&quot;&gt;parser combinators&lt;&#x2F;a&gt; to the embedded Rust world.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>eS-WiFi and SPI</title>
+          <pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/eswifi/</link>
+          <guid>https://blog.drogue.io/eswifi/</guid>
+          <description>&lt;p&gt;There&#x27;s a lot of variety in the embedded world. 
+While we&#x27;ve implemented the &lt;a href=&quot;&#x2F;wifi-offload&#x2F;&quot;&gt;ESP8266 WiFi-offload board over USART&lt;&#x2F;a&gt; last time, now we&#x27;re doing the &lt;a href=&quot;https:&#x2F;&#x2F;www.digikey.com&#x2F;en&#x2F;products&#x2F;detail&#x2F;inventek-systems&#x2F;ISM43362-M3G-L44-E-C6-2-1-8&#x2F;7070042&quot;&gt;Inventek eS-WiFi&lt;&#x2F;a&gt; over the SPI bus.
+Let&#x27;s explore some of the differences.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>It&#x27;s a Matter of Time</title>
+          <pubDate>Mon, 05 Oct 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/matter-of-time/</link>
+          <guid>https://blog.drogue.io/matter-of-time/</guid>
+          <description>&lt;p&gt;In the embedded world, quite often you don&#x27;t have a &lt;em&gt;wall clock&lt;&#x2F;em&gt; sort of clock. 
+You may have something that can reckon the passage of time, though. 
+The various current solutions for managing time within embedded Rust has yet to be completely abstracted.
+We leverage some up-and-coming libraries to help paper over the differences.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Creating an ESP programmer</title>
+          <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/esp-programmer/</link>
+          <guid>https://blog.drogue.io/esp-programmer/</guid>
+          <description>&lt;p&gt;Getting started with an &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;ESP8266#Pinout_of_ESP-01&quot;&gt;ESP-01&lt;&#x2F;a&gt; isn&#x27;t one of the easiest
+things. At least if you are not used to embedded systems. It is a nice solution though to add Wi-Fi
+capabilities to an existing platform.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Down the Yak Hole of TLS</title>
+          <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/yak-hole-of-tls/</link>
+          <guid>https://blog.drogue.io/yak-hole-of-tls/</guid>
+          <description>&lt;p&gt;We&#x27;ve recently gotten TLS functional for embedded systems in Rust. 
+TLS (Transport Layer Security) is one of the backbones to secure communications over TCP&#x2F;IP, helping protect data in-flight between two parties.
+There&#x27;s a lot of moving parts involved in bringing easy-to-use functional cryptography to small 32-bit ARM Cortex-M devices. 
+Let&#x27;s dive in, shall we?&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>WiFi Offloading</title>
+          <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/wifi-offload/</link>
+          <guid>https://blog.drogue.io/wifi-offload/</guid>
+          <description>&lt;p&gt;My recent work has been around Cortex-M embedded development using Rust and &lt;a href=&quot;https:&#x2F;&#x2F;rtic.rs&#x2F;&quot;&gt;RTIC&lt;&#x2F;a&gt;.
+I&#x27;m using a handy little development board in the form of the &lt;a href=&quot;https:&#x2F;&#x2F;www.digikey.com&#x2F;product-detail&#x2F;en&#x2F;stmicroelectronics&#x2F;NUCLEO-F401RE&#x2F;497-14360-ND&#x2F;4695525&quot;&gt;STM Nucleo-F401RE&lt;&#x2F;a&gt;.
+Unfortunately, it&#x27;s handiness stops as soon as you want to communicate with TCP over WiFi, because it lacks WiFi.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Rust Embedded Layer Cake</title>
+          <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/rust-embedded-layer-cake/</link>
+          <guid>https://blog.drogue.io/rust-embedded-layer-cake/</guid>
+          <description>&lt;p&gt;As noted in the first post, I&#x27;m working towards doing more IoT using Rust
+in an embedded ARM Cortex-M world.  Thankfully, the Rust compiler leverages
+LLVM and can target quite a few different processors. &lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>First Steps in IoT</title>
+          <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://blog.drogue.io/first-steps-in-iot/</link>
+          <guid>https://blog.drogue.io/first-steps-in-iot/</guid>
+          <description>&lt;p&gt;Welcome to the &lt;em&gt;Drogue IoT&lt;&#x2F;em&gt; blog. This is where I intend to document 
+my progress through discovering how to build enterprise-grade IoT device
+systems using Rust and ARM Cortex-M MCUs.&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

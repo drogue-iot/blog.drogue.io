@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Firmware updates, part 3: Firmware Delivery and Building &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="This is the third post in a series (part 1, part 2) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We&#x27;ll explore the different parts of a complete end-to-end system with this capability.
+This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Firmware updates, part 3: Firmware Delivery and Building" />
+<meta name="twitter:description" content="This is the third post in a series (part 1, part 2) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We&#x27;ll explore the different parts of a complete end-to-end system with this capability.
+This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Firmware updates, part 3: Firmware Delivery and Building">
+<meta property="og:url" content="https://blog.drogue.io/firmware-updates-part-3">
+<meta property="og:description" content="This is the third post in a series (part 1, part 2) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We&#x27;ll explore the different parts of a complete end-to-end system with this capability.
+This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Firmware updates, part 3: Firmware Delivery and Building</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>9 minute read</span>
+        <meta itemprop="wordCount" content="1653">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-08-10'>10 August 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;firmware-updates-part-3&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>This is the third post in a series (<a href="https://blog.drogue.io/firmware-updates-part-1/">part 1</a>, <a href="https://blog.drogue.io/firmware-updates-part-3">part 2</a>) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.</p>
+<p>This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.</p>
+<span id="continue-reading"></span><h1 id="background">Background</h1>
+<p>In the <a href="https://blog.drogue.io/firmware-updates-part-2/">previous post</a>, we explored the ways which you can transport the firmware onto devices across different transports.</p>
+<p>Now we're going to look at the final steps: building and delivering the firmware, based on the update protocol defined by <a href="https://github.com/drogue-iot/embedded-update"><code>embedded-update</code></a>. First, let's keep in mind what types of devices we're updating:</p>
+<ul>
+<li>No operating system</li>
+<li>Limited/reduced network connectivity</li>
+<li>Small amounts of RAM</li>
+</ul>
+<p>For devices that are not as light weight and can run Linux, there are other options such as <a href="https://project-flotta.io/">Flotta</a> that might be a better fit.</p>
+<p>Supporting firmware updates in Drogue IoT is something we've been thinking about for a while, since it's a common piece of any IoT infrastructure. There are many ways to distribute software, but there are a few important properties when dealing with tiny IoT devices:</p>
+<ul>
+<li>Connectivity - embedded devices may not be connected at all times and not able to retrieve the entire firmware in one batch</li>
+<li>Protocol support - embedded devices may use a wide rang of different protocols as discussed in the <a href="https://blog.drogue.io/firmware-updates-part-2">previous post</a>.</li>
+<li>Footprint - memory on devices and bandwidth may be limited, therefore the protocol must impose minimal overhead</li>
+</ul>
+<p>Our first attempt was to offload this functionality to an existing project like <a href="https://www.eclipse.org/hawkBit">Eclipse Hawkbit</a>. The Eclipse Hawkbit update protocol is stateless (server processes requests independently) and allows devices to fetch firmware in chunks as requested by device. One downside is that Eclipse Hawkbit update service only supports HTTP with a JSON protocol, not really suitable for tiny devices. Moreover, it requires maintaining the firmware state of a device separately from the device management in Drogue Cloud.</p>
+<p>With the telemetry and command API of Drogue Cloud, we have all the building blocks needed to transport the firmware. So instead of using Hawkbit directly, we can define an update protocol using Drogue Cloud connectivity as a transport and use the Drogue Cloud integration APIs for our update service. This unlocks some interesting use cases:</p>
+<ul>
+<li>The service can run in a private network not exposed to the public</li>
+<li>The service can integrate with different backends, such as Eclipse Hawkbit</li>
+<li>The service can provide updates over any protocol supported by Drogue Cloud</li>
+</ul>
+<p>Another lesson in our experimentation with Rust on embedded devices, is that writing Rust feels like writing software running on a server. This had some implications on how we thought about software for embedded: what if we could apply the same mechanisms and tooling we use for building &quot;normal&quot; software to firmware for embedded devices? After all, projects like <a href="https://tekton.dev">Tekton</a> allow you to define a CI/CD pipeline that builds any software using container images on Kubernetes. Moreover, container registries are used to store and retrieve software, so maybe we could store firmware in those registries as well?</p>
+<p>The end result after exploring the above ideas is an add-on to Drogue Cloud named Drogue Ajour (à jour =&gt; updated).</p>
+<p>To learn more about Drogue Ajour than what is covered by this article, have a look at <a href="https://book.drogue.io/drogue-ajour/dev/index.html">the documentation</a>. As with all things in Drogue IoT, the code is open source, and available <a href="https://github.com/drogue-iot/drogue-ajour">on github</a>.</p>
+<h2 id="drogue-ajour">Drogue Ajour</h2>
+<p>Drogue Ajour is a firmware update and build service for tiny devices connected to Drogue IoT Cloud. It supports a wide range of IoT protocols and uses a low footprint update protocol.</p>
+<figure>
+    <img src="ajour1.png" alt="Drogue Ajour Console - Overview" />
+    <figcaption>Drogue Ajour Console - Overview</figcaption>
+</figure>
+<p>It offers:</p>
+<ul>
+<li>Update service - delivering firmware updates to devices connected to Drogue Cloud</li>
+<li>Protocol support - any protocol supported by Drogue Cloud (HTTP, MQTT, CoAP, LoRaWAN)</li>
+<li>Firmware build - building firmware and storing it in a firmware repository.
+<ul>
+<li>RESTful API for inspecting and triggering builds</li>
+</ul>
+</li>
+<li>Management console to inspect firmware build and roll-out status for all your Drogue Cloud devices</li>
+</ul>
+<p>It is built on top of:</p>
+<ul>
+<li><a href="https://drogue.io"><em>Drogue Cloud</em></a> - For authentication and the connectivity layer for devices</li>
+<li><a href="https://tekton.dev"><em>Tekton</em></a> - For defining a CI/CD pipeline for firmware builds</li>
+</ul>
+<p>You can run Drogue Ajour locally or on a Kubernetes cluster. With it, you can build a firmware delivery pipeline for your devices in Drogue Cloud.</p>
+<h3 id="overview">Overview</h3>
+<p>Drogue Ajour is composed of 2 main components serving different functions:</p>
+<ul>
+<li><em>Firmware Delivery</em> - Transporting firmware updates to devices</li>
+<li><em>Firmware Build</em> - Building and storing firmware artifacts</li>
+</ul>
+<p>Of these, only the firmware delivery component is mandatory.</p>
+<figure>
+    <img src="architecture.png" alt="Drogue Ajour Architecture" />
+    <figcaption>Drogue Ajour Architecture</figcaption>
+</figure>
+<h2 id="firmware-delivery">Firmware delivery</h2>
+<p>Firmware delivery is the main functionality of Drogue Ajour. This involves transporting the firmware to devices using a CBOR-based protocol (Concise Binary Object Representation). Although more compact formats than CBOR exists, it is an IETF standard as well as having implementations in <a href="https://cbor.io/impls.html">many languages</a>. The CBOR messages are designed for minimal overhead, and to allow devices to consume updates at their own pace.</p>
+<p>The update service can use the file system, Eclipse Hawkbit or a Docker/Container registry for retrieving firmware.</p>
+<p>To enable firmware updates, the Drogue Cloud <code>Application</code> and <code>Device</code> schema is extended with a section for specifying the firmware source, which looks like this for a container registry:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>spec:
+</span><span>    firmware:
+</span><span>        container:
+</span><span>            image: my-firmware:latest
+</span></code></pre>
+<p>The container image reference is relative to the container registry configured for the Drogue Ajour instance. A device reports its firmware status periodically to Drogue Ajour using the 'dfu' Drogue Cloud channel. The update service will look for messages on this channel, and compare the status with the latest firmware stored in the image. If needed, it will proceed by sending updates back to the device using the Drogue Cloud command API. If the device is still waiting for a command (usually within a timeout), or is connecting at a later time, it will receive the firmware data corresponding to it's status message.</p>
+<figure>
+    <img src="ajour4.png" alt="Drogue Ajour Console - Device View" />
+    <figcaption>Drogue Ajour Console - Device View</figcaption>
+</figure>
+<p>The update protocol is stateless, meaning that Drogue Ajour will track only send out firmware updates to each individual status update reported by devices. NOTE: In the event that devices are not awaiting command messages with a sufficiently long timeout, duplicate messages may occur, so the timeout is an important consideration to avoid that depending on how the device is connected.</p>
+<h2 id="firmware-build">Firmware build</h2>
+<p>This is an optional component that allow you to build your firmware from source and make it available to the delivery component for rolling out to your devices (aka Source-To-Firmware).</p>
+<p>Drogue Ajour provides Tekton pipeline definitions that can build firmware images in the expected format and push them to container registries.</p>
+<figure>
+    <img src="ajour2.png" alt="Drogue Ajour Console - Build View" />
+    <figcaption>Drogue Ajour Console - Build View</figcaption>
+</figure>
+<h3 id="build-specification">Build specification</h3>
+<p>The specification put on the <code>Application</code> and <code>Device</code> for delivering firmware is extended to add build capabilities, but this is only available for firmware stored in container images at the moment:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>spec:
+</span><span>    firmware:
+</span><span>        container:
+</span><span>            image: my-firmware:latest
+</span><span>            build:
+</span><span>                # An image reference to a container image used to build your project
+</span><span>                image: docker.io/myorg/firmware-builder-image:latest
+</span><span>                source:
+</span><span>                    git:
+</span><span>                        # Git repository URI
+</span><span>                        uri: https://github.com/myorg/example-project
+</span><span>                        # Project folder within repository
+</span><span>                        project: repo/sub/folder
+</span><span>                        # Git revision to use
+</span><span>                        rev: main
+</span><span>                # Arguments passed to the builder image
+</span><span>                args:
+</span><span>                - flag1
+</span><span>                - flag2
+</span><span>                artifact:
+</span><span>                    # Path to artifact generated by builder image
+</span><span>                    path: myartifact.bin
+</span></code></pre>
+<p>The builder image contains the tool chain required to build your project. Clearly, a public service offering Drogue Ajour could be exploited to run bitcoin mining, so to avoid that the Drogue Ajour installation can be configured with a set of applications that are allowed to build firmware.</p>
+<p>NOTE: It doesn't have to be a Rust project! It can be any project capable of producing an binary artifact to be delivered to a device as long as your builder image can build it.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>We've explored the options for providing an update service for the tiny edge. We've looked at the requirements for such as service, and announced the Drogue Ajour add-on for Drogue Cloud.</p>
+<p>To learn more about Drogue Ajour, have a look at <a href="https://book.drogue.io/drogue-ajour/dev/index.html">the documentation</a>
+The <a href="https://sandbox.drogue.cloud">Drogue Cloud Sandbox</a> is already running an instance of Drogue Ajour, and you can access the console <a href="https://firmware.sandbox.drogue.cloud">here</a> using the same credentials as for the Drogue Cloud Sandbox.</p>
+<p>There are still improvements to be made, and here are some of them</p>
+<ul>
+<li>Provide device examples for Zephyr doing firmware updates</li>
+<li>Support pushing build artifacts to Eclipse Hawkbit</li>
+<li>Retrieving build logs for builds in order to debug build failures</li>
+<li>...</li>
+</ul>
+<h2 id="final-notes">Final notes</h2>
+<p>In this article series, we've gone through the entire chain from bootloader to firmware to gateway to the cloud, and shown you all the bits you can use to get firmware updates. In the below video you can see it all coming together:</p>
+<ul>
+<li>The bootloader from <a href="https://blog.drogue.io/firmware-updates-part-1/">part 1</a></li>
+<li>The updater application from <a href="https://blog.drogue.io/firmware-updates-part-2/">part 2</a></li>
+<li>The firmware update service from this post.</li>
+</ul>
+<p><a href="https://youtu.be/l2pNJQOUbKs"><img src="https://img.youtube.com/vi/l2pNJQOUbKs/0.jpg" alt="Firmware updates end to end" /></a></p>
+<p>If you have feedback or questions about any of the articles in this series, please reach out to us in the <a href="https://discourse.drogue.io/">forum</a> or in the <a href="https://matrix.to/#/#drogue-iot:matrix.org">chat</a>.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="background" href="https://blog.drogue.io/firmware-updates-part-3/#background">Background</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="drogue-ajour" href="https://blog.drogue.io/firmware-updates-part-3/#drogue-ajour">Drogue Ajour</a>
+          </li>
+          
+          <li>
+            <a data-for="firmware-delivery" href="https://blog.drogue.io/firmware-updates-part-3/#firmware-delivery">Firmware delivery</a>
+          </li>
+          
+          <li>
+            <a data-for="firmware-build" href="https://blog.drogue.io/firmware-updates-part-3/#firmware-build">Firmware build</a>
+          </li>
+          
+          <li>
+            <a data-for="next-steps" href="https://blog.drogue.io/firmware-updates-part-3/#next-steps">Next steps</a>
+          </li>
+          
+          <li>
+            <a data-for="final-notes" href="https://blog.drogue.io/firmware-updates-part-3/#final-notes">Final notes</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

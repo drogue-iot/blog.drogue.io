@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>All things Rust: Frontend, Backend, Embedded &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Using Rust has a lot of benefits. Not only for embedded, but in the same way for the backend and event the web frontend.">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="All things Rust: Frontend, Backend, Embedded" />
+<meta name="twitter:description" content="Using Rust has a lot of benefits. Not only for embedded, but in the same way for the backend and event the web frontend.">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="All things Rust: Frontend, Backend, Embedded">
+<meta property="og:url" content="https://blog.drogue.io/all-things-rust">
+<meta property="og:description" content="Using Rust has a lot of benefits. Not only for embedded, but in the same way for the backend and event the web frontend.">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">All things Rust: Frontend, Backend, Embedded</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>10 minute read</span>
+        <meta itemprop="wordCount" content="1832">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-11'>11 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;all-things-rust&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>You might have noticed, we talk about Rust a lot. Mostly in the context of embedded programming. However, we also
+have a few bits and pieces in <a href="https://blog.drogue.io/the-cloud-side-of-things/">the cloud side of things</a>. If you have
+a device that gathers data, you might want to send that data somewhere for further processing and storage. Now, if we
+are using Rust to implement the embedded side, why not use it on the backend as well?</p>
+<span id="continue-reading"></span><h2 id="sure-why-not">Sure, why not?</h2>
+<p>That is mostly how it started. You have a new programming language, you learned a few new tricks, and you really like
+how it works. So when it came to start some backend development, why not simply try Rust and see where that leads.
+Worst case, you learned a bit more about Rust in general.</p>
+<p>My personal background is Java, and before that C and C++. Using C/C++ you are really in control of performance and
+resource consumption. However, that comes with a downside, called &quot;undefined behavior&quot; (actually it comes with a bunch
+of downsides). In a nutshell: your application is fast and efficient, but crashes every now and then, due to a memory
+corruption you don't know the origin of. Java on the other hand doesn't suffer from that problem, but the Java
+virtual machine and its garbage collector consume their share of resources.</p>
+<p>When it comes to C/C++ vs Java, you trade software engineering time vs compute resources. Writing C/C++ takes
+as lot more time, but yields (in most cases) more efficient applications. Writing Java code takes less time, but
+consumes more compute resources when running. The story is similar with other languages like Python, Go, or .NET,
+whenever a VM or garbage collector comes into play.</p>
+<p>So let's see what Rust brings us in the context of frontend and backend. I will not write too much about he
+embedded side here, as I think we have good posts covering that topic already.</p>
+<h2 id="the-backend">The backend</h2>
+<p>Backend application are mostly &quot;classic&quot;, non-UI applications. The Rust ecosystem has a stockpile of libraries
+available to help you implement a server side, networking application. This is also where the <code>async</code>/<code>await</code> keyword
+and functionality of Rust comes in handy. So many operations in the backend are of the pattern: wait for request, evaluate,
+send request, wait for the outcome, respond to original request.</p>
+<h3 id="asynchronous-efficiency">Asynchronous &amp; efficiency</h3>
+<p>If you did this all synchronously, waiting for every step, you will have a lot of blocked threads, wasting resources.
+That is why on the Java side, frameworks like <a href="https://vertx.io/">Eclipse Vert.x</a> are so popular now. However,
+asynchronous Java still feels a bit strange:</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#b48ead;">private</span><span> void </span><span style="color:#bf616a;">handleAddCuteName</span><span>(</span><span style="color:#ebcb8b;">RoutingContext</span><span> rc) {
+</span><span>  </span><span style="color:#ebcb8b;">HttpServerResponse</span><span> response = rc.</span><span style="color:#bf616a;">response</span><span>();
+</span><span>  </span><span style="color:#ebcb8b;">JsonObject</span><span> bodyAsJson = rc.</span><span style="color:#bf616a;">getBodyAsJson</span><span>();
+</span><span>  </span><span style="color:#b48ead;">if </span><span>(bodyAsJson != </span><span style="color:#d08770;">null </span><span>&amp;&amp; bodyAsJson.</span><span style="color:#bf616a;">containsKey</span><span>(&quot;</span><span style="color:#a3be8c;">name</span><span>&quot;)) {
+</span><span>    </span><span style="color:#ebcb8b;">String</span><span> id = </span><span style="color:#bf616a;">id</span><span>();
+</span><span>    defaultCache.</span><span style="color:#bf616a;">putAsync</span><span>(bodyAsJson, bodyAsJson.</span><span style="color:#bf616a;">getString</span><span>(&quot;</span><span style="color:#a3be8c;">name</span><span>&quot;))
+</span><span>      .</span><span style="color:#bf616a;">thenAccept</span><span>(</span><span style="color:#bf616a;">s </span><span style="color:#b48ead;">-&gt; </span><span>{
+</span><span>        response
+</span><span>          .</span><span style="color:#bf616a;">setStatusCode</span><span>(</span><span style="color:#d08770;">201</span><span>)
+</span><span>          .</span><span style="color:#bf616a;">end</span><span>(&quot;</span><span style="color:#a3be8c;">Cute name added</span><span>&quot;);
+</span><span>      });
+</span><span>  } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>    response
+</span><span>      .</span><span style="color:#bf616a;">setStatusCode</span><span>(</span><span style="color:#d08770;">400</span><span>)
+</span><span>      .</span><span style="color:#bf616a;">end</span><span>(</span><span style="color:#ebcb8b;">String</span><span>.</span><span style="color:#bf616a;">format</span><span>(&quot;</span><span style="color:#a3be8c;">Body is %s. &#39;id&#39; and &#39;name&#39; should be provided</span><span>&quot;, bodyAsJson));
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>Yes, that is due to the fact that Java doesn't see asynchronous programming as concept of the language. It was added
+&quot;on top&quot; at a later time. And that example is actually rather simple. These nested structures can get out of hand
+pretty quickly, and make your code hard to understand, and with that it makes it hard to find bugs.</p>
+<p>A more understandable way of coding Java is this:</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>@</span><span style="color:#bf616a;">Path</span><span>(&quot;</span><span style="color:#a3be8c;">/country</span><span>&quot;)
+</span><span style="color:#b48ead;">public class </span><span style="color:#ebcb8b;">CountriesResource </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    @</span><span style="color:#bf616a;">Inject </span><span style="color:#eff1f5;">@</span><span style="color:#bf616a;">RestClient
+</span><span style="color:#eff1f5;">    </span><span style="color:#ebcb8b;">CountriesService </span><span style="color:#eff1f5;">countriesService;
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    @</span><span style="color:#bf616a;">GET </span><span style="color:#eff1f5;">@</span><span style="color:#bf616a;">Path</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">/name/{name}</span><span>&quot;</span><span style="color:#eff1f5;">)
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">public </span><span style="color:#ebcb8b;">Set</span><span style="color:#eff1f5;">&lt;</span><span style="color:#ebcb8b;">Country</span><span style="color:#eff1f5;">&gt; </span><span style="color:#8fa1b3;">name</span><span style="color:#eff1f5;">(@</span><span style="color:#bf616a;">PathParam </span><span style="color:#ebcb8b;">String </span><span style="color:#bf616a;">name</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> countriesService.</span><span style="color:#bf616a;">getByName</span><span style="color:#eff1f5;">(name);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<p>While it is easier to read and understand, it has some downsides: First of all, it is blocking code. A call to <code>name</code>
+will only return once the call to the <em>service</em> has returned. Second, annotations and injection are runtime concepts.
+That means, that it is processed while the application is running. Although that setup may never change after
+the program was compiled, it still consumes resources during runtime. True, <a href="https://quarkus.io/">Quarkus</a>
+does a great job, reducing that overhead, but not fully.</p>
+<p>Now lets take a look at a possible Rust variant of that, for example using <a href="https://actix.rs/">Actix</a>:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#bf616a;">get</span><span>(&quot;</span><span style="color:#a3be8c;">/</span><span>&quot;)]
+</span><span>async </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">index</span><span>(</span><span style="color:#bf616a;">client</span><span>: web::Data&lt;Client&gt;) -&gt; HttpResponse {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result = client.</span><span style="color:#96b5b4;">get_result</span><span>().await?;
+</span><span>    HttpResponse::Ok().</span><span style="color:#96b5b4;">json</span><span>(result)
+</span><span>}
+</span></code></pre>
+<p>That is easy to understand and if you would drill down into the implementation, you would also see that it is quite
+efficient. The <code>#[get]</code> attribute (annotation) is actually processed during compile time, creating code on the fly
+to wire this up. Alongside that, the <a href="https://rust-lang.github.io/async-book/01_getting_started/04_async_await_primer.html"><code>async</code>/<code>await</code> keywords</a>
+help you write code in a way that the developer can understand, yet the compiler can optimize into an asynchronous
+execution flow.</p>
+<h3 id="staying-safe">Staying safe</h3>
+<p>All of that asynchronism is great, but feels a bit dangerous, when you come from a Java or C/C++ world. Multiple threads,
+passing along of data structures and states, all in a network application context. Don't forget that Rust has all
+kinds of features to help out, tracking <a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">ownership of data</a>
+and ensuring that <a href="https://doc.rust-lang.org/book/ch16-00-concurrency.html">data can safely be shared in a concurrent environment</a>.</p>
+<p>You get the best of both worlds.</p>
+<h2 id="the-frontend">The frontend</h2>
+<p>Having a backend API is great, but as important as that is a decent web UI. Sometimes you just want to push a few
+buttons and don't want to craft up the required <code>curl</code> command for the server to accept your request.</p>
+<h3 id="what-was-and-might-be">What was and might be</h3>
+<p>Personally I am <a href="https://youtu.be/et8xNAc2ic8">allergic to JavaScript</a>. HTML and CSS is ok, but
+I never could learn to live with the quirks and pitfalls of JavaScript. While you have lots of alternatives outside the
+browser, inside you just had to use it.</p>
+<p>Yes, had! Now we have a thing called WASM.</p>
+<p>Just putting aside all my dislike for JavaScript for the moment,
+<a href="https://youtu.be/lLzFJenzBng?t=794">here is a good reason for considering WASM</a>. I would recommend watching the full
+talk. Additionally to the other benefits of Rust, switching to WASM improved the performance over 3 times.</p>
+<h3 id="rust-and-wasm">Rust and WASM</h3>
+<p>Rust has great support for WASM. Not only the compiler, or a set of libraries, which interface with the browser APIs.
+Using the <a href="https://yew.rs/docs/en/">Yew project</a>, you can create complete front-end web applications, like ReactJS.
+Yew itself doesn't provide you any components out of the box, but there is for example, a project
+called <a href="https://github.com/thedodd/ybc">ybc</a>, which allows you to use <a href="https://bulma.io/">Bulma</a> (a project similar to boostrap) as part of Yew.</p>
+<p>While Bulma is a great framework, <a href="https://www.patternfly.org">PatternFly</a> seems to be a better fit for a more dashboardy,
+console-ish web application like ours. So here you go: <a href="https://github.com/ctron/patternfly-yew">PatternFly for Yew</a>. </p>
+<h2 id="all-shiny">All shiny?</h2>
+<p>Not everything. Actix had a few troubles in the past with their community. The recent upgrade of Tokio to version 1
+(which is a breaking change) might cause some ripples in your dependency tree. Some libraries exist in Java that you
+miss in Rust. Then again, nothing that other ecosystems don't see as well.</p>
+<p>Also does the typical experience of Rust prevail in frontend, backend, and embedded: you need to sit down with your
+compiler and have a decent review of your code. In the end the compiler will convince you that your code is full of bugs,
+you come back with a better version. Once it compiles, it runs! That process, of finding bugs/issues early in the process,
+might cause some frustration.</p>
+<h2 id="what-are-the-benefits">What are the benefits</h2>
+<p>There is a lot of good stuff that comes out of it though.</p>
+<h3 id="sane-frontends">Sane frontends</h3>
+<p>First of all, JavaScript is mostly gone. All the features like type safety, ownership, exhaustive match patterns, are
+finally available in the frontend as well. Just as an example, the following code is from our console. We have some
+app page routing, using an enum, and some code to render the main content, using the router switch:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>
+</span><span style="color:#b48ead;">pub enum </span><span>AppRoute {
+</span><span>    #[</span><span style="color:#bf616a;">to </span><span>= &quot;</span><span style="color:#a3be8c;">/spy</span><span>&quot;]
+</span><span>    Spy,
+</span><span>    #[</span><span style="color:#bf616a;">to </span><span>= &quot;</span><span style="color:#a3be8c;">/examples</span><span>&quot;]
+</span><span>    Examples,
+</span><span>    #[</span><span style="color:#bf616a;">to </span><span>= &quot;</span><span style="color:#a3be8c;">/</span><span>&quot;]
+</span><span>    Index,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">content</span><span>() -&gt; Html {
+</span><span>    html!{
+</span><span>        &lt;Router&lt;AppRoute, ()&gt;
+</span><span>            redirect = Router::redirect(|_|AppRoute::Index)
+</span><span>            render = Router::render(|</span><span style="color:#bf616a;">switch</span><span>: AppRoute| {
+</span><span>                </span><span style="color:#b48ead;">match</span><span> switch {
+</span><span>                    AppRoute::Spy =&gt; html!{&lt;Spy/&gt;},
+</span><span>                    AppRoute::Index =&gt; html!{&lt;Index/&gt;},
+</span><span>                    AppRoute::Examples =&gt; html!{&lt;Examples/&gt;},
+</span><span>                }
+</span><span>            })
+</span><span>        /&gt;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Adding a new variant to the enum, will automatically trigger a compiler error, since the <code>match</code> in the router is
+no longer exhaustive. You simply can't forget to handle it.</p>
+<h3 id="different-worlds-same-language">Different worlds, same language</h3>
+<p>No matter if you are programming embedded, backend, or frontend, you always use the same language. Not only can you
+re-use your knowledge about the programming language, but also data structures and even logic. Test and document it
+in the same way.</p>
+<p>I mentioned earlier that inside the browser you only had JavaScript as an option. Not entirely true. We also had Java
+and .NET applets, and there was Flash. The same for the embedded side: there was JavaME for microcontrollers, there
+still is Micropython and a few others.</p>
+<p>However, with Rust, you now have the ability to really use the same technology in all three areas. Not just as &quot;plug-in&quot;,
+like Java applets, or a VM like Micropython. It doesn't require a garbage collector on an embedded device, and can
+even revert to static memory allocation, if you wish to do that. None of the other languages is able to achieve that.</p>
+<h3 id="none-really">None? Really?</h3>
+<p>True, C and <a href="https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm">C++ can run on frontend</a>, backend,
+and embedded as well. Achieving similar performance, while not requiring garbage collection.</p>
+<p>However, coming back to the original problem, writing working/bug-free C/C++ code is much more time-consuming than writing
+the same code in Rust. Rust prevents you from many programming errors already during compile time. That benefit
+in development speed, also results in more functionality being created. People can solve more issues in their time,
+which automatically results in more open source dependencies you can leverage for your own project.</p>
+<p>Also, did you try out <code>cargo embed</code>? Within a few minutes you are up and running, flashing your device. Setting up a
+complete C/C++ toolchain for embedded devices takes way longer. Even when using projects like Platform.io or Arduino.
+Which means that you can also re-use the same dependency manager and build tool for all of your projects.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I am pretty sure that we wouldn't have achieved that much in our time if we had worked with C/C++ on the backend and
+frontend side. Using JavaScript on the frontend, allergies aside, would have required to use three different
+languages and ecosystems.</p>
+<p>Using Java would have been an option, but I will leave you with a screenshot of my cluster, running Drogue IoT cloud.
+You will see the pods, sorted by memory consumption. Try to figure out which processes are written in Rust, in Go, or
+in Java.</p>
+<p><img src="https://blog.drogue.io/all-things-rust/screenshot.png" alt="Screenshot of pods" /></p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="sure-why-not" href="https://blog.drogue.io/all-things-rust/#sure-why-not">Sure, why not?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="the-backend" href="https://blog.drogue.io/all-things-rust/#the-backend">The backend</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="asynchronous-efficiency" href="https://blog.drogue.io/all-things-rust/#asynchronous-efficiency">Asynchronous &amp; efficiency</a>
+          </li>
+          
+          <li>
+            <a data-for="staying-safe" href="https://blog.drogue.io/all-things-rust/#staying-safe">Staying safe</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="the-frontend" href="https://blog.drogue.io/all-things-rust/#the-frontend">The frontend</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="what-was-and-might-be" href="https://blog.drogue.io/all-things-rust/#what-was-and-might-be">What was and might be</a>
+          </li>
+          
+          <li>
+            <a data-for="rust-and-wasm" href="https://blog.drogue.io/all-things-rust/#rust-and-wasm">Rust and WASM</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="all-shiny" href="https://blog.drogue.io/all-things-rust/#all-shiny">All shiny?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-are-the-benefits" href="https://blog.drogue.io/all-things-rust/#what-are-the-benefits">What are the benefits</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="sane-frontends" href="https://blog.drogue.io/all-things-rust/#sane-frontends">Sane frontends</a>
+          </li>
+          
+          <li>
+            <a data-for="different-worlds-same-language" href="https://blog.drogue.io/all-things-rust/#different-worlds-same-language">Different worlds, same language</a>
+          </li>
+          
+          <li>
+            <a data-for="none-really" href="https://blog.drogue.io/all-things-rust/#none-really">None? Really?</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="conclusion" href="https://blog.drogue.io/all-things-rust/#conclusion">Conclusion</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

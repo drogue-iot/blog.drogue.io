@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Introducing Websocket integration: another way to consume drogue events &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="We recently added a websocket endpoint in drogue cloud, to easily get a stream of events for an application, using the well-known websocket protocol.
+Let&#x27;s have a look and build a small demo apps to consume events. 
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Introducing Websocket integration: another way to consume drogue events" />
+<meta name="twitter:description" content="We recently added a websocket endpoint in drogue cloud, to easily get a stream of events for an application, using the well-known websocket protocol.
+Let&#x27;s have a look and build a small demo apps to consume events. 
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Introducing Websocket integration: another way to consume drogue events">
+<meta property="og:url" content="https://blog.drogue.io/websocket-integration">
+<meta property="og:description" content="We recently added a websocket endpoint in drogue cloud, to easily get a stream of events for an application, using the well-known websocket protocol.
+Let&#x27;s have a look and build a small demo apps to consume events. 
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Introducing Websocket integration: another way to consume drogue events</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>4 minute read</span>
+        <meta itemprop="wordCount" content="663">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-08-17'>17 August 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jean-Baptiste Trystram</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;websocket-integration&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>We recently added a websocket endpoint in drogue cloud, to easily get a stream of events for an application, using the well-known websocket protocol.
+Let's have a look and build a small demo apps to consume events. </p>
+<span id="continue-reading"></span><h1 id="the-websocket-integration-service">The Websocket Integration service</h1>
+<p>The service is pretty straight forward in its design : it will connect to the appropriate Kafka topic for the application 
+and forward any new events in the websocket. The events are pushed in their Cloud-events format, as text messages.</p>
+<p>Give it a try ! Opening a socket is as easy as : </p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>websocat wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org/drogue-public-temperature
+</span></code></pre>
+<h2 id="authentication">Authentication</h2>
+<p>As you can see we used authentication to open the websocket. The service accepts open ID tokens, API keys and nothing/anonymous (if your app is configured for public access).
+Authorization requests are made with a &quot;read&quot; permission.</p>
+<p>An openID token can be passed through the <code>Authorization: Bearer</code> header. Here using <code>drg</code> to get a token : </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>websocat wss://websocket-integration.address/yourApplication -H=&quot;Authorization: Bearer $(drg whoami -t)&quot;
+</span></code></pre>
+<p>For API keys you need to use the <code>Basic</code> header, where the password will be the API key. The header should look like this: </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Authorization: Basic base64(your-username:your-api-key)
+</span></code></pre>
+<h2 id="shared-consumption">Shared consumption</h2>
+<p>The websocket integration service is built on top of the actix actors framework which makes mutlithreading a breeze, 
+so you can confidently open multiple connections and don't suffer any slowdowns. <br />
+To give you more flexibility, the <code>group_id</code> query parameter enables shared consumption.
+Grouping clients will result in the events split evenly between members of a group. <br />
+The url would look like this:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>wss://websocket-integration.address/yourApp?group_id=myGroup
+</span></code></pre>
+<p>If two clients connect using &quot;myGroup&quot; then each will receive every other message. 
+If you have an application generating a lot of traffic it's easy to split the load between different consumers.</p>
+<h1 id="build-an-app">Build an app !</h1>
+<p>A CLI tool is great for testing, but not an ideal base for a consuming application.
+Let's build a small application using rust and connect it to our websocket integration service. 
+This example connects to a public application, so there is no need for credentials.</p>
+<p>Now we have everything we need, let's write some code. We'll use the great tungstenite crate for the websocket functionality :</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>anyhow::{anyhow, Context, Result};
+</span><span style="color:#b48ead;">use </span><span>tungstenite::connect;
+</span><span style="color:#b48ead;">use </span><span>tungstenite::http::{header, Request};
+</span><span style="color:#b48ead;">use </span><span>url::Url;
+</span><span>
+</span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">main</span><span>() -&gt; Result&lt;()&gt; {
+</span><span>    </span><span style="color:#65737e;">// Here are our connection details
+</span><span>    </span><span style="color:#b48ead;">let</span><span> url = &quot;</span><span style="color:#a3be8c;">wss://websocket-integration-drogue-dev.apps.wonderful.iot-playground.org</span><span>&quot;;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> application = &quot;</span><span style="color:#a3be8c;">drogue-public-temperature</span><span>&quot;;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> url = format!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">/</span><span style="color:#d08770;">{}</span><span>&quot;, url, application);
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// And connect !
+</span><span>    </span><span style="color:#b48ead;">let </span><span>(</span><span style="color:#b48ead;">mut</span><span> socket, response) = </span><span style="color:#96b5b4;">connect</span><span>(Url::parse(url).</span><span style="color:#96b5b4;">unwrap</span><span>()).</span><span style="color:#96b5b4;">context</span><span>(&quot;</span><span style="color:#a3be8c;">Error connecting to the Websocket endpoint:</span><span>&quot;)?;
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Connected to websocket</span><span>&quot;);
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">HTTP response code: </span><span style="color:#d08770;">{}</span><span>&quot;, response.</span><span style="color:#96b5b4;">status</span><span>());
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// Now we can simply poll the connection for new messages.
+</span><span>    </span><span style="color:#b48ead;">loop </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> msg = socket.</span><span style="color:#96b5b4;">read_message</span><span>();
+</span><span>        </span><span style="color:#b48ead;">match</span><span> msg {
+</span><span>            Ok(m) =&gt; {
+</span><span>                </span><span style="color:#65737e;">// ignore protocol messages, only show text
+</span><span>                </span><span style="color:#b48ead;">if</span><span> m.</span><span style="color:#96b5b4;">is_text</span><span>() {
+</span><span>                    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, m.</span><span style="color:#96b5b4;">into_text</span><span>().</span><span style="color:#96b5b4;">expect</span><span>(&quot;</span><span style="color:#a3be8c;">Invalid message</span><span>&quot;));
+</span><span>                }
+</span><span>            }
+</span><span>            Err(e) =&gt; </span><span style="color:#b48ead;">break </span><span>Err(anyhow!(e)),
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>And voilà, you are streaming events in your application ! This example is pretty basic, you should get fancy and add some async and authentication in there.</p>
+<p>In the context of a long-running application, API key are a better fit than openID tokens. To create an API key in the console, browse the API &gt; Access keys section.
+You can find a buildable cargo project that shows how to use the API token authentication <a href="https://github.com/drogue-iot/blog.drogue.io/tree/main/content/2021-08-17-websocket-integration/example-app">here</a>.</p>
+<h1 id="a-new-tool-for-drg-s-arsenal">A new tool for drg's arsenal</h1>
+<p>With the websocket service available we took the opportunity to add a <code>stream</code> subcommand to <code>drg</code> so you can quickly tap into a stream to do some debugging: </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg stream drogue-public-temperature
+</span></code></pre>
+<p>That's it ! If you have a default app already set in your context, then <code>drg stream</code> will fetch the application Id from there.</p>
+<h1 id="what-s-next">What's next ?</h1>
+<p>The next stop is to be able to send commands back to your devices using the websocket other direction.
+Expect to see it in a later release ! </p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="the-websocket-integration-service" href="https://blog.drogue.io/websocket-integration/#the-websocket-integration-service">The Websocket Integration service</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="authentication" href="https://blog.drogue.io/websocket-integration/#authentication">Authentication</a>
+          </li>
+          
+          <li>
+            <a data-for="shared-consumption" href="https://blog.drogue.io/websocket-integration/#shared-consumption">Shared consumption</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="build-an-app" href="https://blog.drogue.io/websocket-integration/#build-an-app">Build an app !</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="a-new-tool-for-drg-s-arsenal" href="https://blog.drogue.io/websocket-integration/#a-new-tool-for-drg-s-arsenal">A new tool for drg&#x27;s arsenal</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/websocket-integration/#what-s-next">What&#x27;s next ?</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

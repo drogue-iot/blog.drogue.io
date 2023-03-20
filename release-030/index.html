@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Cloud: Release 0.3.0 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="The new release 0.3.0 of Drogue Cloud features command and control, an improved device registry, X.509 device certificates, and more …">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Cloud: Release 0.3.0" />
+<meta name="twitter:description" content="The new release 0.3.0 of Drogue Cloud features command and control, an improved device registry, X.509 device certificates, and more …">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Cloud: Release 0.3.0">
+<meta property="og:url" content="https://blog.drogue.io/release-030">
+<meta property="og:description" content="The new release 0.3.0 of Drogue Cloud features command and control, an improved device registry, X.509 device certificates, and more …">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Cloud: Release 0.3.0</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="917">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-22'>22 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;release-030&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>So far, we didn't really <em>release</em> anything. We created tagged versions, so that you don't need to rely on <code>latest</code>,
+which might change any second. We had a <em>release</em> pipeline in the CI. Still, it just didn't feel <em>ready</em> enough.
+This time it is different.</p>
+<span id="continue-reading"></span><h2 id="new-and-noteworthy">New and noteworthy</h2>
+<p>The new release mostly added some missing features and improved on the existing ones. It still isn't complete, but
+a big step forward.</p>
+<h3 id="command-and-control">Command and control</h3>
+<p>This release introduced the concept of <em>command &amp; control</em> (aka cloud-to-device messaging). There is a dedicated
+<em>drop-off endpoint</em> for commands, and both the HTTP and MQTT endpoint have been enhanced to take care of this
+functionality. Using HTTP you can wait for a short time to receive a command when you deliver some payload to the cloud.
+For MQTT, you can subscribe and wait for commands to come along.</p>
+<p>This is just the first iteration on this. There are a bunch of things left to solve. However, currently there is
+<a href="https://github.com/drogue-iot/rfcs/pull/2">RFC 2</a> open, working on refining the APIs and the behavior of this
+functionality. You are welcome to join.</p>
+<h3 id="better-getting-started-experience">Better getting started experience</h3>
+<p>When you installed Drogue cloud, you already got some information and example commands in the end to try it out.</p>
+<p>However, when you didn't install it yourself, then you didn't get this information. So we added the same information
+on the web console:</p>
+<p><img src="https://blog.drogue.io/release-030/getting-started.png" alt="Getting started screenshot" /></p>
+<p>You put in the information on the right side, and the out the commands for executing on the command line. Even if you
+never installed Drogue cloud yourself.</p>
+<p>Also did we integrate all services with the installed Keycloak instance. Read on, if you want to know why this is so important.</p>
+<h3 id="device-registry-improvements">Device registry improvements</h3>
+<p>A lot of work went into a refined device registry. The highlights are:</p>
+<ul>
+<li>Scoping of devices by <em>application</em> (aka tenants, aka namespaces, aka …)</li>
+<li>Password and Username/password authentication</li>
+<li>X.509 client certificates authentication for devices</li>
+<li>Added the concept of <em>gateway devices</em></li>
+</ul>
+<p>Technically we switched from a <a href="https://diesel.rs/">Diesel</a> based backend to
+<a href="https://github.com/sfackler/rust-postgres">tokio-postgres</a>, which allows us to use <code>async</code> all the way. However, this
+is something that you shouldn't even notice.</p>
+<p>The much improved API however is something that should notice. Creating applications and devices is now possible, as is
+updating and deleting them: CRUD! There is a lot of work planned in this area, so the APIs will definitely be changed
+again.</p>
+<p>Yes, <em>applications</em> is a concept we introduced in this release as well. Some other systems may call this &quot;project&quot;,
+&quot;namespace&quot;, &quot;tenant&quot;, or &quot;scope&quot;. It is a container, which owns devices. You can create a new &quot;application&quot;, and then
+add &quot;devices&quot; to it. Deleting an application will also delete all the devices.</p>
+<p>Authenticating devices has also improved a lot. You can use a simple combination of &quot;device&quot; and &quot;password&quot;, or use
+an explicit username/password combination. Or you can go crazy and create your own trust anchor, issuing X.509
+client certificates.</p>
+<h2 id="the-sandbox">The sandbox</h2>
+<p>Setting up Drogue Cloud can be done on your local machine, using Minikube, CRC, or Kind. Of course, you can also deploy
+this on a real cluster. However, that may take much more effort.</p>
+<p>On the other side, we need to have a publicly available instance for our development as well. Playing with services like
+<em>The Thing Network</em> requires public access to our services. So, why not host our own instance.</p>
+<p>As we already used <a href="https://www.keycloak.org/">Keycloak</a> for single sign-on, it was pretty easy to integrate this
+with GitHub, and let everyone create an account. In a nutshell, we have a publicly available sandbox, for everyone to
+play with.</p>
+<p><img src="https://blog.drogue.io/release-030/sandbox.png" alt="Sandbox Login Screenshot" /></p>
+<p><strong>Note</strong>: Read the text on the login page carefully! This is an open sandbox, none of the data you send to this instance
+is safe! It may also go down any second!</p>
+<p>As you can see, the warning message is bigger than the login dialog. Getting started is easy, as you only need to log in
+with your GitHub account.</p>
+<p>We are aware of the fact that some functionalities, also security related, are still missing. That is why we plan to
+upgrade the instance with every release of Drogue Cloud from now on. However, if you just want to play with the
+embedded Rust stuff, you may now have something to send your data towards, without the need to deploy something yourself.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>There is already lot of stuff going on:</p>
+<ul>
+<li>
+<p><strong>Defining CloudEvents mappings</strong> – <a href="https://github.com/drogue-iot/rfcs/pull/3">RFC 3</a></p>
+<p>Currently, the way we fill the CloudEvents attributes is a bit inconsistent. We plan to improve on this, and you are
+welcome to join the effort.</p>
+</li>
+<li>
+<p><strong>Service authentication/authorization</strong></p>
+<p>Yes, this is missing, we need it. Embarrassing, but it will come. </p>
+</li>
+<li>
+<p><strong>Integration device registry</strong></p>
+<p>This is a major topic, and will cause some changes in the device management APIs. In addition to configuring our own
+system, we also want to use our device registry to configure other services, so that we can easily integrate with
+them. For that we need events when applications and devices change, and a reasonable way to reconcile.</p>
+</li>
+<li>
+<p><strong>A CoAP endpoint</strong></p>
+<p>CoAP is definitely something that we want. And maybe, we can have it sooner rather than later. Adding CoAP on the
+cloud side is a proposed project for Google Summer of Code, and there seems to be already interest in that project.</p>
+</li>
+</ul>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="new-and-noteworthy" href="https://blog.drogue.io/release-030/#new-and-noteworthy">New and noteworthy</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="command-and-control" href="https://blog.drogue.io/release-030/#command-and-control">Command and control</a>
+          </li>
+          
+          <li>
+            <a data-for="better-getting-started-experience" href="https://blog.drogue.io/release-030/#better-getting-started-experience">Better getting started experience</a>
+          </li>
+          
+          <li>
+            <a data-for="device-registry-improvements" href="https://blog.drogue.io/release-030/#device-registry-improvements">Device registry improvements</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="the-sandbox" href="https://blog.drogue.io/release-030/#the-sandbox">The sandbox</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="next-steps" href="https://blog.drogue.io/release-030/#next-steps">Next steps</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

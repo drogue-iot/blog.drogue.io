@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    
+    <meta name="description" content="IoT &amp; Rust">
+    <meta name="og:description" content="IoT &amp; Rust">
+    <meta name="og:image" content="https://blog.drogue.io/default_social_image.png">
+    <meta name="twitter:description" content="IoT &amp; Rust">
+    <meta name="twitter:image" content="https://blog.drogue.io/default_social_image.png">
+    
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+          <div class="posts">
+            
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-cloud-zero-five&#x2F;">
+                  Drogue Cloud: Release 0.5.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Today we released Drogue Cloud 0.5.0. It brings together a lot of things that have been cooking for a while. </p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="838">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-05-12'>12 May 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-five&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-cloud-zero-five&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;the-book-workshops&#x2F;">
+                  The Book: documentation and workshops
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Writing code is easy, writing documentation is hard. True, some people might disagree with that. We wanted to make it
+easier for everyone to understand what we already have, and how it works. As we have multiple major topics
+(embedded and cloud), we need a modular way of structuring our documentation. Here is our approach. </p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>2 minute read</span>
+        <meta itemprop="wordCount" content="394">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-05-06'> 6 May 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;the-book-workshops&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;the-book-workshops&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-device-rebase&#x2F;">
+                  Rebasing Drogue Device
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>For the past few weeks, we explored removing the allocator from <a href="https://github.com/drogue-iot/drogue-device">drogue-device</a> and adapt drivers to a more restrictive Actor model. Read on to learn why and how drogue device will change, and the benefits of this change.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>11 minute read</span>
+        <meta itemprop="wordCount" content="2126">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-04-27'>27 April 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-device-rebase&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-device-rebase&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drg-guided-tour&#x2F;">
+                  drg for easy drogue cloud administration tasks
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>A guided tour of <code>drg</code>, the command line client that aims to make your life easier when interracting with a <code>drogue-cloud</code> instance.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="964">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-04-16'>16 April 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jean-Baptiste Trystram</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drg-guided-tour&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drg-guided-tour&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-cloud-zero-four&#x2F;">
+                  Drogue Cloud: Release 0.4.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Today we released Drogue Cloud 0.4.0. This is a huge step forward in so many areas, let's take a look.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>6 minute read</span>
+        <meta itemprop="wordCount" content="1156">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-03-30'>30 March 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-four&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-cloud-zero-four&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;release-030&#x2F;">
+                  Drogue Cloud: Release 0.3.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>So far, we didn't really <em>release</em> anything. We created tagged versions, so that you don't need to rely on <code>latest</code>,
+which might change any second. We had a <em>release</em> pipeline in the CI. Still, it just didn't feel <em>ready</em> enough.
+This time it is different.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="917">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-22'>22 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;release-030&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;release-030&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-device-to-cloud&#x2F;">
+                  From drogue-device to drogue-cloud
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>In previous posts we've seen how to <a href="https://blog.drogue.io/the-cloud-side-of-things/">run drogue-cloud</a>, how to <a href="https://blog.drogue.io/rust-and-lora/">use LoRaWAN in rust</a>, and the introduction of the <a href="https://blog.drogue.io/introducing-drogue-device/">drogue-device</a>. In this post, we'll tie this together and walk through the process of running LoRa on drogue-device, sending data to drogue-cloud. </p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>11 minute read</span>
+        <meta itemprop="wordCount" content="2082">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-18'>18 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen and Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-device-to-cloud&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-device-to-cloud&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;all-things-rust&#x2F;">
+                  All things Rust: Frontend, Backend, Embedded
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>You might have noticed, we talk about Rust a lot. Mostly in the context of embedded programming. However, we also
+have a few bits and pieces in <a href="https://blog.drogue.io/the-cloud-side-of-things/">the cloud side of things</a>. If you have
+a device that gathers data, you might want to send that data somewhere for further processing and storage. Now, if we
+are using Rust to implement the embedded side, why not use it on the backend as well?</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>10 minute read</span>
+        <meta itemprop="wordCount" content="1832">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-11'>11 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;all-things-rust&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;all-things-rust&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;introducing-drogue-device&#x2F;">
+                  Introducing Drogue Device
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Trying to bring reusable and efficient components to embedded Rust has been a challenge for our team.
+We think we've started to make headway, and want to introduce the <code>Drogue Device</code> project.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>21 minute read</span>
+        <meta itemprop="wordCount" content="4089">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-02'> 2 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Bob McWhirter and Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;introducing-drogue-device&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;introducing-drogue-device&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;coming-up-gsoc-2021&#x2F;">
+                  Coming up: Google Summer of Code 2021
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Good news, everyone! <a href="https://summerofcode.withgoogle.com/">Google Summer of Code</a> 2021 is coming up. This gives you
+the chance to throw yourself at some horrifying tech problems, learn some new skills, and maybe get to know a few more
+memes. We are participating, how about you?</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="916">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-01-25'>25 January 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;coming-up-gsoc-2021&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;coming-up-gsoc-2021&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            <a class="pagination-previous"  href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;2&#x2F;" >Previous</a>
+            <a class="pagination-next"      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;4&#x2F;"     >Next</a>
+
+            <ul class="pagination-list">
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;1"
+                      class="pagination-link "  aria-label="Page 1" aria-current="page">1</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;2"
+                      class="pagination-link "  aria-label="Page 2" aria-current="page">2</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;3"
+                      class="pagination-link is-current" aria-current="page" aria-label="Page 3" aria-current="page">3</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;4"
+                      class="pagination-link "  aria-label="Page 4" aria-current="page">4</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;5"
+                      class="pagination-link "  aria-label="Page 5" aria-current="page">5</a>
+                </li>
+              
+            </ul>
+
+          </nav>
+
+        </div>
+      
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+        <div class="mx-5">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Archive</h2>
+          <ul>
+            
+            
+            <li><h3 class="title is-4 my-3">2022</h3>
+              <ul class="link-list archive">
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-eleven&#x2F;" title="Drogue Cloud: Release 0.11.0">Drogue Cloud: Release 0.11.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-3&#x2F;" title="Firmware updates, part 3: Firmware Delivery and Building">Firmware updates, part 3: Firmware Delivery and Building</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-ten&#x2F;" title="Drogue Cloud: Release 0.10.0">Drogue Cloud: Release 0.10.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-2&#x2F;" title="Firmware updates, part 2: Transporting the update">Firmware updates, part 2: Transporting the update</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-1&#x2F;" title="Firmware updates, part 1: Bootloader">Firmware updates, part 1: Bootloader</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;pcb-part-2&#x2F;" title="The making of a PCB: Part 2">The making of a PCB: Part 2</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-nine&#x2F;" title="Drogue Cloud: Release 0.9.0">Drogue Cloud: Release 0.9.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;pcb-part-1&#x2F;" title="The making of a PCB: Part 1">The making of a PCB: Part 1</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;bluetooth-mesh&#x2F;" title="Bluetooth Mesh">Bluetooth Mesh</a></li>
+                
+              </ul>
+            </li>
+            
+            <li><h3 class="title is-4 my-3">2021</h3>
+              <ul class="link-list archive">
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-eight&#x2F;" title="Drogue Cloud: Release 0.8.0">Drogue Cloud: Release 0.8.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;introducing-drogue-server&#x2F;" title="Introducing Drogue Cloud Server">Introducing Drogue Cloud Server</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;lorawan-update&#x2F;" title="State of LoRaWAN support">State of LoRaWAN support</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-seven&#x2F;" title="Drogue Cloud: Release 0.7.0">Drogue Cloud: Release 0.7.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drg-trust&#x2F;" title="Using X509 Client certificates for devices authentication with drogue-cloud">Using X509 Client certificates for devices authentication with drogue-cloud</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;websocket-integration&#x2F;" title="Introducing Websocket integration: another way to consume drogue events">Introducing Websocket integration: another way to consume drogue events</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;secure-device-to-cloud&#x2F;" title="(Re)introducing Drogue TLS">(Re)introducing Drogue TLS</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-six&#x2F;" title="Drogue Cloud: Release 0.6.0">Drogue Cloud: Release 0.6.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;quarkus-func-payload-mapper&#x2F;" title="Implement payload mapper with Func and Quarkus">Implement payload mapper with Func and Quarkus</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-device-wasm&#x2F;" title="Drogue Device in the browser">Drogue Device in the browser</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;consume-drogue-messages&#x2F;" title="Consuming Drogue messages with a Knative Service">Consuming Drogue messages with a Knative Service</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-five&#x2F;" title="Drogue Cloud: Release 0.5.0">Drogue Cloud: Release 0.5.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-book-workshops&#x2F;" title="The Book: documentation and workshops">The Book: documentation and workshops</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-device-rebase&#x2F;" title="Rebasing Drogue Device">Rebasing Drogue Device</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drg-guided-tour&#x2F;" title="drg for easy drogue cloud administration tasks">drg for easy drogue cloud administration tasks</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-four&#x2F;" title="Drogue Cloud: Release 0.4.0">Drogue Cloud: Release 0.4.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;release-030&#x2F;" title="Drogue Cloud: Release 0.3.0">Drogue Cloud: Release 0.3.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-device-to-cloud&#x2F;" title="From drogue-device to drogue-cloud">From drogue-device to drogue-cloud</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;all-things-rust&#x2F;" title="All things Rust: Frontend, Backend, Embedded">All things Rust: Frontend, Backend, Embedded</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;introducing-drogue-device&#x2F;" title="Introducing Drogue Device">Introducing Drogue Device</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;coming-up-gsoc-2021&#x2F;" title="Coming up: Google Summer of Code 2021">Coming up: Google Summer of Code 2021</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;command-your-devices&#x2F;" title="Command your devices">Command your devices</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-lora&#x2F;" title="Rust and LoRa">Rust and LoRa</a></li>
+                
+              </ul>
+            </li>
+            
+            <li><h3 class="title is-4 my-3">2020</h3>
+              <ul class="link-list archive">
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;hey-rodney&#x2F;" title="&quot;Hey Rodney, … restart console pods&quot;">&quot;Hey Rodney, … restart console pods&quot;</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;more-async-and-pwm&#x2F;" title="More Rust &amp; Async (and hand-rolled PWM)">More Rust &amp; Async (and hand-rolled PWM)</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-microbit&#x2F;" title="Rust on the BBC micro:bit">Rust on the BBC micro:bit</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-async&#x2F;" title="Rust and Async (on embedded devices)">Rust and Async (on embedded devices)</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;minikube-roundtrip&#x2F;" title="Testing IoT services with Minikube, Knative and Rust">Testing IoT services with Minikube, Knative and Rust</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;digital-twins&#x2F;" title="Digital Twins, and how they can help">Digital Twins, and how they can help</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-cloud-side-of-things&#x2F;" title="The cloud side of things">The cloud side of things</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;meet-rodney&#x2F;" title="Meet Rodney">Meet Rodney</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;mpu-6050&#x2F;" title="Motion &amp; MPU-6050">Motion &amp; MPU-6050</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;nom-parser&#x2F;" title="Nom Parser">Nom Parser</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;eswifi&#x2F;" title="eS-WiFi and SPI">eS-WiFi and SPI</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;matter-of-time&#x2F;" title="It&#x27;s a Matter of Time">It&#x27;s a Matter of Time</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;esp-programmer&#x2F;" title="Creating an ESP programmer">Creating an ESP programmer</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;yak-hole-of-tls&#x2F;" title="Down the Yak Hole of TLS">Down the Yak Hole of TLS</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;wifi-offload&#x2F;" title="WiFi Offloading">WiFi Offloading</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-embedded-layer-cake&#x2F;" title="Rust Embedded Layer Cake">Rust Embedded Layer Cake</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;first-steps-in-iot&#x2F;" title="First Steps in IoT">First Steps in IoT</a></li>
+                
+              </ul>
+            </li>
+            
+          </ul>
+        </div>
+      
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

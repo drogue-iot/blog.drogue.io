@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    
+    <meta name="description" content="IoT &amp; Rust">
+    <meta name="og:description" content="IoT &amp; Rust">
+    <meta name="og:image" content="https://blog.drogue.io/default_social_image.png">
+    <meta name="twitter:description" content="IoT &amp; Rust">
+    <meta name="twitter:image" content="https://blog.drogue.io/default_social_image.png">
+    
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+          <div class="posts">
+            
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-cloud-zero-eleven&#x2F;">
+                  Drogue Cloud: Release 0.11.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>This release is another release with a focus on improving existing functionality. The reason for this is simple: it works just fine. True, there is always room for improvement, but also to build upon what is
+there, so maybe, read on …</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>7 minute read</span>
+        <meta itemprop="wordCount" content="1225">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-11-17'>17 November 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-eleven&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-cloud-zero-eleven&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;firmware-updates-part-3&#x2F;">
+                  Firmware updates, part 3: Firmware Delivery and Building
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>This is the third post in a series (<a href="https://blog.drogue.io/firmware-updates-part-1/">part 1</a>, <a href="https://blog.drogue.io/firmware-updates-part-3">part 2</a>) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.</p>
+<p>This post is about how the firmware is delivered to devices and how you can build the firmware using Drogue IoT.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>9 minute read</span>
+        <meta itemprop="wordCount" content="1653">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-08-10'>10 August 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;firmware-updates-part-3&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;firmware-updates-part-3&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-cloud-zero-ten&#x2F;">
+                  Drogue Cloud: Release 0.10.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>For this release, we had a focus on improving existing functionality. Mostly extending what was already there, but
+lacked a few features, knobs to tweak, or as postponed in previous releases. And yes, we fixed a few bugs too. </p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>7 minute read</span>
+        <meta itemprop="wordCount" content="1272">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-07-06'> 6 July 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-ten&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-cloud-zero-ten&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;firmware-updates-part-2&#x2F;">
+                  Firmware updates, part 2: Transporting the update
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>This is the second post in a series (<a href="https://blog.drogue.io/firmware-updates-part-1/">part 1</a>, <a href="https://blog.drogue.io/firmware-updates-part-3">part 3</a>) about doing device firmware updates (DFU) over the air (OTA) and continuous deployment of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.</p>
+<p>This post will be about the different networks and how you can manage firmware updates using them.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>12 minute read</span>
+        <meta itemprop="wordCount" content="2223">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-06-22'>22 June 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;firmware-updates-part-2&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;firmware-updates-part-2&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;firmware-updates-part-1&#x2F;">
+                  Firmware updates, part 1: Bootloader
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>This is the first post in a series (<a href="https://blog.drogue.io/firmware-updates-part-2/">part 2</a>, <a href="https://blog.drogue.io/firmware-updates-part-3">part 3</a>) about doing device firmware updates (DFU) over the air (OTA) and continuous delivery of firmware for embedded devices. We'll explore the different parts of a complete end-to-end system with this capability.</p>
+<p>This post will be about a fundamental component in such a system: the bootloader.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>15 minute read</span>
+        <meta itemprop="wordCount" content="2966">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-04-29'>29 April 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;firmware-updates-part-1&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;firmware-updates-part-1&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;pcb-part-2&#x2F;">
+                  The making of a PCB: Part 2
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we'll continue the story from <a href="https://blog.drogue.io/pcb-part-1/">last time</a> and look at the revised versions and how to scale up the production with PCB assembly and a test jig.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1453">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-03-30'>30 March 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;pcb-part-2&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;pcb-part-2&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-cloud-zero-nine&#x2F;">
+                  Drogue Cloud: Release 0.9.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>A lot has happened since the last release of Drogue Cloud. Unfortunately, the only thing that seems to stick out
+is the ongoing war in Ukraine. And whatever you think might have led to this, there is never, ever a justification
+for bombing the civilian population of a country. So, in a situation like that, can we simply celebrate what we achieved
+in Drogue IoT, like we usually do? I believe the answer to that must be &quot;yes&quot;. Do what you think is right, but also
+focus on the positive! Because otherwise the terrorists have won!</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>11 minute read</span>
+        <meta itemprop="wordCount" content="2043">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-03-21'>21 March 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-nine&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-cloud-zero-nine&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;pcb-part-1&#x2F;">
+                  The making of a PCB: Part 1
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>For some time now, we've wanted to have a Printed Circuit Board (PCB) that we could use to demonstrate Drogue Device and Drogue Cloud. This is the first post in a series of post telling the tale of this journey.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>11 minute read</span>
+        <meta itemprop="wordCount" content="2106">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-03-18'>18 March 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;pcb-part-1&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;pcb-part-1&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;bluetooth-mesh&#x2F;">
+                  Bluetooth Mesh
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>Bluetooth Mesh is a brokerless system for devices to communicate within
+a local area. We've implemented a Bluetooth Mesh stack, in Rust, on top
+of Drogue-Device, our async framework for embedded development.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>12 minute read</span>
+        <meta itemprop="wordCount" content="2238">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-02-28'>28 February 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Bob McWhirter</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;bluetooth-mesh&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;bluetooth-mesh&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+            <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                <div class="content">
+                <h2 class="title is-2 is-spaced" itemprop="name headline">
+                  <a href="&#x2F;drogue-cloud-zero-eight&#x2F;">
+                  Drogue Cloud: Release 0.8.0
+                  </a>
+                </h2>
+                </div>
+
+              <div class="content">
+                <div itemprop="articleSummary">
+                  <p>This is our &quot;end of the year&quot; release, and we did want to focus on improving what we already have, rather than
+introducing a bunch of new functionality, before leaving for the holiday season/Christmas. So we put a lot of
+effort into cleaning up, filling some gaps that we identified, and polish the current functionality.</p>
+
+                </div>
+              </div>
+
+              <div class="content has-text-grey">
+                
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1446">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-12-01'> 1 December 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-eight&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+        <div class="post-info-item">
+        <a href="&#x2F;drogue-cloud-zero-eight&#x2F;">Read&nbsp;more&nbsp;…</a>
+        </div>
+    
+
+</div>
+
+
+              </div>
+
+            </div>
+
+            <hr/>
+
+          
+
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" disabled>Previous</a>
+            <a class="pagination-next"      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;2&#x2F;"     >Next</a>
+
+            <ul class="pagination-list">
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;1"
+                      class="pagination-link is-current" aria-current="page" aria-label="Page 1" aria-current="page">1</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;2"
+                      class="pagination-link "  aria-label="Page 2" aria-current="page">2</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;3"
+                      class="pagination-link "  aria-label="Page 3" aria-current="page">3</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;4"
+                      class="pagination-link "  aria-label="Page 4" aria-current="page">4</a>
+                </li>
+              
+
+                <li>
+                  <a
+                      href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;page&#x2F;5"
+                      class="pagination-link "  aria-label="Page 5" aria-current="page">5</a>
+                </li>
+              
+            </ul>
+
+          </nav>
+
+        </div>
+      
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+        <div class="mx-5">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Archive</h2>
+          <ul>
+            
+            
+            <li><h3 class="title is-4 my-3">2022</h3>
+              <ul class="link-list archive">
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-eleven&#x2F;" title="Drogue Cloud: Release 0.11.0">Drogue Cloud: Release 0.11.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-3&#x2F;" title="Firmware updates, part 3: Firmware Delivery and Building">Firmware updates, part 3: Firmware Delivery and Building</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-ten&#x2F;" title="Drogue Cloud: Release 0.10.0">Drogue Cloud: Release 0.10.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-2&#x2F;" title="Firmware updates, part 2: Transporting the update">Firmware updates, part 2: Transporting the update</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;firmware-updates-part-1&#x2F;" title="Firmware updates, part 1: Bootloader">Firmware updates, part 1: Bootloader</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;pcb-part-2&#x2F;" title="The making of a PCB: Part 2">The making of a PCB: Part 2</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-nine&#x2F;" title="Drogue Cloud: Release 0.9.0">Drogue Cloud: Release 0.9.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;pcb-part-1&#x2F;" title="The making of a PCB: Part 1">The making of a PCB: Part 1</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;bluetooth-mesh&#x2F;" title="Bluetooth Mesh">Bluetooth Mesh</a></li>
+                
+              </ul>
+            </li>
+            
+            <li><h3 class="title is-4 my-3">2021</h3>
+              <ul class="link-list archive">
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-eight&#x2F;" title="Drogue Cloud: Release 0.8.0">Drogue Cloud: Release 0.8.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;introducing-drogue-server&#x2F;" title="Introducing Drogue Cloud Server">Introducing Drogue Cloud Server</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;lorawan-update&#x2F;" title="State of LoRaWAN support">State of LoRaWAN support</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-seven&#x2F;" title="Drogue Cloud: Release 0.7.0">Drogue Cloud: Release 0.7.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drg-trust&#x2F;" title="Using X509 Client certificates for devices authentication with drogue-cloud">Using X509 Client certificates for devices authentication with drogue-cloud</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;websocket-integration&#x2F;" title="Introducing Websocket integration: another way to consume drogue events">Introducing Websocket integration: another way to consume drogue events</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;secure-device-to-cloud&#x2F;" title="(Re)introducing Drogue TLS">(Re)introducing Drogue TLS</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-six&#x2F;" title="Drogue Cloud: Release 0.6.0">Drogue Cloud: Release 0.6.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;quarkus-func-payload-mapper&#x2F;" title="Implement payload mapper with Func and Quarkus">Implement payload mapper with Func and Quarkus</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-device-wasm&#x2F;" title="Drogue Device in the browser">Drogue Device in the browser</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;consume-drogue-messages&#x2F;" title="Consuming Drogue messages with a Knative Service">Consuming Drogue messages with a Knative Service</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-five&#x2F;" title="Drogue Cloud: Release 0.5.0">Drogue Cloud: Release 0.5.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-book-workshops&#x2F;" title="The Book: documentation and workshops">The Book: documentation and workshops</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-device-rebase&#x2F;" title="Rebasing Drogue Device">Rebasing Drogue Device</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drg-guided-tour&#x2F;" title="drg for easy drogue cloud administration tasks">drg for easy drogue cloud administration tasks</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-cloud-zero-four&#x2F;" title="Drogue Cloud: Release 0.4.0">Drogue Cloud: Release 0.4.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;release-030&#x2F;" title="Drogue Cloud: Release 0.3.0">Drogue Cloud: Release 0.3.0</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;drogue-device-to-cloud&#x2F;" title="From drogue-device to drogue-cloud">From drogue-device to drogue-cloud</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;all-things-rust&#x2F;" title="All things Rust: Frontend, Backend, Embedded">All things Rust: Frontend, Backend, Embedded</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;introducing-drogue-device&#x2F;" title="Introducing Drogue Device">Introducing Drogue Device</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;coming-up-gsoc-2021&#x2F;" title="Coming up: Google Summer of Code 2021">Coming up: Google Summer of Code 2021</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;command-your-devices&#x2F;" title="Command your devices">Command your devices</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-lora&#x2F;" title="Rust and LoRa">Rust and LoRa</a></li>
+                
+              </ul>
+            </li>
+            
+            <li><h3 class="title is-4 my-3">2020</h3>
+              <ul class="link-list archive">
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;hey-rodney&#x2F;" title="&quot;Hey Rodney, … restart console pods&quot;">&quot;Hey Rodney, … restart console pods&quot;</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;more-async-and-pwm&#x2F;" title="More Rust &amp; Async (and hand-rolled PWM)">More Rust &amp; Async (and hand-rolled PWM)</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-microbit&#x2F;" title="Rust on the BBC micro:bit">Rust on the BBC micro:bit</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-and-async&#x2F;" title="Rust and Async (on embedded devices)">Rust and Async (on embedded devices)</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;minikube-roundtrip&#x2F;" title="Testing IoT services with Minikube, Knative and Rust">Testing IoT services with Minikube, Knative and Rust</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;digital-twins&#x2F;" title="Digital Twins, and how they can help">Digital Twins, and how they can help</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;the-cloud-side-of-things&#x2F;" title="The cloud side of things">The cloud side of things</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;meet-rodney&#x2F;" title="Meet Rodney">Meet Rodney</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;mpu-6050&#x2F;" title="Motion &amp; MPU-6050">Motion &amp; MPU-6050</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;nom-parser&#x2F;" title="Nom Parser">Nom Parser</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;eswifi&#x2F;" title="eS-WiFi and SPI">eS-WiFi and SPI</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;matter-of-time&#x2F;" title="It&#x27;s a Matter of Time">It&#x27;s a Matter of Time</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;esp-programmer&#x2F;" title="Creating an ESP programmer">Creating an ESP programmer</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;yak-hole-of-tls&#x2F;" title="Down the Yak Hole of TLS">Down the Yak Hole of TLS</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;wifi-offload&#x2F;" title="WiFi Offloading">WiFi Offloading</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;rust-embedded-layer-cake&#x2F;" title="Rust Embedded Layer Cake">Rust Embedded Layer Cake</a></li>
+                
+                  <li><a href="https:&#x2F;&#x2F;blog.drogue.io&#x2F;first-steps-in-iot&#x2F;" title="First Steps in IoT">First Steps in IoT</a></li>
+                
+              </ul>
+            </li>
+            
+          </ul>
+        </div>
+      
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

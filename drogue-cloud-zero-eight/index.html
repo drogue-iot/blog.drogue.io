@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Cloud: Release 0.8.0 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Drogue Cloud 0.8.0 makes a lot of things easier: Improved web console, topic provisioning using the Kafka Admin Client, improved gateway device support, static server binary, and more.">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Cloud: Release 0.8.0" />
+<meta name="twitter:description" content="Drogue Cloud 0.8.0 makes a lot of things easier: Improved web console, topic provisioning using the Kafka Admin Client, improved gateway device support, static server binary, and more.">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Cloud: Release 0.8.0">
+<meta property="og:url" content="https://blog.drogue.io/drogue-cloud-zero-eight">
+<meta property="og:description" content="Drogue Cloud 0.8.0 makes a lot of things easier: Improved web console, topic provisioning using the Kafka Admin Client, improved gateway device support, static server binary, and more.">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Cloud: Release 0.8.0</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1446">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-12-01'> 1 December 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-eight&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>This is our &quot;end of the year&quot; release, and we did want to focus on improving what we already have, rather than
+introducing a bunch of new functionality, before leaving for the holiday season/Christmas. So we put a lot of
+effort into cleaning up, filling some gaps that we identified, and polish the current functionality.</p>
+<span id="continue-reading"></span><h2 id="improved-web-console">Improved web console</h2>
+<p>We believe that the web console plays an important role into getting started with Drogue Cloud. Sure, once your know
+your way around, a CLI like <code>drg</code> or directly using our REST API might better for you. But until that point, the
+web console should allow you the get the basics done in a manual way.</p>
+<p>That is why we expanded the current functionality of the web console with features that already had been available
+under the hood. Adding users to an application, transferring ownership, or directly monitoring traffic from the
+application view for example.</p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-eight/console-1.png" alt="Console screenshot" /></p>
+<p>As always, we will also update our public sandbox with the most recent, released version. So you can directly try out
+the new features.</p>
+<h2 id="kafka-topic-provisioning-reloaded">Kafka topic provisioning, reloaded!</h2>
+<p>In 0.7 we introduced Kafka topic provisioning, using Strimzi. Creating a new application will automatically spin up
+a new Kafka topic for it, and setup access. We already designed this as an extension point, so that one could drop
+in an alternative implementation of that.</p>
+<p>Well, in 0.8 we did that. In addition to the Strimzi based topic provisioner, we added a plain Kafka Admin client
+based one. And while the downside is, that this cannot create a new user for the consuming side for you, it has the
+benefit that it works with any Kafka service that provides the Kafka Admin API.</p>
+<p>We will follow up with an additional blog post on this the near future. So, stay tuned if you are interested!</p>
+<h2 id="improved-gateway-device-support">Improved gateway device support</h2>
+<p>During the authentication and authorization process of devices, we already supported the idea of a gateway. However,
+once the device was connected, we didn't. For session-less protocols (like HTTP or CoAP) this didn't really matter.
+For MQTT however, it does. MQTT allows a device to connect (and authenticate). If however that device is a
+gateway, it should be able to publish on behalf of other devices, without the need to reconnect.</p>
+<p>So for Drogue Cloud 0.8, we added the ability for MQTT to authorize publish (events) and subscribe (commands) operations
+independently of the MQTT connection phase. Meaning: MQTT gateways can now act on behalf of other devices, if they are
+configured to allow this. As the concept existed before 0.8, no new configuration had to be added, just the APIs for the
+MQTT endpoint got extended to support this.</p>
+<h2 id="static-server-binary">Static server binary</h2>
+<p>Deploying a complex, cloud native stack like Drogue Cloud can be tricky. We put a lot of effort in our installer scripts
+and Helm charts to make it both easy and customizable. However, every now and then, it would be nice to &quot;just run&quot;
+Drogue Cloud. With 0.8, you can!</p>
+<p>Assuming you have an existing Kafka, Keycloak, and PostgreSQL instance, it is as easy as:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>drogue-cloud-server run --enable-all
+</span></code></pre>
+<p>And, it also works on Apple M1 machines. Does it bring all the features? No, it can't. There are a few that we will
+add in future releases, but we are not planning to re-invent Kubernetes. Does it run on a Raspberry Pi too?
+Probably, we didn't have the time yet to try out. But we definitely want to get there.</p>
+<p>If you are curious, you can read more about it in a <a href="https://blog.drogue.io/introducing-drogue-server/">previous blog post</a> or
+<a href="https://book.drogue.io/drogue-cloud/dev/deployment/bare-metal.html">in our documentation</a>.</p>
+<h2 id="more-workshops">More workshops</h2>
+<p>The idea behind our workshops is to give you concrete examples on how to use Drogue Device and Drogue Cloud. And to
+enable you, to replicate this on your own. And since the last release, we added two more workshops to our list.</p>
+<h3 id="eclipse-iot-package-telemetry-end-to-end">Eclipse IoT package – Telemetry end-to-end</h3>
+<p>The first one was in the making for quite some time. It shows the integration of a handful of IoT related open source
+projects from Eclipse IoT. And so this is in fact not a Drogue IoT workshop, but an Eclipse IoT package
+named <a href="https://www.eclipse.org/packages/packages/telemetry-e2e/">Telemetry end-to-end</a>.</p>
+<p>It showcases the use case of telemetry data acquisition, from a Drogue Device based microcontroller,
+through an Eclipse Kura IoT gateway, into Drogue Cloud. On the cloud side we have Eclipse Ditto as digital twin platform
+and Eclipse Streamsheets to visualize the data. All you need is a micro:bit v2, a Raspberry Pi, and your local machine.</p>
+<p>It also showcases how important the ability to integrate is. All these different projects, developed by different
+communities, can still work together to solve problems on the different layers of an IoT stack. Try it out, and maybe
+replace a component yourself.</p>
+<p>Of course, you can also cheat and just focus on the cloud side running on your laptop. Should you want to skip on buying
+a few new toys to play with.</p>
+<h3 id="from-wifi-to-websocket">From WiFi to Websocket</h3>
+<p>This example walks you through a set of steps, creating your own microcontroller firmware, measuring a temperature,
+and sending that to the cloud. Heard that before? Well sure, not only is this our prime example for the use
+case of sending telemetry data to the cloud, we also have a few other examples doing the same. Just not one that is a
+complete workshop, including a WiFi based firmware.</p>
+<p>On the cloud side, the workshop focuses on re-using an existing Drogue cloud instance. You still host the cloud
+application, the part which consumes the device data, yourself. And as always, you are also able to run Drogue Cloud
+yourself.</p>
+<p>But the focus of this tutorial is to re-use existing cloud services, to host all functionality on infrastructure managed
+by someone else.</p>
+<p>There are two examples of how to consume data using WebSockets. A custom WebAssembly application and a ready-to-use
+TimescaleDB/Grafana dashboard. They represent a good starting point for developing IoT applications based on
+Drogue Cloud.</p>
+<h2 id="follow-ups">Follow-ups</h2>
+<p>API keys, which we renamed to &quot;access tokens&quot; in 0.8, can now be used in more situations, like accessing the device
+management API. This allows you to more easily create applications, which struggle with the OAuth2 way of doing things.</p>
+<p>In 0.7 we also switched the time-series database of our example to TimescaleDB. Thanks for some help from Timescale,
+we have been able to really improve this part of the example. Many thanks for that. If you are interested, take a look.</p>
+<p>Our CLI companion tool <code>drg</code> has also been released as <code>0.8.0</code>, to catch up with API changes. We also added a new
+subcommand: <code>admin</code> which helps you to manage applications, users, and transfer ownership, as well as manage access
+tokens for all your consuming apps.</p>
+<h2 id="what-s-next">What's next</h2>
+<p>There are two major topics we want to tackle in 2022: digital twins and observability of the infrastructure. Both topics
+are quite complex, so don't expect them to land right away in the next release.</p>
+<p>Digital twins are important as a development model for IoT application. And while we already have a brief demo with
+Eclipse Ditto, we want to expand this integration, and make it much more useful.</p>
+<p>Having metrics and tracing in the different services is a pre-requisite for scale testing. We are building this for
+scalability, so we need be able to gather some data around this. And again, this will be a bigger topic for 2022.</p>
+<p>Of course, we also have some mid-term goals. More examples and workshops is definitely on our roadmap. If you have
+interesting topics you would like us to cover, reach out! A Quarkus based self-service Web UI for our temperature demo,
+beefing up the Bluetooth gateway application for edge devices, improving application integration for the cloud in different development environments, improving the off-the shelf Grafana dashboard experience, and an OPC UA example
+are all things we would like to get ready in the next cycle too.</p>
+<p>And the next release cycle will probably be a bit longer, thanks to a few days of cookies, gifts, and time to
+recharge batteries. 😉</p>
+<h2 id="also-see">Also see</h2>
+<ul>
+<li><a href="https://github.com/drogue-iot/drogue-cloud/releases">Releases</a></li>
+<li><a href="https://sandbox.drogue.cloud">Public sandbox</a></li>
+<li><a href="https://book.drogue.io/drogue-cloud/dev/deployment/bare-metal.html">Server binary</a></li>
+<li><a href="https://book.drogue.io/drogue-workshops/index.html">Workshops</a>
+<ul>
+<li><a href="https://www.eclipse.org/packages/packages/telemetry-e2e/">Eclipse IoT Package - Telemetry end-to-end</a></li>
+<li><a href="https://book.drogue.io/drogue-workshops/wifi-websockets/index.html">From WiFi to Websocket</a></li>
+</ul>
+</li>
+</ul>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="improved-web-console" href="https://blog.drogue.io/drogue-cloud-zero-eight/#improved-web-console">Improved web console</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="kafka-topic-provisioning-reloaded" href="https://blog.drogue.io/drogue-cloud-zero-eight/#kafka-topic-provisioning-reloaded">Kafka topic provisioning, reloaded!</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="improved-gateway-device-support" href="https://blog.drogue.io/drogue-cloud-zero-eight/#improved-gateway-device-support">Improved gateway device support</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="static-server-binary" href="https://blog.drogue.io/drogue-cloud-zero-eight/#static-server-binary">Static server binary</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="more-workshops" href="https://blog.drogue.io/drogue-cloud-zero-eight/#more-workshops">More workshops</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="eclipse-iot-package-telemetry-end-to-end" href="https://blog.drogue.io/drogue-cloud-zero-eight/#eclipse-iot-package-telemetry-end-to-end">Eclipse IoT package – Telemetry end-to-end</a>
+          </li>
+          
+          <li>
+            <a data-for="from-wifi-to-websocket" href="https://blog.drogue.io/drogue-cloud-zero-eight/#from-wifi-to-websocket">From WiFi to Websocket</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="follow-ups" href="https://blog.drogue.io/drogue-cloud-zero-eight/#follow-ups">Follow-ups</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/drogue-cloud-zero-eight/#what-s-next">What&#x27;s next</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="also-see" href="https://blog.drogue.io/drogue-cloud-zero-eight/#also-see">Also see</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Cloud: Release 0.6.0 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Drogue Cloud 0.6.0 is finally out: Finer grained access control, improved Web UI, Helm Charts, direct Kafka integration, and more!">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Cloud: Release 0.6.0" />
+<meta name="twitter:description" content="Drogue Cloud 0.6.0 is finally out: Finer grained access control, improved Web UI, Helm Charts, direct Kafka integration, and more!">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Cloud: Release 0.6.0">
+<meta property="og:url" content="https://blog.drogue.io/drogue-cloud-zero-six">
+<meta property="og:description" content="Drogue Cloud 0.6.0 is finally out: Finer grained access control, improved Web UI, Helm Charts, direct Kafka integration, and more!">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Cloud: Release 0.6.0</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1562">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-06-30'>30 June 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-six&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>Drogue Cloud 0.6.0 ran a bit late. But, it is ready when it is ready! This time, the focus was more on improving on what we already have. And taking a look back, we improved a lot.</p>
+<span id="continue-reading"></span><h2 id="for-the-impatient">For the impatient</h2>
+<p>In this release we focused on improving existing functionality:</p>
+<ul>
+<li>Added automated, end-to-end testing</li>
+<li>Switched from Kustomize to Helm, dropping many of the shell based pre-/post-processing</li>
+<li>Directly connect to Kafka</li>
+<li>Finer grained access control, a public data stream, and a new workshop based on Quarkus and MQTT</li>
+<li>Successfully tested running on GKE</li>
+<li>Support for viewing and editing of applications and devices in the web console</li>
+<li>Aggregated API endpoint, switch to Kubernetes Ingress for services</li>
+<li>Bug fixes and performance improvements</li>
+</ul>
+<h2 id="improved-testing">Improved Testing</h2>
+<p>Testing isn't an easy topic if you want to do it right. And while other programming languages have a head start on this,
+Rust, being a fairly new language, has a bit of catching up to do.</p>
+<p>In Drogue Cloud we already have some unit tests and a few more tests, testing complete services. But so far, we did not
+have any complete, end-to-end system tests. That has now changed.</p>
+<p>The goal was that we have some testing pipeline, which performs a complete test run, with a released or pre-released
+version of Drogue Cloud. Spin up a Kubernetes cluster, deploy Drogue Cloud, install <code>drg</code> and run some tests against
+that installation. Including testing the web UI. And of course, we wanted to stick to the programming language we
+love: Rust.</p>
+<p>In the <a href="https://github.com/drogue-iot/drogue-cloud-testing">drogue-iot/drogue-cloud-testing</a> repository, you will now
+find a test suite, which takes care of that. This is an on-demand process where we can request a test run and validate
+a packaged installer. And while we are using GitHub actions to orchestrate that, we use external compute resources to
+have the resources we need.</p>
+<p>As you can imagine, it is worth the effort, but it also took a bit more time than expected.</p>
+<h2 id="helm-charts-and-gitops">Helm charts and GitOps</h2>
+<p>We started out using YAML files to get Drogue Cloud deployed. When we needed a bit more flexibility, we switched to
+Kustomize. Still, we found out that we need even more flexibility. We wanted to have the ability to turn certain
+features on or off. Swap out the container registry with a single setting, replace the provided Postgres or Kafka
+instance with an existing, external one. All of this is pretty simple when using Helm.</p>
+<p>Why didn't we pick Helm in the beginning? Well, creating Helm charts comes with a bit of complexity. Plain YAML files
+are much simpler. In Drogue Cloud we try to start simple and adopt more complex technologies when we see a benefit.
+Like in this case, we figured out that we grew out of the plain YAML files and Kustomize, and so we moved on.</p>
+<p>And with the migration to Helm Charts, we could also drop a good portion of our accompanying shell scripts, tweaking
+things after applying the deployment. This finally allows us to perform a more GitOps style approach when deploying
+Drogue Cloud. The sandbox we are operating is now being deployed using ArgoCD. With that, we can always check the state
+of the deployment. See if it is out of sync and what will change when we reconcile.</p>
+<p>For the shell script installer, that still exists. It is a bit fancier than before and uses Helm in the background. But
+you can still deploy Drogue Cloud with a single command to your cluster:</p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-six/installer.png" alt="Installer Screenshot" /></p>
+<h2 id="direct-kafka-interface">Direct Kafka interface</h2>
+<p>We still think that Knative eventing is a great tool to easily wire up event streams and services. And still, in the
+Drogue Cloud infrastructure, we have a few use cases, which are not covered by Knative eventing. And which seems to be
+out of scope too.</p>
+<p>One example is our MQTT integration service. When a user connects to that service and starts a new subscription, events
+will flow to that connection. This type of setup is a more &quot;on-demand&quot; or &quot;pull model&quot; style of receiving events. The
+decision that events should flow to that consumer is not made by Drogue Cloud, but by the user connecting to that
+service. This is a model which Knative eventing doesn't support, but we think it is crucial for an IoT-as-a-service
+solution.</p>
+<p>Does that mean we gave up on Knative eventing? Absolutely not! Cloud Events, which is the event specification used by
+Knative Eventing, is still at the core of Drogue Cloud. We also use Knative Eventing on the <a href="https://book.drogue.io/drogue-cloud/dev/concepts.html#_applications">application-side</a>, to
+process, transform, and consume events. So with that, you can still use for example a
+<a href="https://knative.dev/docs/eventing/samples/kafka/source/"><code>KafkaSource</code></a> to have messages flow towards your Knative
+service.</p>
+<p>With the combination of the more flexible Helm charts, this now also allows one to use an externally managed Kafka
+instance, like <a href="https://developers.redhat.com/products/red-hat-openshift-streams-for-apache-kafka/getting-started">Red Hat OpenShift Streams for Apache Kafka</a>.</p>
+<h2 id="finer-grained-access-control-public-data-stream-quarkus-mqtt-workshop">Finer grained access control, public data stream, Quarkus MQTT workshop</h2>
+<p>We already added API tokens in 0.5.0, so that you can easily give applications access to Drogue Cloud. In 0.6.0 we
+expanded access control in a different direction. Beside having the ability to transfer ownership of an application,
+you can now assign a list of members and assign a role for each member. Roles include reading, modifying, or
+administrating an application and its resources. Basically, you can grant access to an application to others,
+including the &quot;anonymous user&quot;.</p>
+<p>And with that, we can realize a public stream of data. If you have used Drogue Cloud before, you might recall the
+temperature example that we use as an example. We spiced this up a little bit, deployed this on the sandbox, and made
+the application readable to anonymous users.</p>
+<p>For one, you can simply get the stream using the following command:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>mqtt sub --topic app/drogue-public-temperature --host mqtt-integration.sandbox.drogue.cloud --port 443 -s
+</span></code></pre>
+<p>This also allowed us to create a second workshop in our &quot;book&quot;. The workshop uses Quarkus and
+MicroProfile to consume data from the MQTT integration and to implement a web dashboard, showing the temperature and its
+geo-location on a map.</p>
+<p>Using the sandbox and the public data stream, you don't need to deploy Drogue Cloud yourself. You can start right
+away, focussing on the cloud side of things. Either using our <a href="https://github.com/drogue-iot/quarkus-mqtt-integration-starter">quarkus-mqtt-integration-starter</a>, or with a more guided approach through our workshop.</p>
+<p>Curious what this looks like? Take a peek:</p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-six/mqtt-starter.png" alt="Screenshot of dashboard" /></p>
+<p>Or take a look at the running version of this application: <a href="https://quarkus-mqtt-integration-starter-drogue-quarkus-demos.apps.wonderful.iot-playground.org/">https://quarkus-mqtt-integration-starter-drogue-quarkus-demos.apps.wonderful.iot-playground.org/</a></p>
+<h2 id="but-wait-there-is-more">But wait, there is more …</h2>
+<p>We provide out of the box support for Minikube, Kind, and OpenShift. However, we want to ensure that Drogue Cloud runs
+on all Kubernetes distributions. So a long-standing goal was to actually test this, and fix issues that would
+prevent us from doing so. For 0.6.0 we have successfully tested running on top of Google Kubernetes Engine (GKE).</p>
+<p>All services are now exported through an aggregated API endpoint. The device registry can now handle hashed passwords.
+Switch to Kubernetes Ingress for console and API endpoints. Fix up a lot of labels for different Kubernetes resources.</p>
+<p>The web console has a bunch of new pages, mainly around applications and devices. It is now possible to view some
+information in a structured form. And additionally, you can also edit the YAML directly from the web console.</p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-six/web-console.png" alt="Screenshot of console" /></p>
+<h2 id="what-s-next">What's next</h2>
+<p>The Kafka interface layer still needs to handle the one-topic-per-application model. However, cleaning up the Kafka
+interface felt more important, and so we postponed this task for the 0.7.0 release.</p>
+<p>We want to add some additional IoT specific endpoints. Making Drogue Cloud more compatible with other systems, and
+allowing to leverage existing APIs sounds like the good idea. Our plan is to take a look at some existing open source
+APIs, and try to add them. Eclipse Hono and FIWARE come to our mind.</p>
+<p>Improving the developer experience even more is also on our list. For example, providing edge-side SDKs in languages
+like Python. Creating some more examples and workshops using Kafka and Knative. Maybe in combination with
+Quarkus and Funqy.</p>
+<p>Running on GKE is fine, but we also want to test Drogue Cloud on Azure, AWS, and others. If you have an interest in
+this too, feel free to join this effort.</p>
+<p>We also labeled some issues now with <a href="https://github.com/drogue-iot/drogue-cloud/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22">help wanted</a>. Just in case you are looking for a way to contribute. </p>
+<p>As always, you are welcome to join and give the new version a try on <a href="https://sandbox.drogue.cloud">our sandbox</a>.</p>
+<h2 id="also-see">Also see</h2>
+<ul>
+<li><a href="https://github.com/drogue-iot/drogue-cloud/releases">Releases</a></li>
+<li><a href="https://github.com/drogue-iot/drogue-cloud-testing">Drogue Cloud Testing</a></li>
+<li><a href="https://sandbox.drogue.cloud">Public sandbox</a></li>
+<li><a href="https://github.com/drogue-iot/quarkus-mqtt-integration-starter">Quarkus MQTT integration starter</a></li>
+<li><a href="https://book.drogue.io/drogue-workshops/quarkus-mqtt-starter/index.html">Quarkus MQTT integration workshop</a></li>
+</ul>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="for-the-impatient" href="https://blog.drogue.io/drogue-cloud-zero-six/#for-the-impatient">For the impatient</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="improved-testing" href="https://blog.drogue.io/drogue-cloud-zero-six/#improved-testing">Improved Testing</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="helm-charts-and-gitops" href="https://blog.drogue.io/drogue-cloud-zero-six/#helm-charts-and-gitops">Helm charts and GitOps</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="direct-kafka-interface" href="https://blog.drogue.io/drogue-cloud-zero-six/#direct-kafka-interface">Direct Kafka interface</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="finer-grained-access-control-public-data-stream-quarkus-mqtt-workshop" href="https://blog.drogue.io/drogue-cloud-zero-six/#finer-grained-access-control-public-data-stream-quarkus-mqtt-workshop">Finer grained access control, public data stream, Quarkus MQTT workshop</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="but-wait-there-is-more" href="https://blog.drogue.io/drogue-cloud-zero-six/#but-wait-there-is-more">But wait, there is more …</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/drogue-cloud-zero-six/#what-s-next">What&#x27;s next</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="also-see" href="https://blog.drogue.io/drogue-cloud-zero-six/#also-see">Also see</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Cloud: Release 0.11.0 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Drogue Cloud 0.11.0 is mostly improving existing functionality, polishing what is already there.">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Cloud: Release 0.11.0" />
+<meta name="twitter:description" content="Drogue Cloud 0.11.0 is mostly improving existing functionality, polishing what is already there.">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Cloud: Release 0.11.0">
+<meta property="og:url" content="https://blog.drogue.io/drogue-cloud-zero-eleven">
+<meta property="og:description" content="Drogue Cloud 0.11.0 is mostly improving existing functionality, polishing what is already there.">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Cloud: Release 0.11.0</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>7 minute read</span>
+        <meta itemprop="wordCount" content="1225">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-11-17'>17 November 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-eleven&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>This release is another release with a focus on improving existing functionality. The reason for this is simple: it works just fine. True, there is always room for improvement, but also to build upon what is
+there, so maybe, read on …</p>
+<span id="continue-reading"></span><h2 id="tls-improvements">TLS improvements</h2>
+<p>CoAP finally has support for DTLS. DTLS is a variant of TLS, but based on UDP, which is used by CoAP. The CoAP
+endpoint originated from a Google Summer of Code project. But DTLS support was excluded, as this would have been too much for one summer. This has changed now, and the new release supports CoAP with DTLS.</p>
+<p>When using CoAP with DTLS, it makes sense to also support TLS-PKS, which we so far didn't support. TLS-PKS uses
+a simple &quot;pre shared key&quot;, instead of a TLS session handshake and certificates. This speeds up establishing TLS
+connections, and also reduces the work devices have to perform in order to connect to a TLS based services.
+A feature which makes sense, which thinking about tiny devices, using CoAP.</p>
+<p>With the new release, we do support TLS-PSK for all endpoints, not only CoAP, but for HTTP and MQTT too.</p>
+<h2 id="dependencies-quality-of-life-improvements">Dependencies &amp; Quality of life improvements</h2>
+<p>From a user perspective, it is hardly worth mentioning. But, quite some time went into updating
+dependencies for this release. From the build system up to the frontend. Keycloak, Kafka, Kubernetes, but also
+GitHub Actions Runners … everyone is updating something, and we did catch up.</p>
+<p>And there are a bunch of minor improvements, like new UI features in the console, CORS support for the HTTP endpoint, more knobs in the Helm charts.</p>
+<p>Bug fixes and performance improvements 😉</p>
+<h2 id="more-integration-examples">More integration examples</h2>
+<p>Drogue Cloud doesn't require you to use any specific device or SDK. We want to make it easy for devices to
+connect and communicate with the cloud, and not create another closed IoT ecosystem.</p>
+<p>This is already possible, and just to show you &quot;how&quot;, we added two more examples:</p>
+<ul>
+<li>https://github.com/drogue-iot/micropython-examples</li>
+<li>https://github.com/drogue-iot/arduino-examples</li>
+</ul>
+<p>Both examples target microcontrollers, with existing, well known platforms (MicroPython and Arduino). As you
+can see, it only takes a few lines to connect to the cloud side.</p>
+<h2 id="digital-twin">Digital twin</h2>
+<p>So, if we didn't implement a bunch of new features in Drogue Cloud, what did we do instead (I mean aside from
+<a href="https://twitter.com/lulf/status/1584248208015777792">EclipseCon</a>)?</p>
+<p>Digital twin! We mentioned in the last release blog post that we needed some more time to think about it. And so we did.</p>
+<p>Drogue Cloud is intended to normalize IoT connectivity.
+<a href="https://github.com/drogue-iot/drogue-doppelgaenger">Drogue Doppelgänger</a> is there to normalize IoT payload.
+And once you've normalized payload, you also want to work with the data. And some tasks are just so common that
+it makes sense to provide them out of the box. One might call that &quot;IoT middleware&quot;, or &quot;Digital Twin&quot;, as it
+works with the mirrored state of the devices. The name of the project is
+<a href="https://en.wikipedia.org/wiki/Doppelg%C3%A4nger">Doppelgänger</a>, and it mainly provides digital twin functionality.</p>
+<p>The goals of Doppelgänger are:</p>
+<ul>
+<li>Work with any IoT connectivity layer: True, we focus on Drogue Cloud. But with a bit of code, it should easily be possible to attach it to e.g. a standard MQTT broker.</li>
+<li>Normalize IoT payload: The tricky part. As you never know what data you get, unless you adopt some existing schema. And this is what we aim for. We do have a simple internal data model, which should be able to support existing data models, like OPC UA. And like the connectivity layer, we provide a translation layer to convert data into the Doppelgänger thing model.</li>
+<li>Provide out of the box functionality to work with data: Renaming properties, transforming values, evaluating state, reconciling between desired and actual state, aggregating data, building thing relations.</li>
+<li>Provide APIs to the things state and configuration: not only our own APIs, but also support APIs like OPC UA or Web of Things.</li>
+</ul>
+<p>So, if these are the goals, what is the current state of the project? We do have a 0.1 release. That sounds early, and it is. But it is the right time to check it out, and come up with your feedback 😉.</p>
+<p>And just to make you a bit curious, here are a few features the 0.1 release already brings:</p>
+<ul>
+<li>IoT connectivity with Drogue Cloud</li>
+<li>Updating state from JSON messages</li>
+<li>State reconciliation with custom JavaScript code (based on state change, timers, or lifecycle events)</li>
+<li>State aggregation and a dynamic hierarchy using references</li>
+<li>Validation of the things state using a JSON Schema</li>
+<li>Reconciliation of desired state based on actual state (e.g. drive the actual state towards the desired state using commands, with re-try and scripts)</li>
+<li>Subscribing to the thing state using WebSocket and OPC UA</li>
+</ul>
+<p>We do have a set of <a href="https://github.com/drogue-iot/drogue-doppelgaenger/tree/main/examples">example snippets</a> which might show this in a more technical way.</p>
+<figure>
+<img src="twin1.png" alt="Screenshot #1">
+<figcaption>Root of the hierarchy in the debugger web application</figcaption>
+</figure>
+<figure>
+<img src="twin2.png" alt="Screenshot #2">
+<figcaption>A thing in the web debugger</figcaption>
+</figure>
+<figure>
+<img src="twin3.png" alt="Screenshot #3">
+<figcaption>The same hierarchy in an OPC UA client</figcaption>
+</figure>
+<figure>
+<img src="twin4.png" alt="Screenshot #4">
+<figcaption>A desired value sync in action</figcaption>
+</figure>
+<p>And to give you a bit of context to the screenshots, this shows the web based debugger on a Doppelgänger instance we used for the IoT hackathon at EclipseCon 2022. The data came from micro:bits, through a Bluetooth Mesh network, connected via gateways to Drogue Cloud. The OPC UA twin integration shows the same data, just using OPC UA as the API instead of a simple WebSocket API.</p>
+<h2 id="what-s-next">What's next</h2>
+<p>There are some bigger topics to tackle, presumably these are all tasks for 2023.</p>
+<h3 id="scale-testing">Scale testing</h3>
+<p>We tested several aspects of the performance, but we never did a scale test to push the system to its limit.
+And once we do, I am sure we will find something to fix.</p>
+<p>So part of next year we will be looking into scale testing, in order to come up with some numbers, and
+maybe some nice charts.</p>
+<h3 id="digital-twin-1">Digital twin</h3>
+<p>We only got started with digital twin. It is a 0.1 release, and some basic tasks still need to be completed.
+But we already have some ideas on what to do next:</p>
+<ul>
+<li>Supporting additional data models and APIs: <a href="https://covesa.github.io/vehicle_signal_specification/">VSS</a>, <a href="https://www.w3.org/WoT/">Web of Things</a>, <a href="https://www.plattform-i40.de/IP/Redaktion/EN/Downloads/Publikation/Details_of_the_Asset_Administration_Shell_Part1_V3.html">Asset Administration Shell</a> come into our mind.</li>
+<li>Adding support for WebAssembly in addition to JavaScript code.</li>
+<li>Taking Doppelgänger to the Edge, running some workload on the edge, and building a hierarchy of twins.</li>
+</ul>
+<p>There are so many possibilities, and we would encourage you to
+<a href="https://matrix.to/#/#drogue-iot:matrix.org">reach out to us</a>, and let us know what is important for you. This helps us
+prioritize, and gives you the opportunity to steer the project in a direction that helps you most.</p>
+<p>But of course, contribution in the form of code is also very welcome 😉 </p>
+<h2 id="also-see">Also see</h2>
+<ul>
+<li><a href="https://github.com/drogue-iot/drogue-cloud/releases">Releases</a></li>
+<li><a href="https://sandbox.drogue.cloud">Public sandbox</a></li>
+<li><a href="https://github.com/drogue-iot/drogue-doppelgaenger">Drogue Doppelgänger</a></li>
+</ul>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="tls-improvements" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#tls-improvements">TLS improvements</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="dependencies-quality-of-life-improvements" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#dependencies-quality-of-life-improvements">Dependencies &amp; Quality of life improvements</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="more-integration-examples" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#more-integration-examples">More integration examples</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="digital-twin" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#digital-twin">Digital twin</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#what-s-next">What&#x27;s next</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="scale-testing" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#scale-testing">Scale testing</a>
+          </li>
+          
+          <li>
+            <a data-for="digital-twin-1" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#digital-twin-1">Digital twin</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="also-see" href="https://blog.drogue.io/drogue-cloud-zero-eleven/#also-see">Also see</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

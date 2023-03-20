@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>drg for easy drogue cloud administration tasks &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="A guided tour of `drg` the command line client for drogue-cloud.">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="drg for easy drogue cloud administration tasks" />
+<meta name="twitter:description" content="A guided tour of `drg` the command line client for drogue-cloud.">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="drg for easy drogue cloud administration tasks">
+<meta property="og:url" content="https://blog.drogue.io/drg-guided-tour">
+<meta property="og:description" content="A guided tour of `drg` the command line client for drogue-cloud.">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">drg for easy drogue cloud administration tasks</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="964">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-04-16'>16 April 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jean-Baptiste Trystram</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drg-guided-tour&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>A guided tour of <code>drg</code>, the command line client that aims to make your life easier when interracting with a <code>drogue-cloud</code> instance.</p>
+<span id="continue-reading"></span>
+<p><code>drg</code> is the newest addition to the drogue family. The idea behind it is to make interactions with the drogue-cloud APIs less cumbersome and more intuitive to use. 
+It aims to have an intuitive usage flow, inspired by the famous <code>kubectl</code> tool. Did I really need to mention it's written in rust? 
+We landed some nice new features recently, enough to warrant a release. Get yourself the lastest version, and hop on for a tour!</p>
+<p>Note: If you used <code>drg</code> before version <code>0.4.0</code> then you MUST delete your configuration file, as its format was changed to support multiple environments. 
+By default it should be <code>$HOME/.config/drg_config.json</code>. (Or whatever your <code>XDG_CONFIG_HOME</code> specifies.) It's now a yaml file with a different structure.</p>
+<h2 id="installing-drg">Installing drg</h2>
+<p>If you have a rust toolchain available you can install <code>drg</code> from <a href="https://crates.io/crates/drg">crates.io</a>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span> cargo install drg
+</span></code></pre>
+<p>It will download and build you the latest released version.</p>
+<p>If you don't have rust on your machine you can download a binary from the <a href="https://github.com/drogue-iot/drg/releases">Github release</a> page. 
+At this time we have Linux and MacOS binaries available.</p>
+<p>If you are a mac user, you can get drg through homebrew:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>brew tap drogue-iot/drg
+</span><span>brew install drg
+</span></code></pre>
+<p>Windows support is coming soon!</p>
+<h2 id="log-in-to-your-drogue-cloud-cluster">Log in to your drogue-cloud cluster</h2>
+<p>Now that you have a running <code>drg</code> you can log in to your cluster:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg login https://api.drogue-cloud-cluster.tld
+</span></code></pre>
+<p>You'll be guided to log in to your cluster using OAuth2, in your usual browser. 
+At this point, <code>drg</code> will ask you to name this context. This allows you to have multiple instances of drogue-cloud configured to switch back and forth. More on that later !</p>
+<h2 id="create-and-manage-applications">Create and manage applications</h2>
+<p>As you may already know, devices communicate with drogue-cloud in a scoped environment called an Application. You can read more about the drogue cloud concepts in the <a href="https://book.drogue.io/drogue-cloud/dev/concepts.html">documentation</a>.</p>
+<p>Let's start by creating an application for the things in my house in our drogue-cloud instance:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg create app house
+</span><span>App house created.
+</span></code></pre>
+<p>That is neat but it is definitely missing some context. We can also create an entry with some more context in the <code>spec</code> section:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg create app french-house --spec &#39;{&quot;location&quot;:&quot;france&quot;}&#39;
+</span><span>App french-house created.
+</span></code></pre>
+<p>You can also read data from a file: <code>drg create app house -f /path/to/json/file</code>. Please note in that case the json file must describe the whole object. Here is an example:</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  &quot;</span><span style="color:#a3be8c;">metadata</span><span>&quot;: {
+</span><span>    &quot;</span><span style="color:#a3be8c;">name</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">french-house</span><span>&quot;
+</span><span>  },
+</span><span>  &quot;</span><span style="color:#a3be8c;">spec</span><span>&quot;: {
+</span><span>    &quot;</span><span style="color:#a3be8c;">location</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">france</span><span>&quot;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>But let's say I moved to a new country as I need to improve my german. Let's fix that ! <code>drg edit</code> will spawn you a neat editor:
+<a href="https://asciinema.org/a/LiPIT2S22pP3MCcsZS9SNlZaF"><img src="https://asciinema.org/a/LiPIT2S22pP3MCcsZS9SNlZaF.svg" alt="asciicast" /></a></p>
+<p>Applications can also be updated reading files : <code>drg update app -f /path/to/app/json/file</code>. 
+Make sure you retrieve the full metadata object before doing an update (<code>drg get app house</code> will help you do that) because 
+you need to provide some other data for an update, such as the unique id of the app and its resource version!</p>
+<p>And of course, if you sell your house you can always remove it from the system:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span> drg delete house french-house
+</span></code></pre>
+<h2 id="create-and-manage-devices">Create and manage devices</h2>
+<p>So now that we have a good idea of how to manage our house scope let's add devices:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg create device fridge --app=house
+</span></code></pre>
+<p>The behaviour is the same as for the applications, so you can create from a file, update, edit and so on...</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg create device coffee-machine --app=house -f /path/to/device/json
+</span><span>drg update device coffee-machine --app=house
+</span></code></pre>
+<p>I am starting to get annoyed by the <code>--app</code> argument... It's needlessly repetitive. Let's pull it from the environment:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>export DRG_APP=house
+</span><span>drg create device fridge
+</span></code></pre>
+<p>The app setting is now pulled from the env variable. Less keystrokes! Yay! 
+It can also be pulled from the context, that leads nicely into the configuration section, see below.</p>
+<h2 id="contexts-and-configuration-file">Contexts and configuration file</h2>
+<p>As I said in the beginning <code>drg</code> can keep track of multiple clusters if the need arises. Let's explain how that works. 
+The configuration file contains multiple contexts. A context represents a cluster API endpoint, a default application (optional) and an authentication token (0Auth2).</p>
+<p>When we logged in to a cluster at the beginning we saved a context with a name. Let's say we named it <code>my-cluster</code>, we can set a default app for it:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span> drg context set-default-app house --context=my-cluster
+</span></code></pre>
+<p>Note: here the <code>--context</code> argument is optional as a default context can be pulled from the environment variable <code>DRG_CONTEXT</code>. 
+Also, when you log into a cluster without previous info in the config file (i.e. running <code>drg login</code>for the first time), the new context will be set as active by default. </p>
+<p>But <code>my-cluster</code> is not a really great name, as we just moved it to an Azure cluster. Let's make it clearer:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg context rename my-cluster azure.
+</span></code></pre>
+<p>You can list, delete, set another context as active and show the config file.</p>
+<h1 id="what-s-next">What's next ?</h1>
+<p>We have a nice long list of things we want to add in <code>drg</code>!
+Here are the high priority items:</p>
+<ul>
+<li>list devices and apps</li>
+<li>Support JSON PATCH to update resources</li>
+<li>Sending commands to devices using the <a href="https://blog.drogue.io/command-your-devices/">command and control feature</a> of drogue cloud.</li>
+<li>Tap into a stream of telemetry and see the stream on your console.</li>
+</ul>
+<p>You can go and look <a href="https://github.com/drogue-iot/drg/issues">in the issue section of the repo</a> for more details and submit your awesone ideas there.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="installing-drg" href="https://blog.drogue.io/drg-guided-tour/#installing-drg">Installing drg</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="log-in-to-your-drogue-cloud-cluster" href="https://blog.drogue.io/drg-guided-tour/#log-in-to-your-drogue-cloud-cluster">Log in to your drogue-cloud cluster</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="create-and-manage-applications" href="https://blog.drogue.io/drg-guided-tour/#create-and-manage-applications">Create and manage applications</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="create-and-manage-devices" href="https://blog.drogue.io/drg-guided-tour/#create-and-manage-devices">Create and manage devices</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="contexts-and-configuration-file" href="https://blog.drogue.io/drg-guided-tour/#contexts-and-configuration-file">Contexts and configuration file</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/drg-guided-tour/#what-s-next">What&#x27;s next ?</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Cloud: Release 0.7.0 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Summer is over, Drogue Cloud 0.7.0 is out: Kafka topic provisioning, CoAP support (GSoC), Websocket integration,  TimescaleDB, and much more!">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Cloud: Release 0.7.0" />
+<meta name="twitter:description" content="Summer is over, Drogue Cloud 0.7.0 is out: Kafka topic provisioning, CoAP support (GSoC), Websocket integration,  TimescaleDB, and much more!">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Cloud: Release 0.7.0">
+<meta property="og:url" content="https://blog.drogue.io/drogue-cloud-zero-seven">
+<meta property="og:description" content="Summer is over, Drogue Cloud 0.7.0 is out: Kafka topic provisioning, CoAP support (GSoC), Websocket integration,  TimescaleDB, and much more!">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Cloud: Release 0.7.0</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>6 minute read</span>
+        <meta itemprop="wordCount" content="1017">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-09-22'>22 September 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-seven&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>The 0.7 release cycle ran through summer and with that, two things happened: people got on vacation, and
+Google Summer of Code was going on. So instead of forcing out a release, we decided to just wait and release at a later
+time. By the way, a decision we discussed during our open community calls: <a href="https://calendar.google.com/calendar/u/0/embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com">come and join</a>!</p>
+<span id="continue-reading"></span><h2 id="kafka-topic-provisioning">Kafka topic provisioning</h2>
+<p>We wanted to split up the Kafka topics for quite a while now. This release, we finally did it! Each application has
+its own event topic now. Yes, that means that command &amp; control still only has a single topic, but we are getting there.</p>
+<p>Using <a href="https://strimzi.io/">Strimzi</a> under the hood, we already have an operator which can take care of creating Kafka topics, users, and
+access roles. So we improved our device registry operator capabilities a bit, and created a (Strimzi) &quot;topic operator&quot;,
+which requests Kafka resources from Strimzi, tracks their state, and syncs that with our device registry.</p>
+<p>The standard operator can also be replaced, to provision Kafka topics in a different way, should you need that. But
+right now, Strimzi is the default implementation for this.</p>
+<p>What do you get from that? Each time you create a new application, a Kafka topic will be provisioned, a user created, and
+with that, you have direct access to the Kafka topic with your application. Of course, you can also still use the MQTT
+integration. But wait, there is more …</p>
+<h2 id="websocket-integration">WebSocket integration</h2>
+<p>Getting data out of Drogue Cloud using MQTT is great. But sometimes WebSockets are just easier to use. And so we
+created a <a href="https://book.drogue.io/drogue-cloud/dev/user-guide/integration-ws.html">WebSockets implementation</a> that allows you to stream events. The payload format is of course using Cloud Events again.</p>
+<p>We have a nice blog post, <a href="https://blog.drogue.io/websocket-integration/">explaining how to use the WebSocket integration</a> too.</p>
+<p>And while using a tool like <code>websocat</code> is trivial, <code>drg stream</code> can make it even simpler, taking care of endpoints and
+authentication.</p>
+<h2 id="coap-endpoint">CoAP endpoint</h2>
+<p>Implementing a <a href="https://book.drogue.io/drogue-cloud/dev/user-guide/endpoint-coap.html">CoAP endpoint</a> was the Google Summer of Code project from Pranav. And although he had to learn lots of new
+things, and faced some technical difficulties in addition to the overall complicated situation, he did an amazing job!
+Including end-to-end testing! Well done!</p>
+<p>If you are interested in reading more about his GSoC experience, I recommend reading <a href="https://pranav-bhatt.github.io/GSoC_2021/">his GSoC report</a>.</p>
+<p>One thing that is missing, but that was not a requirement of the project, is the support for DTLS. This is an
+important part but is planned to be added in the future. If you are interested, just let us or Pranav know.</p>
+<h2 id="trust-anchor-management">Trust anchor management</h2>
+<p>Another Google Summer of Code project was <a href="https://vedangj044.github.io/blog/gsoc-community/">adding device trust anchor management</a> by Vedang, for <code>drg</code>, our command-line tool. This enables you to manage device trust
+anchors, in the device registry, using a few simple commands.</p>
+<p>We have a nice blog post on <a href="https://blog.drogue.io/drg-trust/">using X.509 client certificates with drogue-cloud</a>,
+showing a few examples of the new functionality. And there is also a <a href="https://vedangj044.github.io/blog/gsoc-phase1/">summary post on GSoC phase 1</a> from Vedang on how own blog.</p>
+<h2 id="improved-deployment-and-updated-dependencies">Improved deployment and updated dependencies</h2>
+<p>A lot of improvements have been made on deploying Drogue Cloud. The Helm Charts are more matured and provide more
+knobs to tweak the deployment. Dependencies have been updated, which brings you Keycloak 15, Strimzi 0.25, and more.</p>
+<p>As we now have dedicated Kafka topics, we could also improve the deployment of the standard example. It is still
+deployed by default when using the script, but total optional and externally installable when using the Helm Charts
+directly.</p>
+<p>So you can just install the standard example application on your own cluster, connecting it to the Drogue Cloud
+sandbox installation.</p>
+<h2 id="switch-to-timescaledb">Switch to TimescaleDB</h2>
+<p>Updating dependencies as a task for Drogue Cloud 0.7. And when we tried to upgrade InfluxDB, which we used as an
+example so far, we ran into some real blockers. It turned out, it was easier to migrate from InfluxDB to TimescaleDB
+than from InfluxDB 1 to 2. Also thanks to <a href="https://www.outfluxdata.com/">Outflux</a>, a great tool should you feel the same
+pain.</p>
+<p>With a few commands, we were able to migrate all our sandbox data to TimescaleDB. Recording it there from now on.
+This also led to a new version of the pusher: the <a href="https://github.com/drogue-iot/drogue-postgresql-pusher">drogue-postgres-pusher</a>
+is a simple Knative image, which extracts data from Cloud Events, and pushes it to PostgreSQL or TimescaleDB.</p>
+<h2 id="what-s-next">What's next</h2>
+<p>We got a nice and stable foundation now when it comes to IoT connectivity. There is always more you can add, and
+we will. But for the next release of Drogue Cloud, we want to focus on polishing what we already have. This includes
+support for metrics and tracing but also making it easier to integrate with existing solutions.</p>
+<p>As Drogue Cloud is a platform to build your applications on, we will be creating more examples and tutorials to showcase
+what is possible. A WiFi example in combination with Drogue Device is in the making. And we will also continue
+working on the new <a href="https://github.com/eclipse/packages/pull/288">Eclipse IoT &quot;Telemetry end-to-end&quot; package</a>,
+which makes use of Drogue Cloud too. But also shows how to integrate other, existing IoT projects
+like <a href="https://www.eclipse.org/kura/">Eclipse Kura</a> and <a href="https://www.eclipse.org/ditto/">Eclipse Ditto</a>.</p>
+<p>As always, you are welcome to join and give the new version a try on <a href="https://sandbox.drogue.cloud">our sandbox</a>.</p>
+<p>Oh, and we do have a <a href="https://drogue.io/">proper landing page</a> now!</p>
+<h2 id="also-see">Also see</h2>
+<ul>
+<li><a href="https://github.com/drogue-iot/drogue-cloud/releases">Releases</a></li>
+<li><a href="https://sandbox.drogue.cloud">Public sandbox</a></li>
+<li><a href="https://pranav-bhatt.github.io/GSoC_2021/">Pranav's GSoC report</a></li>
+<li><a href="https://vedangj044.github.io/blog/">Vedang's blog</a></li>
+<li><a href="https://github.com/drogue-iot/drg">drg</a> (Drogue Cloud command line tool)</li>
+<li><a href="https://github.com/drogue-iot/drogue-postgresql-pusher">PostgreSQL/TimescaleDB pusher</a></li>
+</ul>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="kafka-topic-provisioning" href="https://blog.drogue.io/drogue-cloud-zero-seven/#kafka-topic-provisioning">Kafka topic provisioning</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="websocket-integration" href="https://blog.drogue.io/drogue-cloud-zero-seven/#websocket-integration">WebSocket integration</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="coap-endpoint" href="https://blog.drogue.io/drogue-cloud-zero-seven/#coap-endpoint">CoAP endpoint</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="trust-anchor-management" href="https://blog.drogue.io/drogue-cloud-zero-seven/#trust-anchor-management">Trust anchor management</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="improved-deployment-and-updated-dependencies" href="https://blog.drogue.io/drogue-cloud-zero-seven/#improved-deployment-and-updated-dependencies">Improved deployment and updated dependencies</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="switch-to-timescaledb" href="https://blog.drogue.io/drogue-cloud-zero-seven/#switch-to-timescaledb">Switch to TimescaleDB</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/drogue-cloud-zero-seven/#what-s-next">What&#x27;s next</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="also-see" href="https://blog.drogue.io/drogue-cloud-zero-seven/#also-see">Also see</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

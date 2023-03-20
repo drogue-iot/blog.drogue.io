@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>The making of a PCB: Part 2 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we&#x27;ll continue the story from last time and look at the revised versions and how to scale up the production with PCB assembly and a test jig.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="The making of a PCB: Part 2" />
+<meta name="twitter:description" content="Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we&#x27;ll continue the story from last time and look at the revised versions and how to scale up the production with PCB assembly and a test jig.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="The making of a PCB: Part 2">
+<meta property="og:url" content="https://blog.drogue.io/pcb-part-2">
+<meta property="og:description" content="Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we&#x27;ll continue the story from last time and look at the revised versions and how to scale up the production with PCB assembly and a test jig.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">The making of a PCB: Part 2</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1453">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-03-30'>30 March 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;pcb-part-2&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>Producing 1 PCB is very different from producing many PCBs, especially considering the logistics of assembling and testing. In this blog post, we'll continue the story from <a href="https://blog.drogue.io/pcb-part-1/">last time</a> and look at the revised versions and how to scale up the production with PCB assembly and a test jig.</p>
+<span id="continue-reading"></span><h1 id="testing-and-review">Testing and review</h1>
+<p>The initial revision of the PCB worked for the most part. All the critical sensors appeared to be working, but we found a few things to improve on the design, and a design review with <a href="https://jamesmunns.com/blog/">James Munns</a> helped identifying some additional improvements.</p>
+<figure style="width: 40%; float: left; padding-right: 10px">
+    <img src="rev2.png" alt="revision 2.0" />
+    <figcaption>Revision 2.0</figcaption>
+</figure>
+<h4 id="button-placement">Button placement</h4>
+<p>The button placement was too close to the thumb when operating with one hand. The fix for this was to place them closer to the center.</p>
+<h4 id="led-brightness">LED brightness</h4>
+<p>The LEDs functioned correctly, but the brightness was not completely even. In particular, the red and green LEDs were a lot brighter than the others. After doubling the resistance, the brightness of the LEDs were a lot more balanced.</p>
+<h4 id="battery-measurement">Battery measurement</h4>
+<p>The battery measurement circuit was wrong, and caused inputs outside the ADC range of the microcontroller. Fixing this involved using different resistor values for the circuit.</p>
+<h4 id="accelerometer-orientation">Accelerometer orientation</h4>
+<p>In order to make the sensor output compatible with both the Adafruit Feather nRF52840 Sense and Feather Adafruit nRF52840 Express, we switched the orientation of the accelerometer to make sure the output axes values was the same.</p>
+<h4 id="board-outline">Board outline</h4>
+<p>The sharp edges are a bit annoying when using the device. Given that this device is supposed to be used in a game like setting, we added some rounded corners.</p>
+<p>In addition,we added a few holes so that we could add a string and users would be able to wear the device around their neck.</p>
+<p>To avoid any potential for radio interference of the Adafruit from the PCB, we also added a keep out zone beneath the radio for good measure.</p>
+<h4 id="power">Power</h4>
+<p>In the initial revision, the power switch was connected to the EN pin of the Adafruit, as this would allow us to use the switch for LiPoly batteries as well. However, even in this mode the device draws power, so we decided to have the switch control the battery power source directly and remove the jumper pins we placed there to prevent accidental reverse current. Instead, we added a Schottky diode to prevent the case of reverse current with both batteries and USB power connected.</p>
+<h4 id="pairing-with-ble-mesh">Pairing with BLE Mesh</h4>
+<p>Since the devices are going to be part of a BLE Mesh network and paired with a single application, we need a way to provision them and identify them. In order to do that, we decided to make room for a QR code sticker in the middle of the board. Then, upon flashing the device, we would set the expected mesh node UUID in the device firmware, and create a mapping between the UUID and a QR code. </p>
+<p>The pairing process will then use this data to ensure sensor data is routed to the expected application.</p>
+<h4 id="wiring-and-traces">Wiring and traces</h4>
+<p>In the initial revision, the outline made no use of ground vias, a technique that adds vias to the board in order to reduce the path from components to ground.</p>
+<h1 id="new-revision">New revision</h1>
+<figure style="width: 40%; float: left; padding-right: 10px">
+    <img src="rev3.png" alt="revision 3.0" />
+    <figcaption>Revision 3.0</figcaption>
+</figure>
+<p>Having fixed the defects, we also initially removed the accelerometer footprint from the PCB, and revision 3.0 did not include it</p>
+<p>Revision 3.0 felt much better in hand, and all sensors worked as we hoped. The biggest unknown before testing was the Schottky diode (which is a component we had not tested before)</p>
+<p>as you can see below. However, to avoid risking supply chain issues, we quickly decided to add it back for a final revision 3.5, with the option of not soldering it when scaling up production.</p>
+<div style="clear: both" />
+<h1 id="flash-jig">Flash jig</h1>
+<figure style="width: 50%; float: right; padding-left: 10px">
+    <img src="testjig.png" alt="test jig" />
+    <figcaption>Test jig</figcaption>
+</figure>
+<p>Programming the Adafruit Feather nRF52840 Express/Sense without the builtin bootloader requires powering the device from USB and attaching an external programmer using one of the following alternatives:</p>
+<ul>
+<li>Attaching a SWD cable (only available on the Express)</li>
+<li>Solder wires to SWD solder pads on the back side of the feather</li>
+</ul>
+<p>Both alternatives work for a few devices, but with the potential of 500 devices being made, we needed a better and more efficient way to program them. After reading about <a href="https://learn.adafruit.com/how-to-build-a-testing-fixture">test jigs</a>, we decided to build a custom test jig for the feather, with the goal of not needing any connectors to be attached in order to program the feather.</p>
+<p>In order to do that, we did research on the use of spring loaded pins, aka <a href="https://en.wikipedia.org/wiki/Pogo_pin">pogo pins</a>. After initial experimentation to understand how these pins behaved, we ended up with a setup that worked quite well, and would allow us to spend most time only waiting for the flash operation to succeed.</p>
+<p>In order to build the jig, we needed another custom PCB which had the appropriate footprints for the pogo pins, as well as a way to power the feather using the VUSB and GND pins. After some trial and error, we found some pins that worked out nicely with the feather pins. The board draws power from USB, which will also power the feather when pressed down on the jig. The debug probe is connected to the 4 pins (VTarget, SWDIO, SWDCLK, GND). When the feather touches the standoffs, it will touch all 4 pogo pins as well, at which point one can program the device with the debug probe.</p>
+<p>We also published a <a href="https://www.youtube.com/watch?v=1Ntq5H2DcYU">video</a> of how to operate the test jig with one hand.</p>
+<div style="clear: both" />
+<h1 id="pcb-assembly">PCB assembly</h1>
+<p>For someone not familiar with PCB manufacturing, getting to the point where we could order fully assembled devices was a challenge. Most manufacturers have some online quotation service, but ultimately it was easier talking to their sales department and get the necessary help. We decided to order 5 fully assembled PCBs from RushPCB, who were very helpful and guiding us to retrieve the information they needed.</p>
+<p>For the assembly, we had to prepare (in addition to the gerbers for PCB production itself):</p>
+<ul>
+<li>A Bill of Materials (BOM) for all the components, including the manufacturing part number and the reference designator on the board where it should be placed.</li>
+<li>A component placement file, which can be prepared by KiCad. </li>
+<li>Assembly drawings and instructions. This is essentially a document containing the silk screen, fabrication outline and drill layers, with comments if you have any special requirements. The important part here is that you should assume this document to be read by a human being if clarifications are needed.</li>
+</ul>
+<p>Before scaling up production, we decided to order 5 initial pre-assembled boards from RushPCB to ensure we got things right.</p>
+<figure style="width: 30%; float: left; padding-right: 10px">
+    <img src="rev3_5.png" alt="revision 3.5" />
+    <figcaption>Revision 3.5 (soldered, with accelerometer)</figcaption>
+</figure>
+<p>The final revision worked as we hoped, with some tweaks to ensure the firmware were using the correct ports. After spending some time with the accelerometer, we also made some <a href="https://github.com/lulf/ADXL343.rs/tree/accel_normalized">improvements</a> for the driver to work reliably.</p>
+<h1 id="summary">Summary</h1>
+<p>Throughout these two blog posts, we've seen the steps we took starting from the initial drawing to a potential large scale manufacturing of a fully assembled PCB, including additional equipment to program the devices. A lot of trial and error is expected when trying something new, but we got something that worked in the end. With KiCad, there is a lot of open hardware </p>
+<p>All the design for the PCB can be found on <a href="https://github.com/drogue-iot/burrboard/tree/main/hardware/feather">github</a>. You can also find the firmware that runs the <a href="https://blog.drogue.io/bluetooth-mesh/">BLE Mesh</a> and BLE GATT services, and early stages of a <a href="https://github.com/drogue-iot/burrboard/tree/main/gatt-client">GATT client/gateway</a> and <a href="https://github.com/drogue-iot/burrboard/tree/main/gateway">BLE Mesh gateway</a>, which we'll write more about in the future.</p>
+<p>Eventually, the large scale manufacturing of this device did not happen, but we certainly learned a lot in the process, which we plan to make use of as we want to create more boards to demonstrate Drogue IoT, both cloud and device. </p>
+<div style="clear: both" />
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="testing-and-review" href="https://blog.drogue.io/pcb-part-2/#testing-and-review">Testing and review</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="button-placement" href="https://blog.drogue.io/pcb-part-2/#button-placement">Button placement</a>
+          </li>
+          
+          <li>
+            <a data-for="led-brightness" href="https://blog.drogue.io/pcb-part-2/#led-brightness">LED brightness</a>
+          </li>
+          
+          <li>
+            <a data-for="battery-measurement" href="https://blog.drogue.io/pcb-part-2/#battery-measurement">Battery measurement</a>
+          </li>
+          
+          <li>
+            <a data-for="accelerometer-orientation" href="https://blog.drogue.io/pcb-part-2/#accelerometer-orientation">Accelerometer orientation</a>
+          </li>
+          
+          <li>
+            <a data-for="board-outline" href="https://blog.drogue.io/pcb-part-2/#board-outline">Board outline</a>
+          </li>
+          
+          <li>
+            <a data-for="power" href="https://blog.drogue.io/pcb-part-2/#power">Power</a>
+          </li>
+          
+          <li>
+            <a data-for="pairing-with-ble-mesh" href="https://blog.drogue.io/pcb-part-2/#pairing-with-ble-mesh">Pairing with BLE Mesh</a>
+          </li>
+          
+          <li>
+            <a data-for="wiring-and-traces" href="https://blog.drogue.io/pcb-part-2/#wiring-and-traces">Wiring and traces</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="new-revision" href="https://blog.drogue.io/pcb-part-2/#new-revision">New revision</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="flash-jig" href="https://blog.drogue.io/pcb-part-2/#flash-jig">Flash jig</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="pcb-assembly" href="https://blog.drogue.io/pcb-part-2/#pcb-assembly">PCB assembly</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="summary" href="https://blog.drogue.io/pcb-part-2/#summary">Summary</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

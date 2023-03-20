@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Introducing Drogue Cloud Server &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="We love Kubernetes and the standardized API it brings to deploying applications in the cloud. For running a local instance of Drogue Cloud, minikube is already a great alternative. But sometimes, you just want to have an easy getting started experience, to reduce turnaround time when testing changes to Drogue Cloud itself, or for running in environments where Kubernetes is not available.
+Read on to learn how you can run Drogue Cloud standalone.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Introducing Drogue Cloud Server" />
+<meta name="twitter:description" content="We love Kubernetes and the standardized API it brings to deploying applications in the cloud. For running a local instance of Drogue Cloud, minikube is already a great alternative. But sometimes, you just want to have an easy getting started experience, to reduce turnaround time when testing changes to Drogue Cloud itself, or for running in environments where Kubernetes is not available.
+Read on to learn how you can run Drogue Cloud standalone.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Introducing Drogue Cloud Server">
+<meta property="og:url" content="https://blog.drogue.io/introducing-drogue-server">
+<meta property="og:description" content="We love Kubernetes and the standardized API it brings to deploying applications in the cloud. For running a local instance of Drogue Cloud, minikube is already a great alternative. But sometimes, you just want to have an easy getting started experience, to reduce turnaround time when testing changes to Drogue Cloud itself, or for running in environments where Kubernetes is not available.
+Read on to learn how you can run Drogue Cloud standalone.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Introducing Drogue Cloud Server</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>6 minute read</span>
+        <meta itemprop="wordCount" content="1190">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-11-08'> 8 November 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;introducing-drogue-server&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>We love Kubernetes and the standardized API it brings to deploying applications in the cloud. For running a local instance of Drogue Cloud, <a href="https://blog.drogue.io/minikube-roundtrip/">minikube</a> is already a great alternative. But sometimes, you just want to have an easy getting started experience, to reduce turnaround time when testing changes to Drogue Cloud itself, or for running in environments where Kubernetes is not available.</p>
+<p>Read on to learn how you can run Drogue Cloud standalone.</p>
+<span id="continue-reading"></span><h1 id="use-cases">Use cases</h1>
+<p>The primary use cases we envision for running Drogue Cloud Server are the following:</p>
+<ul>
+<li>Local development - building and running a local instance while developing new features in Drogue Cloud.</li>
+<li>Local testing - having an instance of Drogue Cloud available locally to test applications.</li>
+<li>Training and evaluation - getting a Drogue Cloud instance running immediately for trying it out.</li>
+<li>Running on devices without Kubernetes support - running on more constrainted devices where Kubernetes cannot run or architectures not supported by Kubernetes.</li>
+</ul>
+<p>There are some limitations as well, particularily when doing a production deployment:</p>
+<ul>
+<li>It does not provide a production ready and fully secure out of the box installation.</li>
+<li>Scaling the services must be done manually and by running multiple instances and assigning roles - something the existing Kubernetes-based installation helps you with already</li>
+<li>Not all Drogue Cloud services are available (more on this later).</li>
+</ul>
+<h1 id="appreciating-kubernetes">Appreciating Kubernetes</h1>
+<p>Drogue Cloud on Kubernetes automatically installs some dependencies of Drogue Cloud such as:</p>
+<ul>
+<li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
+<li><a href="https://www.keycloak.org/">Keycloak</a></li>
+<li><a href="https://kafka.apache.org/">Kafka</a></li>
+</ul>
+<p>However, running outside of Kubernetes also means that you need to run or configure these services yourself. You can do this by installing the software manually and ensuring they are accessible locally. You can also rely on (tada!) containers using <code>docker-compose</code> or <code>podman-compose</code> if it is available on your platform, and we provide a <a href="https://github.com/drogue-iot/drogue-cloud/blob/main/server/container-compose.yml">compose file</a> just for that purpose.</p>
+<h1 id="installing-the-binary">Installing The Binary</h1>
+<p>One of the goals with running Drogue Cloud locally was to encapsulate the functionality in a single binary, <code>drogue-cloud-server</code>. You can <a href="https://github.com/drogue-iot/drogue-cloud/tree/main/server#building">build it yourself</a>, or you can <a href="https://github.com/drogue-iot/drogue-cloud/actions/runs/1434565406">download prebuilt binaries</a> for your platform.</p>
+<h1 id="running">Running</h1>
+<p>Once installed, it's time to run. You can find the detailed instructions in <a href="https://book.drogue.io/drogue-cloud/dev/deployment/single-binary.html">the book</a>. It's important to note that by default, the Kafka, Keycloak and PostgreSQL instance must be reachable on localhost where the server is running.</p>
+<p>Once you have the dependencies running, we can start the server:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>./drogue-cloud-server run --enable-all
+</span></code></pre>
+<p>When starting, the server will perform the following steps (in order):</p>
+<ul>
+<li>Connect to PostgreSQL and run schema migration</li>
+<li>Connect to Keycloak and create an OIDC client</li>
+<li>Launch the services specified for the run command</li>
+</ul>
+<p>Using <code>--enable-all</code> will run all Drogue Cloud services supported. At the time of writing, this is:</p>
+<ul>
+<li>REST API</li>
+<li>Device registry</li>
+<li>Device authentication</li>
+<li>User authentication</li>
+<li>HTTP endpoint</li>
+<li>MQTT endpoint</li>
+<li>MQTT integration (for applications consuming telemetry data and sending commands)</li>
+</ul>
+<p>We plan to expose all the Drogue Cloud services.</p>
+<p>The server will print some info to the terminal on how to log into the server using the <a href="https://github.com/drogue-iot/drg">drg</a> client, creating applications and devices, and publishing telemtry data:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span> drogue-cloud-server run</span><span style="color:#bf616a;"> --enable-all
+</span><span style="color:#bf616a;">Migrating</span><span> database schema...
+</span><span style="color:#bf616a;">Migrating</span><span> database schema... done!
+</span><span style="color:#bf616a;">Configuring</span><span> keycloak... done!
+</span><span style="color:#bf616a;">Drogue</span><span> Cloud is running!
+</span><span>
+</span><span style="color:#bf616a;">Endpoints:
+</span><span>        </span><span style="color:#bf616a;">API:</span><span>     http://localhost:10001
+</span><span>        </span><span style="color:#bf616a;">HTTP:</span><span>    http://localhost:8088
+</span><span>        </span><span style="color:#bf616a;">MQTT:</span><span>    mqtt://localhost:1883
+</span><span>
+</span><span style="color:#bf616a;">Keycloak</span><span> Credentials:
+</span><span>        </span><span style="color:#bf616a;">User:</span><span> admin
+</span><span>        </span><span style="color:#bf616a;">Password:</span><span> admin123456
+</span><span>
+</span><span style="color:#bf616a;">Logging</span><span> in:
+</span><span>        </span><span style="color:#bf616a;">drg</span><span> login http://localhost:10001
+</span><span>
+</span><span style="color:#bf616a;">Creating</span><span> an application:
+</span><span>        </span><span style="color:#bf616a;">drg</span><span> create app example-app
+</span><span>
+</span><span style="color:#bf616a;">Creating</span><span> a device:
+</span><span>        </span><span style="color:#bf616a;">drg</span><span> create device</span><span style="color:#bf616a;"> --app</span><span> example-app device1</span><span style="color:#bf616a;"> --spec </span><span>&#39;</span><span style="color:#a3be8c;">{&quot;credentials&quot;:{&quot;credentials&quot;:[{&quot;pass&quot;:&quot;hey-rodney&quot;}]}}</span><span>&#39;
+</span><span>
+</span><span style="color:#bf616a;">Publishing</span><span> data to the HTTP endpoint:
+</span><span>        </span><span style="color:#bf616a;">curl -u </span><span>&#39;</span><span style="color:#a3be8c;">device1@example-app:hey-rodney</span><span>&#39;</span><span style="color:#bf616a;"> -d </span><span>&#39;</span><span style="color:#a3be8c;">{&quot;temp&quot;: 42}</span><span>&#39;</span><span style="color:#bf616a;"> -v -H </span><span>&quot;</span><span style="color:#a3be8c;">Content-Type: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -X</span><span> POST http://localhost:8088/v1/foo
+</span></code></pre>
+<h2 id="other-options">Other options</h2>
+<p>The server can also be run with other options, we'll quickly cover the most important:</p>
+<ul>
+<li><code>--server-cert</code> and <code>--server-key</code> - enable TLS for the endpoints. Both arguments should refer to PEM-encoded files.</li>
+<li><code>--bind-address</code> - bind to a different network interface (uses localhost by default).</li>
+</ul>
+<h2 id="running-with-tls">Running with TLS</h2>
+<p>To enable TLS, we must generate a certificate to use with the service first. To create certificates that are more easily consumed by embedded devices, we'll make an elliptic curve based certificate:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span># Generating CA key
+</span><span>openssl ecparam -genkey -name prime256v1 -noout -out ca-key-ec.pem
+</span><span>openssl pkcs8 -topk8 -nocrypt -in ca-key-ec.pem -out ca-key.pem
+</span><span>
+</span><span># Generating CA cert
+</span><span>openssl req -x509 -new -SHA256 -nodes -key ca-key.pem -days 3650 -out ca-cert.pem -batch
+</span><span>
+</span><span># Generating server key
+</span><span>openssl ecparam -genkey -name prime256v1 -noout -out server-key-ec.pem
+</span><span>openssl pkcs8 -topk8 -nocrypt -in server-key-ec.pem -out server-key.pem
+</span><span>
+</span><span># Generating server cert
+</span><span>openssl req -new -SHA256 -key server-key.pem -addext &quot;subjectAltName = DNS:localhost&quot; -subj &quot;/CN=localhost&quot; -nodes -out server.csr -batch
+</span><span>openssl x509 -req -SHA256 -days 365 -in server.csr -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem
+</span></code></pre>
+<p>You can now start the server with TLS enabled:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span> drogue-cloud-server run</span><span style="color:#bf616a;"> --enable-all --server-cert</span><span> server-cert.pem</span><span style="color:#bf616a;"> --server-key</span><span> server-key.pem
+</span></code></pre>
+<h1 id="connecting-from-drogue-device">Connecting from Drogue Device</h1>
+<p>With the server running, we can now test it. If you have the hardware, there is already a lot of <a href="https://book.drogue.io/drogue-device/dev/examples.html#_drogue_cloud_connectivity_examples">examples</a> that will work with the server out of the box (just point them to the correct IP of your server). </p>
+<p>If you don't have any microcontroller hardware, don't worry! We've got you covered with the <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/std/cloud">std cloud</a> example that runs out of the box on any Linux/Mac OS X/Windows.</p>
+<p>You need to specify the device username and password in the example configuration (see the README for the example), edit the expected IP and port of your server instance, and run.</p>
+<p>The output should look something like this when running the PC example:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span> cargo run
+</span><span>   </span><span style="color:#bf616a;">Compiling</span><span> cloud v0.1.0 (/home/lulf/dev/drogue-iot/drogue-device/examples/std/cloud)
+</span><span>    </span><span style="color:#bf616a;">Finished</span><span> dev </span><span style="color:#b48ead;">[</span><span>optimized + debuginfo</span><span style="color:#b48ead;">]</span><span> target(s) </span><span style="color:#bf616a;">in</span><span> 2.39s
+</span><span>     </span><span style="color:#bf616a;">Running </span><span>`</span><span style="color:#bf616a;">/home/lulf/dev/drogue-iot/drogue-device/examples/std/target/debug/cloud</span><span>`
+</span><span style="color:#bf616a;">[2021-11-03T13:17:52.263210627Z</span><span> INFO  drogue_temperature] Sending temperature measurement
+</span><span style="color:#bf616a;">[2021-11-03T13:17:52.263368651Z</span><span> INFO  drogue_device::clients::http] Connected to 127.0.0.1:8088
+</span><span style="color:#bf616a;">[2021-11-03T13:17:52.272848575Z</span><span> INFO  drogue_temperature] Response status: Accepted
+</span><span style="color:#bf616a;">[2021-11-03T13:17:52.272879316Z</span><span> INFO  drogue_temperature] No response body
+</span></code></pre>
+<h1 id="summary">Summary</h1>
+<p>We have seen how you can get up and running with Drogue Cloud running on bare metal using a single binary. This enables quicker turneround times when developing Drogue Cloud, but also paves the way for running Drogue Cloud in more environments. Finally, we've seen examples of using <a href="https://github.com/drogue-iot/drogue-device">Drogue Device</a> applications to connect.</p>
+<p>Future work is to expose more Drogue Cloud services such as the CoAP endpoint, and Websocket integration services. Enabling the server to work with externally hosted PostgreSQL, Kafka and Keycloak would also be interesting.</p>
+<p>If you'd like to help out in these areas, join our <a href="https://matrix.to/#/#drogue-iot:matrix.org">community</a>!</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="use-cases" href="https://blog.drogue.io/introducing-drogue-server/#use-cases">Use cases</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="appreciating-kubernetes" href="https://blog.drogue.io/introducing-drogue-server/#appreciating-kubernetes">Appreciating Kubernetes</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="installing-the-binary" href="https://blog.drogue.io/introducing-drogue-server/#installing-the-binary">Installing The Binary</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="running" href="https://blog.drogue.io/introducing-drogue-server/#running">Running</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="other-options" href="https://blog.drogue.io/introducing-drogue-server/#other-options">Other options</a>
+          </li>
+          
+          <li>
+            <a data-for="running-with-tls" href="https://blog.drogue.io/introducing-drogue-server/#running-with-tls">Running with TLS</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="connecting-from-drogue-device" href="https://blog.drogue.io/introducing-drogue-server/#connecting-from-drogue-device">Connecting from Drogue Device</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="summary" href="https://blog.drogue.io/introducing-drogue-server/#summary">Summary</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

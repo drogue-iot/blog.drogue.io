@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>The Book: documentation and workshops &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="foo">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="The Book: documentation and workshops" />
+<meta name="twitter:description" content="foo">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="The Book: documentation and workshops">
+<meta property="og:url" content="https://blog.drogue.io/the-book-workshops">
+<meta property="og:description" content="foo">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">The Book: documentation and workshops</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>2 minute read</span>
+        <meta itemprop="wordCount" content="394">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-05-06'> 6 May 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;the-book-workshops&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>Writing code is easy, writing documentation is hard. True, some people might disagree with that. We wanted to make it
+easier for everyone to understand what we already have, and how it works. As we have multiple major topics
+(embedded and cloud), we need a modular way of structuring our documentation. Here is our approach. </p>
+<span id="continue-reading"></span><h1 id="the-book">The Book</h1>
+<p>Instead of having multiple documentation sites, and multiple locations for the different released version, we wanted
+to have a single point for you to go to when it comes to documentation of Drogue IoT. A single book.</p>
+<p>From a technical perspective <a href="https://antora.org/">Antora</a> provides all that we need. Multi-version support,
+multiple content sources, theming, Git integration (edit this page), and the support for AsciiDoc.</p>
+<h2 id="structure">Structure</h2>
+<p>The two main components of Drogue IoT are &quot;Drogue Device&quot; and &quot;Drogue Cloud&quot;. Each of the components needs their own
+structure and has their own release cycle. Then again, there are some overarching topics, and it would be nice to
+reference from one component to content in the other.  So we have:</p>
+<ul>
+<li><a href="https://book.drogue.io/drogue-book/">An introduction section</a>, as part of the main &quot;book&quot; repository</li>
+<li>A main section on <a href="https://book.drogue.io/drogue-device/dev/index.html">Drogue Device</a></li>
+<li>A main section on <a href="https://book.drogue.io/drogue-cloud/dev/index.html">Drogue Cloud</a></li>
+<li>And a <a href="https://book.drogue.io/drogue-workshops/index.html">workshops</a> section, featuring more hands-on/walk-through
+style content, which combines all the aspects of Drogue IoT.</li>
+</ul>
+<h2 id="workshops">Workshops</h2>
+<p>While we currently have only on workshop, LoRaWAN end-to-end, I still want to highlight this section in this blog post.</p>
+<p>Writing good documentation is hard. What is even harder, is to create useful content for the end user, you! Content
+which enables you to use our technical bits and pieces to solve some problems. More user or use-case focused content,
+bringing it all together.</p>
+<p>So we would encourage you to take a look. But, don't stop there. If you have ideas on your own workshops or tutorials,
+reach out to us! Or, even better, contribute a workshop yourself!</p>
+<h2 id="also-see">Also see</h2>
+<ul>
+<li><a href="https://book.drogue.io">The Book</a>
+<ul>
+<li><a href="https://github.com/drogue-iot/book.drogue.io">drogue-iot/book.drogue.io</a></li>
+<li><a href="https://github.com/drogue-iot/drogue-device/tree/main/docs">drogue-iot/drogue-device - /docs</a></li>
+<li><a href="https://github.com/drogue-iot/drogue-cloud/tree/main/docs">drogue-iot/drogue-cloud - /docs</a></li>
+<li><a href="https://github.com/drogue-iot/drogue-workshops/">drogue-iot/drogue-workshops</a></li>
+</ul>
+</li>
+</ul>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="the-book" href="https://blog.drogue.io/the-book-workshops/#the-book">The Book</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="structure" href="https://blog.drogue.io/the-book-workshops/#structure">Structure</a>
+          </li>
+          
+          <li>
+            <a data-for="workshops" href="https://blog.drogue.io/the-book-workshops/#workshops">Workshops</a>
+          </li>
+          
+          <li>
+            <a data-for="also-see" href="https://blog.drogue.io/the-book-workshops/#also-see">Also see</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Cloud: Release 0.5.0 &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Welcome to Drogue Cloud 0.5.0: API revamp, The Things Network operator, access tokens, and an end-to-end workshop.">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Cloud: Release 0.5.0" />
+<meta name="twitter:description" content="Welcome to Drogue Cloud 0.5.0: API revamp, The Things Network operator, access tokens, and an end-to-end workshop.">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Cloud: Release 0.5.0">
+<meta property="og:url" content="https://blog.drogue.io/drogue-cloud-zero-five">
+<meta property="og:description" content="Welcome to Drogue Cloud 0.5.0: API revamp, The Things Network operator, access tokens, and an end-to-end workshop.">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Cloud: Release 0.5.0</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>5 minute read</span>
+        <meta itemprop="wordCount" content="838">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-05-12'>12 May 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-cloud-zero-five&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>Today we released Drogue Cloud 0.5.0. It brings together a lot of things that have been cooking for a while. </p>
+<span id="continue-reading"></span><h2 id="api-revamp">API revamp</h2>
+<p>In the past we have been adding API endpoints and structures as we needed them. We knew that at some point, we needed
+to revisit this and iron it out a bit. This release, it was time to focus on this.</p>
+<p>Not only did we create an OpenAPI 3 specification, which gets deployed using SwaggerUI alongside the console,
+we also have a <a href="https://github.com/drogue-iot/drogue-client">Rust client</a> ready to use. Indeed, we are using that
+ourselves ;-)</p>
+<p>Turns out, we didn't need to change much. It mostly was cleaning it up a bit. But it also turns out, we will need to
+revisit this again in the future. There are a few items that are missing (like bulk operations, JSON patch support, or
+an aggregated API endpoint). Still, it is a big step forward, and future changes should be more additions, rather than
+refactorings.</p>
+<h2 id="the-things-network-operator">The Things Network operator</h2>
+<p>In 0.4.0 we added <a href="https://blog.drogue.io/drogue-cloud-zero-four/#the-integration-device-registry">registry change events</a>,
+and we mentioned &quot;The Things Network&quot; (TTN), as an example to reconcile devices with. Well, we just implemented that.</p>
+<p>You can now create a new application and Drogue Cloud, add some devices, and have that sync with The Things Network once
+you provided a TTN API key. As yes, we are using the v3 API!</p>
+<p>Of course this is only the first example what you can do with this. In the future, we plan to add some more &quot;operators&quot;,
+to reconcile with additional systems: Apache Kafka, Knative, Eclipse Ditto, and whatever comes up. Of course, if
+you have some ideas yourself, we are welcome to share your thoughts.</p>
+<h2 id="api-access-tokens">API access tokens</h2>
+<p>For <a href="https://blog.drogue.io/drogue-cloud-zero-four/#integrations">the newly introduced MQTT integration</a>,
+applications consuming data from the system using MQTT, we had implemented OAuth2 tokens for authenticating MQTT clients.</p>
+<p>Turns out, yes this works, but not very well with most MQTT clients. A typical alternative to OAuth tokens for
+service-to-service authentication are access tokens (aka API keys, API tokens, …). So we added support for those as well.</p>
+<p>With Drogue Cloud 0.5.0, you can create (list and revoke) access tokens, which you can use as an alternative mechanism
+for authenticating towards the MQTT integration. Other services will most likely follow in a future release. They
+even have an initial page in the web console:</p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-five/screenshot1.png" alt="Screenshot of the API keys page" /></p>
+<h2 id="an-end-to-end-workshop-with-drogue-device">An end-to-end workshop with Drogue Device</h2>
+<p>The main focus of the release though, was to show a proper end-to-end example. As mentioned earlier, this release
+finally brought together all the required components and features to create a proper end-to-end example. We chose
+a use-case of a LoRaWAN device, reporting its current state to the cloud, receiving back commands.</p>
+<p>In order to make this lightweight, as-a-service, and easy to develop, we chose to run Drogue IoT as a service
+(which you can do yourself), and deploy a small Quarkus application, connecting via our MQTT integration for telemetry
+data and sending commands.</p>
+<p>This allows you to run the Quarkus application on your local machine, reaching out to a public Drogue IoT instance,
+which is interconnected with The Things Network, acting as a LoRaWAN provider.</p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-five/quarkus-screen.png" alt="Screenshot of the Quarkus web frontend" /></p>
+<p>True, there are other ways to deal with connectivity. Both on the device side, as well as on the cloud side. However,
+using this example, you can easily run this on your local machine. And, you can use any MQTT tool you already have, for
+debugging.</p>
+<p>In order to replicate this yourself, we compiled a <a href="https://book.drogue.io/drogue-workshops/ttn-lorawan-quarkus/index.html">complete end-to-end workshop</a> in our <a href="https://book.drogue.io">book</a>. Having the right hardware,
+that should allow you to re-create this yourself: Drogue Device, TTN, Drogue Cloud, Quarkus!</p>
+<h2 id="harder-better-faster-stronger">Harder, Better, Faster, Stronger</h2>
+<p>A lot of minor things have been improved and fixed. Support for deployments on GKE, an about dialog in the web console,</p>
+<p><code>drg</code> has been improved as well: Search, improved login, support for Brew, a Windows binary, and
+more. </p>
+<p><img src="https://blog.drogue.io/drogue-cloud-zero-five/about.png" alt="About Dialog" /></p>
+<h2 id="what-s-next">What's next</h2>
+<p>Unfortunately we didn't get the resource sharing done in time. So inviting members to your application needs to wait
+for 0.6. We also found a few areas where we need to improve the experience in writing operators for the device registry.</p>
+<p>Definitely, we also want to create more workshops. There are already so many variants you could use Drogue IoT with.
+We just need to document them, in an easy to consume way.</p>
+<p>When it comes to Kafka, we also want to improve the way a user, or application, can configure its topics. A single
+topic down to a dedicated topic per channel.</p>
+<p>As always, you are welcome to join and give it a try on <a href="https://sandbox.drogue.cloud">our sandbox</a>.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="api-revamp" href="https://blog.drogue.io/drogue-cloud-zero-five/#api-revamp">API revamp</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="the-things-network-operator" href="https://blog.drogue.io/drogue-cloud-zero-five/#the-things-network-operator">The Things Network operator</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="api-access-tokens" href="https://blog.drogue.io/drogue-cloud-zero-five/#api-access-tokens">API access tokens</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="an-end-to-end-workshop-with-drogue-device" href="https://blog.drogue.io/drogue-cloud-zero-five/#an-end-to-end-workshop-with-drogue-device">An end-to-end workshop with Drogue Device</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="harder-better-faster-stronger" href="https://blog.drogue.io/drogue-cloud-zero-five/#harder-better-faster-stronger">Harder, Better, Faster, Stronger</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-s-next" href="https://blog.drogue.io/drogue-cloud-zero-five/#what-s-next">What&#x27;s next</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

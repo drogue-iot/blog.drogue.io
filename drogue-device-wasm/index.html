@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Drogue Device in the browser &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="What does embedded development and WebAssembly have in common? Turns out it&#x27;s quite a lot! Read on to see how Drogue Device can run in your browser.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Drogue Device in the browser" />
+<meta name="twitter:description" content="What does embedded development and WebAssembly have in common? Turns out it&#x27;s quite a lot! Read on to see how Drogue Device can run in your browser.
+">
+<meta name="twitter:image" content="https://blog.drogue.io/drogue-device-wasm/browser.png ">
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Drogue Device in the browser">
+<meta property="og:url" content="https://blog.drogue.io/drogue-device-wasm">
+<meta property="og:description" content="What does embedded development and WebAssembly have in common? Turns out it&#x27;s quite a lot! Read on to see how Drogue Device can run in your browser.
+">
+<meta property="og:image" content="https://blog.drogue.io/drogue-device-wasm/browser.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Drogue Device in the browser</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>7 minute read</span>
+        <meta itemprop="wordCount" content="1205">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-06-02'> 2 June 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-device-wasm&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>What does embedded development and WebAssembly have in common? Turns out it's quite a lot! Read on to see how Drogue Device can run in your browser.</p>
+<span id="continue-reading"></span><h1 id="whats-new">Whats new?</h1>
+<p>As discussed earlier, <a href="https://blog.drogue.io/drogue-device-rebase/">Drogue Device</a> was refactored to integrate with <a href="https://github.com/embassy-rs/embassy">Embassy</a> as its runtime. Since then, we've worked with the Embassy project to improve support for STM32 microcontrollers and as well as other minor improvements and fixes. Drogue Device is more concerned with being an Actor framework, a collection of drivers for IoT use cases (With connectivity such as LoRa, WiFi, and more to come!), integration with <a href="https://github.com/drogue-iot/drogue-cloud/">Drogue Cloud</a> and having examples for different boards geared towards IoT connectivity.</p>
+<p>One day, an idea came up to run Drogue Device in the browser. Why would you do that? Well, it's not a primary use case for Drogue Device, but the similarity between Rust in the browser and on embedded is that they both require code to work without the standard library (<code>no_std</code>). Clearly, we could not pass on this opportunity!</p>
+<p>In this post, we'll give you some references on how to run Rust applications in your browser, and more specifically: you how you can run Drogue Device in a browser, using a button HTML element as input (simulating a ... button!), and a standard text element as output (simulating a LED). For the impatient, the full example can be found <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/wasm/browser">here</a>.</p>
+<h1 id="sounds-good-how-do-we-do-that">Sounds good, how do we do that?</h1>
+<p>First, to use Rust in the browser, you can use <a href="https://github.com/rustwasm/wasm-bindgen">wasm-bindgen</a>. It provides a way to build Rust WebAssembly(Wasm) modules, and to a bidirectional mapping with JavaScript code if you wish. Building a Wasm module can be done using the <code>wasm-pack</code> tool. There are plenty of examples <a href="https://rustwasm.github.io/docs/book/">here</a>, and <a href="https://rustwasm.github.io/wasm-bindgen/">here</a>, with varying degrees of complexity and integration with JavaScript.</p>
+<h1 id="can-browsers-do-async-though">Can browsers do async though?</h1>
+<p>Yeah, they can! With the <a href="https://crates.io/crates/wasm-bindgen-futures"><code>wasm-bindgen-futures</code></a>, one can spawn async tasks in the same way that the Embassy executor can. And in our case, we can invoke the Rust main function as an async function as well!</p>
+<p>To invoke our Rust main, the following snippet goes in the HTML:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;script type=&quot;module&quot;&gt;
+</span><span>    import init from &#39;./pkg/browser.js&#39;;
+</span><span>
+</span><span>    async function run() {
+</span><span>    await init();
+</span><span>    }
+</span><span>
+</span><span>    // This calls the module init which spawns the drogue device
+</span><span>    run();
+</span><span>&lt;/script&gt;
+</span></code></pre>
+<p>And the corresponding Rust function main function that is invoked on script start is located here</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>#[wasm_bindgen(start)]
+</span><span>pub fn main() -&gt; Result&lt;(), JsValue&gt; {
+</span><span>    spawn_local(async move {
+</span><span>        // Code goes here
+</span><span>    });
+</span><span>    Ok(())
+</span><span>}
+</span></code></pre>
+<p>The <code>spawn_local</code> is the entry point for spawning async tasks in <code>wasm-bindgen-futures</code>. In our example though, the task spawning will happen within Drogue Device itself, as we will see in a moment.</p>
+<h1 id="what-about-peripherals">What about peripherals?</h1>
+<p>There are no physical peripherals in a browser. However, you can think of HTML buttons in the same way as a button in the physical world. You can also modify the state of the world in the browser (the DOM).</p>
+<p>Lets use the following HTML elements to represent a button and a LED:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;button id=&quot;button&quot;&gt;Toggle&lt;/button&gt;
+</span><span>&lt;div id=&quot;led&quot;&gt;OFF&lt;/div&gt;
+</span></code></pre>
+<p>In Rust, we need to simulate the peripherals that interacts with these elements:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>pub static mut INPUT1: InputPin = InputPin::new();
+</span><span>pub static mut OUTPUT1: OutputPin = OutputPin::new();
+</span></code></pre>
+<p>At initialization, the an <code>InputPin</code> and <code>OutputPin</code> can be configured to map to an HTML element. We can do so in our main function:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>    </span><span style="color:#d08770;">INPUT1</span><span>.</span><span style="color:#96b5b4;">configure</span><span>(&quot;</span><span style="color:#a3be8c;">button</span><span>&quot;);
+</span><span>    </span><span style="color:#d08770;">OUTPUT1</span><span>.</span><span style="color:#96b5b4;">configure</span><span>(&quot;</span><span style="color:#a3be8c;">led</span><span>&quot;, |</span><span style="color:#bf616a;">value</span><span>| </span><span style="color:#b48ead;">if</span><span> value {&quot;</span><span style="color:#a3be8c;">ON</span><span>&quot; } </span><span style="color:#b48ead;">else </span><span>{ &quot;</span><span style="color:#a3be8c;">OFF</span><span>&quot; });
+</span><span>}
+</span></code></pre>
+<p>These are global mutable variables, so an unsafe block is needed. Since the module load is only called once, it is safe to call configure from here.</p>
+<p>I will not go through the implementation of <code>InputPin</code> and <code>OutputPin</code>, but what you need to know is that the <code>InputPin</code> will bind to the <code>click</code> JavaScript event for a given HTML element (provided by its <code>id</code> attribute). For the <code>OutputPin</code>, it will set a text value for a HTML element based on the output of the provided closure. The implementation of these types can be found in the <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/wasm/browser">git repository</a>.</p>
+<p>Now we need some rust types that we can hand to the <code>Button</code> and <code>Led</code> actor types that are provided by Drogue Device. For that, we have created the <code>WebButton</code> and <code>WebLed</code> types, which implements traits from the <code>embedded-hal</code> and <code>embassy</code> crates, which mimic the behavior of their embedded counter-parts.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">let</span><span> button = WebButton::new(</span><span style="color:#b48ead;">unsafe </span><span>{ &amp;</span><span style="color:#d08770;">INPUT1 </span><span>});
+</span><span style="color:#b48ead;">let</span><span> led = WebLed::new(</span><span style="color:#b48ead;">unsafe </span><span>{ &amp;</span><span style="color:#d08770;">OUTPUT1 </span><span>});
+</span></code></pre>
+<h1 id="wiring-up-drogue-device">Wiring up Drogue Device</h1>
+<p>Now that we have the peripherals implementing the required traits, we can configure drogue device like we would in any embedded application. First, lets define our device type and create the static instance:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>MyDevice {
+</span><span>    </span><span style="color:#bf616a;">led</span><span>: ActorContext&lt;</span><span style="color:#b48ead;">&#39;static</span><span>, Led&lt;WebLed&gt;&gt;,
+</span><span>    </span><span style="color:#bf616a;">button</span><span>: ActorContext&lt;</span><span style="color:#b48ead;">&#39;static</span><span>, Button&lt;</span><span style="color:#b48ead;">&#39;static</span><span>, WebButton, Led&lt;WebLed&gt;&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static </span><span style="color:#d08770;">DEVICE</span><span>: DeviceContext&lt;MyDevice&gt; = DeviceContext::new();
+</span></code></pre>
+<p>In our main function, we'll initialize the actor for our device with the peripherals:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#d08770;">DEVICE</span><span>.</span><span style="color:#96b5b4;">configure</span><span>(MyDevice {
+</span><span>    led: ActorContext::new(Led::new(led)),
+</span><span>    button: ActorContext::new(Button::new(button)),
+</span><span>});
+</span></code></pre>
+<p>Finally, we need to mount the device. Mounting a device means spawning the per-actor tasks that wait for incoming messages for an actor and runs the processing loop. Since we're running in a browser, we cannot use the Embassy executor, because it will loop forever awaiting actor tasks. Instead, we'll re-use the async spawn capability of <code>wasm-bindgen</code> and implement the <code>ActorSpawner</code> trait, which will enable it to be used when mounting a device:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">let</span><span> spawner = WasmSpawner::new();
+</span><span style="color:#d08770;">DEVICE</span><span>.</span><span style="color:#96b5b4;">mount</span><span>(|</span><span style="color:#bf616a;">device</span><span>| {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> led = device.led.</span><span style="color:#96b5b4;">mount</span><span>((), spawner);
+</span><span>    device.button.</span><span style="color:#96b5b4;">mount</span><span>(led, spawner);
+</span><span>});
+</span></code></pre>
+<p>And thats it! The same actors and framework used in the <code>nRF52</code>, <code>STM32</code> or <code>rPi Pico</code> examples can be used in WebAssembly! Once example is built and running, the end result looks like this after clicking the button a few times:</p>
+<p><img src="https://blog.drogue.io/drogue-device-wasm/browser.png" alt="Button and Led" /></p>
+<p>You can even try out this example <a href="http://people.redhat.com/~ulilleen/drogue-device/">here</a>.</p>
+<h1 id="whats-next">Whats next?</h1>
+<p>So, does this mean drogue device has changed focus and will be Web 4.0? Probably not! Instead, consider this an example how drogue-device can be used with any async executor in <code>no_std</code> land, with some minimal glue code attached.</p>
+<p>An application of running drogue-device in the browser could be to replicate state of an embedded device, like a digital twin in real time. It would require some sort of component library built to mimic the embedded variants, but it would be interesting to see how far that could go.</p>
+<p>If you have an interesting use case, please reach out to us on <a href="https://github.com/drogue-iot/drogue-device">github</a> or in our <a href="https://matrix.to/#/#drogue-iot:matrix.org">matrix chat</a>.</p>
+<h1 id="summary">Summary</h1>
+<p>In this post we've first presented some new advancements in drogue-device. We then went to show how Rust WebAssembly applications can simulate peripherals from an embedded environment using HTML elements. We then showed how to wire the peripherals into drogue device actors, and launching the drogue device using the browser runtime.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="whats-new" href="https://blog.drogue.io/drogue-device-wasm/#whats-new">Whats new?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="sounds-good-how-do-we-do-that" href="https://blog.drogue.io/drogue-device-wasm/#sounds-good-how-do-we-do-that">Sounds good, how do we do that?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="can-browsers-do-async-though" href="https://blog.drogue.io/drogue-device-wasm/#can-browsers-do-async-though">Can browsers do async though?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="what-about-peripherals" href="https://blog.drogue.io/drogue-device-wasm/#what-about-peripherals">What about peripherals?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="wiring-up-drogue-device" href="https://blog.drogue.io/drogue-device-wasm/#wiring-up-drogue-device">Wiring up Drogue Device</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="whats-next" href="https://blog.drogue.io/drogue-device-wasm/#whats-next">Whats next?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="summary" href="https://blog.drogue.io/drogue-device-wasm/#summary">Summary</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

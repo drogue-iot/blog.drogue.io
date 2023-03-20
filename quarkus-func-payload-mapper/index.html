@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Implement payload mapper with Func and Quarkus &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="How to use Func and Quarkus to write real-world serverless functions">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Implement payload mapper with Func and Quarkus" />
+<meta name="twitter:description" content="How to use Func and Quarkus to write real-world serverless functions">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Implement payload mapper with Func and Quarkus">
+<meta property="og:url" content="https://blog.drogue.io/quarkus-func-payload-mapper">
+<meta property="og:description" content="How to use Func and Quarkus to write real-world serverless functions">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Implement payload mapper with Func and Quarkus</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1581">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-06-07'> 7 June 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Dejan Bosanac</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;quarkus-func-payload-mapper&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>In <a href="https://blog.drogue.io/consume-drogue-messages/">the previous post</a> we introduced <a href="https://github.com/boson-project/func">Func project</a> as a very useful framework for writing serverless functions in the Knative world. The post ended with the question what can we do with it? So let's explore one practical use case now.</p>
+<span id="continue-reading"></span>
+<p><a href="https://blog.drogue.io/digital-twins/">Earlier</a>, we showed how we can use Eclipse Ditto digital twin platform in combination with Drogue cloud and implemented a service that uses Eclipse Vorto device models to map device telemetry payload to appropriate Ditto commands.</p>
+<p>One of the things we continued investigating was how we can use digital twins even without Vorto models for simple use cases. And it all boils down to basic use case of payload mapping.</p>
+<p>For example, our device sends telemetry in the simple JSON format like:</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">temp</span><span>&quot;: </span><span style="color:#d08770;">23.0</span><span>,
+</span><span>    &quot;</span><span style="color:#a3be8c;">hum</span><span>&quot;: </span><span style="color:#d08770;">51.0
+</span><span>}
+</span></code></pre>
+<p>and we need to convert it to a Ditto command that will actually modify the state of the digital twin:</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">path</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">/features</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">topic</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">app_id/simple-thing/things/twin/commands/modify</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">value</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">hum</span><span>&quot;: {
+</span><span>            &quot;</span><span style="color:#a3be8c;">properties</span><span>&quot;: {
+</span><span>                &quot;</span><span style="color:#a3be8c;">value</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">51.0</span><span>&quot;
+</span><span>            }
+</span><span>        },
+</span><span>        &quot;</span><span style="color:#a3be8c;">temp</span><span>&quot;: {
+</span><span>            &quot;</span><span style="color:#a3be8c;">properties</span><span>&quot;: {
+</span><span>                &quot;</span><span style="color:#a3be8c;">value</span><span>&quot;: </span><span style="color:#d08770;">23.0
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>This use case is quite common if we want to look at the Drogue cloud as an IoT integration platform. Eclipse Ditto is just one of the services where our telemetry data will end up, but you can imagine various others like time series databases, data lakes, etc. all with their own payload formats.</p>
+<p>If you take a look at these kind of services we can see that they are simple, stateless services with well defined input and output. And we have to be able to scale them up and down depending on the data volume. That sounds like a perfect serverless use case.</p>
+<p>All this led to the idea of using Func with Quarkus runtime to implement one such service and see what's the developer experience in doing so. So, let's see.</p>
+<h2 id="cloud-native-ditto">Cloud native Ditto</h2>
+<p>Before we dive into implementing the converter service, let's quickly recap Ditto and how it fits into our stack. Ditto provides an HTTP API which can be used to manage your things. In order to start, you need to first create your &quot;thing&quot; using the HTTP API:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>echo &quot;{}&quot; | http --auth ditto:ditto PUT http://$TWIN_API/api/2/things/app_id:simple-thing
+</span></code></pre>
+<p>Beyond HTTP API, Ditto provides a Cloud Events API, which allow us to issue commands (from the example above) as well formed cloud events, like:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>cat modify.json |  http -v --auth ditto:ditto http://$TWIN_API/api/2/cloudevents \
+</span><span>  Content-Type:application/json \
+</span><span>  Ce-Id:9bc19ad9-1c37-4041-b488-5b622e63bbfa \
+</span><span>  Ce-Source:drogue://app%5Fid/simple%2Dthing \
+</span><span>  Ce-Subject:foo \
+</span><span>  Ce-Type:io.drogue.event.v1 \
+</span><span>  Ce-Specversion:1.0 \
+</span><span>  Ce-Application:app \
+</span><span>  Ce-Device:device
+</span></code></pre>
+<p>And we can make sure that our changes took place:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>http --auth ditto:ditto http://$TWIN_API/api/2/things/app_id:simple-thing
+</span><span>HTTP/1.1 200 OK
+</span><span>...
+</span><span>etag: &quot;rev:2&quot;
+</span><span>response-required: false
+</span><span>version: 2
+</span><span>
+</span><span>{
+</span><span>    &quot;features&quot;: {
+</span><span>        &quot;hum&quot;: {
+</span><span>            &quot;properties&quot;: {
+</span><span>                &quot;value&quot;: &quot;52.0&quot;
+</span><span>            }
+</span><span>        },
+</span><span>        &quot;temp&quot;: {
+</span><span>            &quot;properties&quot;: {
+</span><span>                &quot;value&quot;: 22.5
+</span><span>            }
+</span><span>        }
+</span><span>    },
+</span><span>    &quot;policyId&quot;: &quot;app_id:simple-thing&quot;,
+</span><span>    &quot;thingId&quot;: &quot;app_id:simple-thing&quot;
+</span><span>}
+</span></code></pre>
+<p>Why is this important? Well, it allow us to integrate it into the Knative workflows. Take a look at the following example:</p>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">apiVersion</span><span>: </span><span style="color:#a3be8c;">sources.knative.dev/v1alpha1
+</span><span style="color:#bf616a;">kind</span><span>: </span><span style="color:#a3be8c;">KafkaSource
+</span><span style="color:#bf616a;">metadata</span><span>:
+</span><span>  </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">ditto-converter-kafka-source
+</span><span>  </span><span style="color:#bf616a;">labels</span><span>:
+</span><span>    </span><span style="color:#bf616a;">app.kubernetes.io/part-of</span><span>: </span><span style="color:#a3be8c;">digital-twin
+</span><span style="color:#bf616a;">spec</span><span>:
+</span><span>  </span><span style="color:#bf616a;">consumerGroup</span><span>: </span><span style="color:#a3be8c;">ditto-converter
+</span><span>  </span><span style="color:#bf616a;">bootstrapServers</span><span>:
+</span><span>    - </span><span style="color:#a3be8c;">kafka-eventing-kafka-bootstrap.knative-eventing.svc:9092
+</span><span>  </span><span style="color:#bf616a;">topics</span><span>:
+</span><span>    - </span><span style="color:#a3be8c;">knative-messaging-kafka.drogue-iot.iot-channel
+</span><span>  </span><span style="color:#bf616a;">sink</span><span>:
+</span><span>    </span><span style="color:#bf616a;">ref</span><span>:
+</span><span>      </span><span style="color:#bf616a;">apiVersion</span><span>: </span><span style="color:#a3be8c;">flows.knative.dev/v1
+</span><span>      </span><span style="color:#bf616a;">kind</span><span>: </span><span style="color:#a3be8c;">Sequence
+</span><span>      </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">ditto-converter
+</span><span>---
+</span><span style="color:#bf616a;">apiVersion</span><span>: </span><span style="color:#a3be8c;">flows.knative.dev/v1
+</span><span style="color:#bf616a;">kind</span><span>: </span><span style="color:#a3be8c;">Sequence
+</span><span style="color:#bf616a;">metadata</span><span>:
+</span><span>  </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">ditto-converter
+</span><span>  </span><span style="color:#bf616a;">labels</span><span>:
+</span><span>    </span><span style="color:#bf616a;">app.kubernetes.io/name</span><span>: </span><span style="color:#a3be8c;">digital-twin
+</span><span>    </span><span style="color:#bf616a;">app.kubernetes.io/part-of</span><span>: </span><span style="color:#a3be8c;">digital-twin
+</span><span style="color:#bf616a;">spec</span><span>:
+</span><span>  </span><span style="color:#bf616a;">channelTemplate</span><span>:
+</span><span>    </span><span style="color:#bf616a;">apiVersion</span><span>: </span><span style="color:#a3be8c;">messaging.knative.dev/v1alpha1
+</span><span>    </span><span style="color:#bf616a;">kind</span><span>: </span><span style="color:#a3be8c;">KafkaChannel
+</span><span>    </span><span style="color:#bf616a;">spec</span><span>:
+</span><span>      </span><span style="color:#bf616a;">numPartitions</span><span>: </span><span style="color:#d08770;">1
+</span><span>      </span><span style="color:#bf616a;">replicationFactor</span><span>: </span><span style="color:#d08770;">1
+</span><span>  </span><span style="color:#bf616a;">steps</span><span>:
+</span><span>    - </span><span style="color:#bf616a;">ref</span><span>:
+</span><span>        </span><span style="color:#bf616a;">apiVersion</span><span>: </span><span style="color:#a3be8c;">serving.knative.dev/v1
+</span><span>        </span><span style="color:#bf616a;">kind</span><span>: </span><span style="color:#a3be8c;">Service
+</span><span>        </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">drogue-ditto-converter
+</span><span>  </span><span style="color:#bf616a;">reply</span><span>:
+</span><span>    </span><span style="color:#bf616a;">uri</span><span>: </span><span style="color:#a3be8c;">http://ditto:ditto@ditto-nginx.drogue-iot.svc.cluster.local:8080/api/2/cloudevents
+</span></code></pre>
+<p>Here, we defined a <code>KafkaSource</code> with telemetry messages coming from our devices and wired it to the Knative <code>Sequence</code>. The sequence in this case will call our converter service and then post a result to Ditto's Cloud event API (with properly converted payload).</p>
+<p>OK, now it all makes more sense and we can start discussing how we are going to implement the converter service.</p>
+<h2 id="func">Func</h2>
+<p>We already have a couple Knative services in Drogue cloud implemented with Rust and Quarkus, but they are hand-crafted from the ground up. Now, let's see how Func can help developing these kind of services.</p>
+<h3 id="developing">Developing</h3>
+<p>You can create a new project with:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>func create --runtime quarkus --trigger events
+</span></code></pre>
+<p>This will create a Quarkus serverless project triggered by Cloud events instead of regular HTTP requests. Just what we need.</p>
+<p>You can find a full implementation of our service at <a href="https://github.com/drogue-iot/drogue-ditto-converter">https://github.com/drogue-iot/drogue-ditto-converter</a>, but let's focus here on some important snippets. The project will use <a href="https://quarkus.io/guides/funqy">Quarkus Funqy support</a> to provide a stub of our service. Now we can implement it like:</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    @</span><span style="color:#bf616a;">Funq
+</span><span>    </span><span style="color:#b48ead;">public </span><span style="color:#ebcb8b;">CloudEvent</span><span>&lt;</span><span style="color:#ebcb8b;">DittoCommand</span><span>&gt; </span><span style="color:#bf616a;">convert</span><span>(</span><span style="color:#ebcb8b;">CloudEvent</span><span>&lt;</span><span style="color:#ebcb8b;">DrogueDevice</span><span>&gt; input) throws </span><span style="color:#ebcb8b;">Exception </span><span>{
+</span><span>
+</span><span>        </span><span style="color:#ebcb8b;">DrogueDevice</span><span> device = input.</span><span style="color:#bf616a;">data</span><span>();
+</span><span>        ...
+</span><span>        </span><span style="color:#ebcb8b;">DittoCommand</span><span> command = </span><span style="color:#ebcb8b;">DittoCommand</span><span>.</span><span style="color:#bf616a;">from</span><span>(device);
+</span><span>
+</span><span>        </span><span style="color:#ebcb8b;">CloudEvent</span><span>&lt;</span><span style="color:#ebcb8b;">DittoCommand</span><span>&gt; event = </span><span style="color:#ebcb8b;">CloudEventBuilder</span><span>.</span><span style="color:#bf616a;">create</span><span>(input)
+</span><span>                .</span><span style="color:#bf616a;">build</span><span>(command);
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">return</span><span> event;
+</span><span>    }
+</span></code></pre>
+<p>Here, we provided POJOs for our input and output data formats and everything else (JSON marshalling) will be taken care of. The only thing left to do is to create cloud event and return it.</p>
+<p>The nice thing about all this is that we can develop our function in a typical Quarkus fashion without any need for cloud resource. With</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>mvn quarkus:dev
+</span></code></pre>
+<p>You'll have live reloading on any code change and you can call your service locally and play around with it.</p>
+<pre data-lang="shell script" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell script "><code class="language-shell script" data-lang="shell script"><span>URL=http://localhost:8080/
+</span><span>http -v ${URL} \
+</span><span>  Content-Type:application/json \
+</span><span>  Ce-Id:1 \
+</span><span>  Ce-Source:cloud-event-example \
+</span><span>  Ce-Type:dev.knative.example \
+</span><span>  Ce-Specversion:1.0 \
+</span><span>  Ce-Application:app \
+</span><span>  Ce-Device:device \
+</span><span>  Ce-Dataschema:ditto:simple-thing \
+</span><span>  temp=22.0 \
+</span><span>  hum=52.0
+</span></code></pre>
+<p>There's also a good support for unit and integration testing</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    @</span><span style="color:#bf616a;">Test
+</span><span>    </span><span style="color:#b48ead;">public</span><span> void </span><span style="color:#bf616a;">testFunctionIntegration</span><span>() {
+</span><span>        </span><span style="color:#ebcb8b;">RestAssured</span><span>.</span><span style="color:#bf616a;">given</span><span>().</span><span style="color:#bf616a;">contentType</span><span>(&quot;</span><span style="color:#a3be8c;">application/json</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">body</span><span>(&quot;</span><span style="color:#a3be8c;">{</span><span style="color:#96b5b4;">\&quot;</span><span style="color:#a3be8c;">temp</span><span style="color:#96b5b4;">\&quot;</span><span style="color:#a3be8c;">:23.0}</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-id</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">42</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-specversion</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">1.0</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-dataschema</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">ditto:simple-thing</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-application</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">app</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-device</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">device</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">post</span><span>(&quot;</span><span style="color:#a3be8c;">/</span><span>&quot;)
+</span><span>                .</span><span style="color:#bf616a;">then</span><span>().</span><span style="color:#bf616a;">statusCode</span><span>(</span><span style="color:#d08770;">200</span><span>)
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-id</span><span>&quot;, </span><span style="color:#bf616a;">notNullValue</span><span>())
+</span><span>                .</span><span style="color:#bf616a;">header</span><span>(&quot;</span><span style="color:#a3be8c;">ce-specversion</span><span>&quot;, </span><span style="color:#bf616a;">equalTo</span><span>(&quot;</span><span style="color:#a3be8c;">1.0</span><span>&quot;))
+</span><span>                .</span><span style="color:#bf616a;">body</span><span>(&quot;</span><span style="color:#a3be8c;">topic</span><span>&quot;, </span><span style="color:#bf616a;">equalTo</span><span>(topic));
+</span><span>    }
+</span></code></pre>
+<h3 id="deploying">Deploying</h3>
+<p>Once you're ready to build your service, <code>func</code> CLI have you covered. In Quarkus terms you can build a JVM or native image</p>
+<pre data-lang="shell script" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell script "><code class="language-shell script" data-lang="shell script"><span>func build -v                  # build jar
+</span><span>func build --builder native -v # build native binary
+</span></code></pre>
+<p>And the deploy it to your cluster (By default deploy will build image as well).</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>func deploy -v
+</span></code></pre>
+<p>This will deploy our function as Knative service, but for full functionality we'll also need our source and sequence deployed:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>kubectl apply -n drogue-iot -f src/main/k8s/ditto-converter.yaml
+</span></code></pre>
+<p>Now we should have everything set, so let's test it out.</p>
+<h3 id="testing">Testing</h3>
+<p>Let's create a matching app and device in Drogue cloud (in the future we can sync creation of resource in Drogue and Ditto using registry change events).</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>drg create app app_id
+</span><span>drg create device --app app_id simple-thing --data &#39;{&quot;credentials&quot;: {&quot;credentials&quot;:[{ &quot;pass&quot;: &quot;foobar&quot; }]}}&#39;
+</span></code></pre>
+<p>And we're ready to send some data</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>http --auth simple-thing@app_id:foobar --verify build/certs/endpoints/ca-bundle.pem POST https://$HTTP_ENDPOINT/v1/foo data_schema==ditto:test temp:=21.5 hum=51.0
+</span></code></pre>
+<p>Now we can check the state of our twin and make sure our changes are persisted</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>http --auth ditto:ditto http://$TWIN_API/api/2/things/app_id:simple-thing
+</span><span>HTTP/1.1 200 OK
+</span><span>...
+</span><span>etag: &quot;rev:2&quot;
+</span><span>response-required: false
+</span><span>version: 2
+</span><span>
+</span><span>{
+</span><span>    &quot;features&quot;: {
+</span><span>        &quot;hum&quot;: {
+</span><span>            &quot;properties&quot;: {
+</span><span>                &quot;value&quot;: &quot;51.0&quot;
+</span><span>            }
+</span><span>        },
+</span><span>        &quot;temp&quot;: {
+</span><span>            &quot;properties&quot;: {
+</span><span>                &quot;value&quot;: 21.5
+</span><span>            }
+</span><span>        }
+</span><span>    },
+</span><span>    &quot;policyId&quot;: &quot;app_id:simple-thing&quot;,
+</span><span>    &quot;thingId&quot;: &quot;app_id:simple-thing&quot;
+</span><span>}
+</span></code></pre>
+<p>So we can see that our sensor data went via HTTP endpoint to Knative Kafka channel and then through our payload converter function reached the digital twin platform.</p>
+<h2 id="future">Future</h2>
+<p>We hope this post make you realize how Func in combination with Quarkus make a good platform for creating serverless function that have real applications in IoT cloud platforms. We'll strive to make the experience even better in the future. Here are some notes on the experience and future improvements.</p>
+<p>First on the Func side, the current function developer workflow is generally good. What would make it even better is making it more tied with the accompanied resources (sources and sequences in our case). We can do two things in that area. We can make <code>func</code> CLI manage (deploy/delete) custom yaml resources along with the service itself. But also, it'd be good if <code>func</code> would just be able to generate service yaml resource so we can add it to existing workflows (GitOps for example).</p>
+<p>On the Quarkus side there are a few small improvements that could be made. Even if the docs says, it requires Java 11, it actually sets Java 8 as default version. Also, the Funq implements its own Cloud Events abstractions, which are not as polished as official SDK. And using the official ones would be a better choice to stay current with the spec implementation in the long run. These are all small niggles that we're gonna feed back into the upstream community and try to improve upon.</p>
+<p>And of course, the Rust support for Func is on the way (still in early development). You can take a look at the following PRs (<a href="https://github.com/boson-project/buildpacks/pull/95">boson-project/buildpacks#95</a> and <a href="https://github.com/boson-project/func/pull/376">boson-project/func#376</a>) if you'd like to get more information or contribute to the effort. We want to make Rust first-class citizen for developing serverless functions and provide a great experience. And as we want to use them in Drogue cloud we want to help out with the effort. So stay tuned.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="cloud-native-ditto" href="https://blog.drogue.io/quarkus-func-payload-mapper/#cloud-native-ditto">Cloud native Ditto</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="func" href="https://blog.drogue.io/quarkus-func-payload-mapper/#func">Func</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="developing" href="https://blog.drogue.io/quarkus-func-payload-mapper/#developing">Developing</a>
+          </li>
+          
+          <li>
+            <a data-for="deploying" href="https://blog.drogue.io/quarkus-func-payload-mapper/#deploying">Deploying</a>
+          </li>
+          
+          <li>
+            <a data-for="testing" href="https://blog.drogue.io/quarkus-func-payload-mapper/#testing">Testing</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="future" href="https://blog.drogue.io/quarkus-func-payload-mapper/#future">Future</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

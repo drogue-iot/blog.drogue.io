@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>State of LoRaWAN support &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Earlier we&#x27;ve seen examples of drogue device using LoRaWAN using an STM32 discovery board. Since then, the hardware support in the community has improved even more.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="State of LoRaWAN support" />
+<meta name="twitter:description" content="Earlier we&#x27;ve seen examples of drogue device using LoRaWAN using an STM32 discovery board. Since then, the hardware support in the community has improved even more.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="State of LoRaWAN support">
+<meta property="og:url" content="https://blog.drogue.io/lorawan-update">
+<meta property="og:description" content="Earlier we&#x27;ve seen examples of drogue device using LoRaWAN using an STM32 discovery board. Since then, the hardware support in the community has improved even more.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">State of LoRaWAN support</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>7 minute read</span>
+        <meta itemprop="wordCount" content="1373">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-09-28'>28 September 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;lorawan-update&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>Earlier we've seen examples of drogue device using LoRaWAN using an STM32 discovery board. Since then, the hardware support in the community has improved even more.</p>
+<span id="continue-reading"></span>
+<p>There are multiple efforts within Rust Embedded to improve LoRaWAN support. This post will walk through the state of the ecosystem and introduce some of the crates being worked on, and some updates from Embassy and Drogue Device.</p>
+<h1 id="improved-hardware-support">Improved hardware support</h1>
+<p>The LoRaWAN capable hardware is dominated by Semtech-based radios. The Sx127x family of radios have been the most common in the development kits, with an SPI interface for accessing the radio state. This radio is well supported in Rust, and there are several crates for accessing it, such as <a href="https://crates.io/crates/sx127x_lora">sx127x_lora</a> and <a href="https://crates.io/crates/radio-sx127x">radio-sx127x</a>. Drogue uses a variant of the first for its async <a href="https://github.com/drogue-iot/drogue-device/tree/main/device/src/drivers/lora/sx127x">sx127x</a> driver.</p>
+<p>The Sx126x family of radios, which is a more power efficient and has a smaller footprint, seems to be used in newer designs. This is also used in the STM32WL family of chips in a System on Chip (SoC) fashion, using a special SPI peripheral for accessing it. Recently, there have been efforts to add support for these chips in the <a href="https://github.com/newAM/stm32wl-hal/">stm32wl-hal</a> crate, from which the implementation in <a href="https://github.com/embassy-rs/embassy">Embassy</a> is based. The STM32WL chip is also used in the new <a href="https://www.genericnode.com/">Generic Node</a> sensor from The Things Industries (TTI). Since Drogue Device is based on Embassy, the radio peripheral can be used with this chip there as well.</p>
+<p>There are also standalone Sx126x radios on several development kits, and the <a href="https://crates.io/crates/sx126x">sx126x</a> crate supports these standalone radios.</p>
+<h1 id="the-link-layer">The link layer</h1>
+<p>Although having radio support in the various HALs are great, that will only get you as far as sending radio packets. To operate in a LoRaWAN network, an implementation of the medium access control (MAC) layer is needed. The <a href="https://github.com/ivajloip/rust-lorawan/">rust-lorawan</a> crate implements a LoRaWAN compliant MAC layer, and allows plugging in any radio peripheral. Drogue Device have been using this crate for a long time, with an out of the box integration for sx127x based radios, demonstrated by the <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32l0/lora-discovery">STM32 LoRa Discovery Board</a>. The crate(s) are maintained by Ivaylo Petrov and Louis Thiery.</p>
+<p>For the new STM32WL-based chips, there are different examples depending on if you use async or not. With the new stm32wl-hal, the <a href="https://github.com/jorgeig-space/lorawan-wl">lorawan-wl</a> example was created by Jorge Iglesias Garcia, and it integrates the STM32WL radio with rust-lorawan. Thanks to this, with debugging help from Jorge, Drogue Device now also has an <a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32wl/nucleo-wl55">example</a> based on the Embassy HAL.</p>
+<p>New developments in the link layer is <a href="https://github.com/ivajloip/rust-lorawan/pull/45">defmt support</a> from Jorge, performance enhancements<a href="https://github.com/ivajloip/rust-lorawan/pull/42">1</a><a href="https://github.com/ivajloip/rust-lorawan/pull/48">2</a> from yours truly, and initial discusisons on introducing an <a href="https://github.com/ivajloip/rust-lorawan/issues/41">async radio</a> interface, allowing async-await to be used all the way.</p>
+<h1 id="embassy">Embassy</h1>
+<p>Embassy aims to be an async runtime for embedded Rust, which we've covered in <a href="https://blog.drogue.io/drogue-device-rebase/">an earlier post</a>. Since then, the community set out to build a new PAC (Peripheral Access Crate) for STM32, named stm32-metapac, that can be used both by Embassy and other HALs. The PAC relies on generating code for specific chip variants at compile time using cargo features. The code is generated based on a chip definition, which is in turn derived from the STM32 CubeDB XML, C header files and <a href="https://github.com/stm32-rs/stm32-rs/tree/master/svd">SVD</a> files. Adding support for new chips can be as easy as adding it to a list of chip families that it should support, and if you're lucky, register definitions for the peripherals already exists.</p>
+<p>On top of stm32-metapac lies embassy-stm32, which is an async HAL using the generated metapac underneath. This is a &quot;unified&quot; HAL that aims to work with <em>any</em> STM32 chip that can be generated by stm32-metapac. The <a href="https://github.com/stm32-rs">existing HALs</a>for STM32 are written per chip family, which cause them to suffer from duplication and a corresponding higher maintenance load. The way the unified approach works is that STM32 peripherals are versioned (SPI v1, SPI v2, GPIO v1 etc.), and reused in different chip families. The HAL therefore only needs to implement access to peripherals of a given version, and will automatically work with multiple chip families that are using that version of the peripheral. This reduces the amount of duplication since features are gated by peripheral versions rather than chip family.</p>
+<p>Another enhancement that landed in Embassy is an async MPSC (Multiple Producer Single Consumer) implementation from Christopher Hunt, which has now replaced the channel implementation in Drogue Device as well. This makes for a great communication channel between Embassy tasks.</p>
+<h1 id="drogue-device">Drogue Device</h1>
+<p>Drogue Device have changed slightly to simplify it's Actor model even further. Instead of requiring an Actor to implement both an <code>on_mount</code>, <code>on_start</code> and <code>on_message</code> methods, now only an <code>on_mount</code> method, which is handed an <code>Inbox</code> to pull messages from. This greatly simplifies actor implementations. Lets say you have a shared counter that you want to make an actor for:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub struct </span><span>Counter {
+</span><span>    </span><span style="color:#bf616a;">count</span><span>: </span><span style="color:#b48ead;">u32</span><span>,
+</span><span>}
+</span><span style="color:#b48ead;">pub struct </span><span>Increment;
+</span></code></pre>
+<p>In earlier versions you would implement an Actor this way:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span>Actor </span><span style="color:#b48ead;">for </span><span>Counter {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Message&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; = Increment;
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">on_mount</span><span>(&amp;</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, _: </span><span style="color:#b48ead;">Self::</span><span>Configuration, _: Address&lt;</span><span style="color:#b48ead;">&#39;static</span><span>, </span><span style="color:#b48ead;">Self</span><span>&gt;) { }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">type </span><span>OnStartFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; = </span><span style="color:#b48ead;">impl </span><span>core::future::Future&lt;Output = ()&gt; + </span><span style="color:#b48ead;">&#39;m</span><span>;
+</span><span>    fn on_start&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;(&amp;</span><span style="color:#b48ead;">&#39;m </span><span>mut self) -&gt; Self::OnStartFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; {
+</span><span>        async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.count = </span><span style="color:#d08770;">0</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">type </span><span>OnMessageFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; = </span><span style="color:#b48ead;">impl </span><span>core::future::Future&lt;Output = ()&gt; + </span><span style="color:#b48ead;">&#39;m</span><span>;
+</span><span>    fn on_message&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;(&amp;</span><span style="color:#b48ead;">&#39;m </span><span>mut self, message: Self::Message&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt;) -&gt; Self::OnMessageFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>&gt; {
+</span><span>        async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.count += </span><span style="color:#d08770;">0</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>After the restructuring, the API is now changed to this:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span>Actor </span><span style="color:#b48ead;">for </span><span>Counter {
+</span><span>    </span><span style="color:#b48ead;">type </span><span>Message&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; = Increment;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">type </span><span>OnMountFuture&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; = </span><span style="color:#b48ead;">impl </span><span>core::future::Future&lt;Output = ()&gt; + </span><span style="color:#b48ead;">&#39;a</span><span>;
+</span><span>
+</span><span>    fn on_mount&lt;</span><span style="color:#b48ead;">&#39;m</span><span>, M&gt;(
+</span><span>        &amp;</span><span style="color:#b48ead;">&#39;m </span><span>mut self,
+</span><span>        _: Self::Configuration,
+</span><span>        _: Address&lt;</span><span style="color:#b48ead;">&#39;static</span><span>, </span><span style="color:#b48ead;">Self</span><span>&gt;,
+</span><span>        inbox: &amp;</span><span style="color:#b48ead;">&#39;m </span><span>mut M,
+</span><span>    ) -&gt; Self::OnMountFuture&lt;</span><span style="color:#b48ead;">&#39;m</span><span>, M&gt;
+</span><span>    </span><span style="color:#b48ead;">where
+</span><span>        M: Inbox&lt;</span><span style="color:#b48ead;">&#39;m</span><span>, </span><span style="color:#b48ead;">Self</span><span>&gt; + </span><span style="color:#b48ead;">&#39;m</span><span>;
+</span><span>    {
+</span><span>        async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.count = </span><span style="color:#d08770;">0</span><span>;
+</span><span>            </span><span style="color:#b48ead;">loop </span><span>{
+</span><span>                </span><span style="color:#b48ead;">if let </span><span>Some(m) = inbox.</span><span style="color:#96b5b4;">next</span><span>().await {
+</span><span>                    </span><span style="color:#bf616a;">self</span><span>.count += </span><span style="color:#d08770;">1</span><span>;
+</span><span>                }
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>This reduces the number of types and methods an actor has to implement, and allows for another use case that wasn't possible before: selecting an action based on awaiting the arrival of a new message or some timeout, which removes the need for using a Timer or Ticker actor for this type of behavior.</p>
+<h2 id="new-lorawan-examples">New LoRaWAN examples</h2>
+<p>As mentioned earlier, the set of examples for LoRaWAN have now also expanded:</p>
+<ul>
+<li><a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32l1/rak811">RAK811</a> - STM32 L1 + Semtech Sx1276 radio</li>
+<li><a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/stm32wl/nucleo-wl55">STM32WL</a> - STM32WL with builtin Semtech Sx126x radio </li>
+</ul>
+<p>These in combination of the existing examples, cover some of the most popular devices used for LoRaWAN sensors.</p>
+<h1 id="future-work">Future work</h1>
+<p>Is LoRaWAN support done yet? No :) In an evolving world there are always new hardware and new standards to support. However, it is also time to take a step back and ensure other parts of Drogue Device is also improving. </p>
+<p>A LoRaWAN improvement that's in the works is to introduce an async version of the MAC implementation in <code>rust-lorawan</code>, which in turn can define async radio traits that fully make use of the async capabilities in the Embassy HAL.</p>
+<p>A WiFi-based workshop is also in the works, which will make use of the <a href="https://www.st.com/en/evaluation-tools/b-l475e-iot01a.html">STM32L4 IoT Discovery Kit</a>, thereby adding support for the eS-WiFi driver.</p>
+<p>Finally, we want to provide more examples using Bluetooth Low Energy (BLE), which is already well supported in Embassy.</p>
+<h1 id="summary">Summary</h1>
+<p>We've seen how the different LoRa radios are improving their support in the Rust ecosystem. Moreover, Embassy and Drogue Device are taking advantage of this and providing new examples.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="improved-hardware-support" href="https://blog.drogue.io/lorawan-update/#improved-hardware-support">Improved hardware support</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="the-link-layer" href="https://blog.drogue.io/lorawan-update/#the-link-layer">The link layer</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="embassy" href="https://blog.drogue.io/lorawan-update/#embassy">Embassy</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="drogue-device" href="https://blog.drogue.io/lorawan-update/#drogue-device">Drogue Device</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="new-lorawan-examples" href="https://blog.drogue.io/lorawan-update/#new-lorawan-examples">New LoRaWAN examples</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="future-work" href="https://blog.drogue.io/lorawan-update/#future-work">Future work</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="summary" href="https://blog.drogue.io/lorawan-update/#summary">Summary</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

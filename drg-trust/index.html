@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Using X509 Client certificates for devices authentication with drogue-cloud &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="This article shows how you can setup X.509 certificates to authenticate devices connecting to Drogue Cloud and an example of how drg makes it easy.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Using X509 Client certificates for devices authentication with drogue-cloud" />
+<meta name="twitter:description" content="This article shows how you can setup X.509 certificates to authenticate devices connecting to Drogue Cloud and an example of how drg makes it easy.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Using X509 Client certificates for devices authentication with drogue-cloud">
+<meta property="og:url" content="https://blog.drogue.io/drg-trust">
+<meta property="og:description" content="This article shows how you can setup X.509 certificates to authenticate devices connecting to Drogue Cloud and an example of how drg makes it easy.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Using X509 Client certificates for devices authentication with drogue-cloud</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>8 minute read</span>
+        <meta itemprop="wordCount" content="1572">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-08-26'>26 August 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Vedang Joshi and Jean-Baptiste Trystram</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drg-trust&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>This article shows how you can setup X.509 certificates to authenticate devices connecting to Drogue Cloud and an example of how <a href="https://github.com/drogue-iot/drg"><code>drg</code></a> makes it easy.</p>
+<span id="continue-reading"></span><h1 id="x509-authentication">X509 Authentication?</h1>
+<p>If you are already know how chains of trust works with X509 certs feel free to skip to the next part. Here is a quick explanation otherwise:</p>
+<p>Before delving into certificates, you need to know they rely on <em>asymmetric cryptography</em>. In short, asymmetric cryptography is a technique that enables encryption and decryption of data with two keys.
+Let's take a key pair (A, B): stuff encrypted with key A can only be decrypted with key B, and vice versa. In the certificates implementation of this technique, we name this key pair (Public, Private).</p>
+<p>You already use X509 and trust anchors in your daily life, right on this very blog! It's the famous green padlock showing you can trust the connection is secure.
+But how could you trust that, if that is the first time you visit this website ?</p>
+<p>The security relies on a shared trusted entity. It's the same mechanism that you use when you accept bank notes from someone, you know the value is real because you trust the bank that created them.
+In the X509 spec, the common entity that both parties trust is called a <em>trust anchor</em>. There is a nice twist: x509 certificates are harder to counterfeit than banknotes!</p>
+<p>When you connect to <code>blog.drogue.io</code>, the server presents to your browser a certificate containing its public key. This certificate is <em>signed</em> using a trust anchor's private key.
+As you already know and trust this trust anchor, you can verify the certificate by using the trust anchor's public key. 
+Once you verified the certificate, you can trust it, because the anchor said it's worthy.</p>
+<p>That's the jist of it! X509 has a lot of other details to know about, but that overview is enough for now. </p>
+<h1 id="client-side-certificates">Client-side certificates</h1>
+<p>Drogue-cloud supports authenticating devices using client certificates.
+The use of X.509 certificates simplifies the process of device authentication, providing a one-to-many relationship between an application and its devices.
+X.509 certificates provide stronger client authentication compared to access tokens or username-password combinations because the private key never leaves the device.</p>
+<h2 id="client-certificates">Client certificates</h2>
+<p>The authentication flow using a client-side certificate is the same as explained earlier: the device, when connecting to drogue-cloud, presents a certificate. 
+Drogue-cloud then verifies the signature on the certificate to authenticate the device.</p>
+<h2 id="application-trust-anchor">Application trust anchor</h2>
+<p>To be able to verify the certificate, we need to set up a common trust anchor between the device and Drogue cloud.
+We will do that by generating a public/private key pair. This key pair is used to sign a certificate. This <em><strong>self-signed</strong></em> certificate is then attached to an application. </p>
+<p>Now the private key of the application can be used to sign certificates of devices, which will then be presented at the time of authentication.</p>
+<h1 id="setting-things-up">Setting things up</h1>
+<p>In this example we will use our Drogue command line tool, <code>drg</code>, as it makes some steps easier. 
+See how to install <code>drg</code> and login to a Drogue Cloud instance <a href="https://github.com/drogue-iot/drg#installation">here</a>.
+To know more about how to use <code>drg</code> for managing apps and devices, you can check out this <a href="https://blog.drogue.io/drg-guided-tour/">blog</a>.</p>
+<p><strong>DISCLAIMER</strong>: Some features used in this walkthrough are not yet released. To reproduce them you'll need to install <code>drg</code> from source and deploy drogue-cloud from the latest available images.
+You can try to use our <a href="https://console-drogue-dev.apps.wonderful.iot-playground.org/">development deployment</a>, at your own risk! </p>
+<p>We will also show how to set up a trust anchor manually.</p>
+<p>You will need a running drogue-cloud instance, obviously! You can use the <a href="https://sandbox.drogue.cloud/">sandbox</a> we provide.</p>
+<h2 id="add-the-application-trust-anchor">Add the application trust anchor</h2>
+<p>If you don't already have one, let's create an application and call it <code>demo-app</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg create app demo-app
+</span></code></pre>
+<p>Now, we need to create a keypair and a self-signed certificate to add a new trust anchor (a.k.a. CA certificate) to the application object.
+We also specify a 'key-output' to save the private key on our system. This key file is important, as it will be used later to sign device certificates.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg trust create demo-app --key-output demo-app-key.pem
+</span></code></pre>
+<p>Under the hood, drg does 3 steps: </p>
+<ul>
+<li>Create a key pair for the application. </li>
+<li>Generate and sign a certificate with thoses keys</li>
+<li>Upload the serialized (PEM format) certificate in the spec section of the application, base64 encoded.</li>
+</ul>
+<h2 id="generate-a-certificate-for-the-device">Generate a certificate for the device</h2>
+<p>Then we will set up a certificate for a device within this application. If necessary, you can create one called <code>demo-device</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg create device demo-device --app demo-app
+</span></code></pre>
+<p>Now the last thing we need is to generate a certificate for the device, and then sign it using our application trust anchor:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg trust enroll demo-device  --app demo-app --ca-key demo-app-key.pem --out dcert.pem --key-output dkey.pem
+</span></code></pre>
+<p>Let's break down all the arguments used here:</p>
+<ul>
+<li><code>--app</code> : the application to use as a trust anchor. The device must belong to that app.</li>
+<li><code>--device</code>: the device ID of the device we want a certificate for.</li>
+<li><code>--ca-key</code>: the private key of the app trust anchor, used to sign the device's certificate.</li>
+<li><code>--out</code>: the output file to save the signed device certificate and public key. </li>
+<li><code>--key-output</code>: the output file to save the device private key.</li>
+</ul>
+<p>Here, <code>dcert.pem</code> will contain the certificate the device will be presenting at the time of authentication.</p>
+<h3 id="device-name-alias">Device name alias</h3>
+<p><code>drg</code> handles the certificate generation, signing, and also does an extra step: it adds an alias for the device. 
+In order to successfully authenticate, a device must have a name matching its certificate's &quot;SUBJECT-DN&quot; field.
+The default (when created by <code>drg</code>) looks like this: <code>CN=&lt;deviceId&gt;, O=Drogue IoT, OU=&lt;appId&gt;</code>. This is not a great device name when it comes to management, so we use an alias here. 
+You can add custom aliases for devices with drg: <code>drg set alias &lt;deviceID&gt; &lt;newAlias&gt;</code>. Note that aliases can be used interchangeably for device authentication, but not for device management.</p>
+<h2 id="using-the-certificate">Using the certificate</h2>
+<p>The process is now complete and we can use the freshly signed certificate and private key to authenticate our device to Drogue Cloud! </p>
+<p>To simulate the process of a device sending some data to the cloud over MQTT, let's use the <a href="https://github.com/hivemq/mqtt-cli/releases/tag/v4.6.4">MQTT CLI</a> tool:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>mqtt -h &lt;host&gt; -p &lt;port&gt; --cert dcert.pem --key dkey.pem -t &lt;topic&gt; -m &lt;message&gt;
+</span></code></pre>
+<p>Hurray! Your message is published, the device was sucessfully authenticated.</p>
+<h1 id="bonus-features">Bonus features</h1>
+<p><code>drg</code> packs a few more features to give you more flexibility.</p>
+<h2 id="changing-the-signature-algorithm">Changing the signature algorithm</h2>
+<p>The signature algorithm used to sign the app and device certificates is by default set to EdDSA, but it can be changed by specifying the <code>--algo</code> parameter. 
+The supported signature algorithms are RSA, ECDSA, and EdDSA. An example of using RSA:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg trust create --app demo-app --algo RSA --key-output demo-app-key.pem
+</span></code></pre>
+<p>You can also change the default signature algorithm for your <a href="https://github.com/drogue-iot/drg#configuration-file">context</a>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg context set-default-algo RSA
+</span></code></pre>
+<h2 id="using-existing-key-pairs">Using existing key pairs</h2>
+<p>You may have an existing key pair that you would like to use for the App or device certificate. This can be done easily with the <code>--key-input</code> parameter. 
+The private key needs to be in <a href="https://en.wikipedia.org/wiki/PKCS_8">PKCS8</a> format to be parsed by <code>drg</code>. Let's look at an example to generate a key using OpenSSL.</p>
+<p>To generate RSA key: <code>openssl genrsa -out key.pem 2048</code></p>
+<p>To convert this key into the required PKCS8 format:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>openssl pkcs8 -topk8 -nocrypt -outform der -on key.pem &gt; private.pk8
+</span></code></pre>
+<p>Now, it is ready to be supplied to <code>drg</code></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>drg trust create --app demo-app --key-input private.pk8
+</span></code></pre>
+<p>If there are some more bonus features that you would like to see in drg please let us know by opening a <a href="https://github.com/drogue-iot/drg/issues">request</a>!</p>
+<h2 id="alternative-do-everything-manually-with-openssl">Alternative: do everything manually with OpenSSL</h2>
+<p>If you like getting your hands dirty with OpenSSL, here are the steps to do all that manually: </p>
+<p>Generate the certificate for the application :</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>openssl req -x509 -nodes -newkey rsa:4096 -keyout app-key.pem -out app-cert.pem -days 365 -subj &quot;/O=Drogue IoT/OU=Cloud/CN=demo-app&quot;
+</span></code></pre>
+<p>Now upload the application certificate to drogue cloud (<code>drg edit application demo-app</code>). The spec should look like this: </p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>&quot;</span><span style="color:#a3be8c;">spec</span><span>&quot; : {
+</span><span>      &quot;</span><span style="color:#a3be8c;">trustAnchors</span><span>&quot;: {
+</span><span>                   &quot;</span><span style="color:#a3be8c;">anchors</span><span>&quot;: [ 
+</span><span>                          { &quot;</span><span style="color:#a3be8c;">certificate</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">&lt;cert content goes here&gt;</span><span>&quot;} 
+</span><span>                          ]
+</span><span>                   }
+</span><span>        }
+</span><span>}
+</span></code></pre>
+<p>The <code>certificate</code> key must contain the whole certificate serialized as PEM.</p>
+<p>Then generate a certificate signing request for the device and sign it</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>openssl req -nodes -newkey rsa:4096 -keyout device-private.pem -days 365 -subj &quot;/O=Drogue IoT/OU=app1/CN=device&quot; &gt; device-cert.req
+</span><span>cat device-cert.req | openssl x509 -req -extfile ca.cnf -extensions &quot;san_ext&quot; -out device.crt -days 3650 -CA app-cert.pem -CAkey app-key.pem -set_serial 2
+</span></code></pre>
+<p>With the <code>ca.cnf</code> file as follows: </p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[san_ext]
+</span><span>
+</span><span>extendedKeyUsage = serverAuth, clientAuth
+</span></code></pre>
+<p>Don't forget to create an alias entry for your device as explained in the &quot;Device name alias&quot; paragraph, and you should be good to go!</p>
+<h2 id="special-thanks">Special thanks</h2>
+<p>Thanks to Vedang who did all the implementation work to make certificates easy with drg. This work was done as a Google Summer of Code project. 
+You can read his writeup <a href="https://vedangj044.github.io/blog/gsoc-phase2/">on his personnal blog</a>.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="x509-authentication" href="https://blog.drogue.io/drg-trust/#x509-authentication">X509 Authentication?</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="client-side-certificates" href="https://blog.drogue.io/drg-trust/#client-side-certificates">Client-side certificates</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="client-certificates" href="https://blog.drogue.io/drg-trust/#client-certificates">Client certificates</a>
+          </li>
+          
+          <li>
+            <a data-for="application-trust-anchor" href="https://blog.drogue.io/drg-trust/#application-trust-anchor">Application trust anchor</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="setting-things-up" href="https://blog.drogue.io/drg-trust/#setting-things-up">Setting things up</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="add-the-application-trust-anchor" href="https://blog.drogue.io/drg-trust/#add-the-application-trust-anchor">Add the application trust anchor</a>
+          </li>
+          
+          <li>
+            <a data-for="generate-a-certificate-for-the-device" href="https://blog.drogue.io/drg-trust/#generate-a-certificate-for-the-device">Generate a certificate for the device</a>
+          </li>
+          
+          <li>
+            <a data-for="using-the-certificate" href="https://blog.drogue.io/drg-trust/#using-the-certificate">Using the certificate</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="bonus-features" href="https://blog.drogue.io/drg-trust/#bonus-features">Bonus features</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="changing-the-signature-algorithm" href="https://blog.drogue.io/drg-trust/#changing-the-signature-algorithm">Changing the signature algorithm</a>
+          </li>
+          
+          <li>
+            <a data-for="using-existing-key-pairs" href="https://blog.drogue.io/drg-trust/#using-existing-key-pairs">Using existing key pairs</a>
+          </li>
+          
+          <li>
+            <a data-for="alternative-do-everything-manually-with-openssl" href="https://blog.drogue.io/drg-trust/#alternative-do-everything-manually-with-openssl">Alternative: do everything manually with OpenSSL</a>
+          </li>
+          
+          <li>
+            <a data-for="special-thanks" href="https://blog.drogue.io/drg-trust/#special-thanks">Special thanks</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

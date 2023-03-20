@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>From drogue-device to drogue-cloud &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="In previous posts we&#x27;ve seen how to run drogue-cloud, how to use LoRaWAN in rust, and the introduction of the drogue-device. In this post, we&#x27;ll tie this together and walk through the process of running LoRa on drogue-device, sending data to drogue-cloud. 
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="From drogue-device to drogue-cloud" />
+<meta name="twitter:description" content="In previous posts we&#x27;ve seen how to run drogue-cloud, how to use LoRaWAN in rust, and the introduction of the drogue-device. In this post, we&#x27;ll tie this together and walk through the process of running LoRa on drogue-device, sending data to drogue-cloud. 
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="From drogue-device to drogue-cloud">
+<meta property="og:url" content="https://blog.drogue.io/drogue-device-to-cloud">
+<meta property="og:description" content="In previous posts we&#x27;ve seen how to run drogue-cloud, how to use LoRaWAN in rust, and the introduction of the drogue-device. In this post, we&#x27;ll tie this together and walk through the process of running LoRa on drogue-device, sending data to drogue-cloud. 
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">From drogue-device to drogue-cloud</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>11 minute read</span>
+        <meta itemprop="wordCount" content="2082">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2021-02-18'>18 February 2021</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Ulf Lilleengen and Jens Reimann</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;drogue-device-to-cloud&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>In previous posts we've seen how to <a href="https://blog.drogue.io/the-cloud-side-of-things/">run drogue-cloud</a>, how to <a href="https://blog.drogue.io/rust-and-lora/">use LoRaWAN in rust</a>, and the introduction of the <a href="https://blog.drogue.io/introducing-drogue-device/">drogue-device</a>. In this post, we'll tie this together and walk through the process of running LoRa on drogue-device, sending data to drogue-cloud. </p>
+<span id="continue-reading"></span><h1 id="recap">Recap</h1>
+<p>Let's have a quick look at the different technologies we will be focusing on in this post.</p>
+<h2 id="lora">LoRa</h2>
+<p>LoRa is a low power long range wireless protocol that operates in a lower frequency spectrum than WiFi, ZigBee and Bluetooth. This enables IoT use cases not possible with the shorter range technologies. We've <a href="https://blog.drogue.io/rust-and-lora/">previously</a> seen how you can use LoRa with Rust. In this post, LoRa is only used as an example of one way to communicate from a drogue-device to drouge-cloud. We aim to support both WiFi, LoRa, NB-IoT and other wireless standards for working with drogue-cloud.</p>
+<h2 id="drogue-device">Drogue Device</h2>
+<p>Drogue Device is an <a href="https://en.wikipedia.org/wiki/Actor_model">Actor framework</a> for writing embedded applications in Rust. The advantage of using <a href="https://github.com/drogue-iot/drogue-device">drogue-device</a> is that you can represent sensors and peripherals as independent components (actors) and wire them together in your application, as a way to apply good software engineering principles in embedded programming.</p>
+<h2 id="drogue-cloud">Drogue Cloud</h2>
+<p>In many cases you might want to connect your devices to some central system. A system that may receive data, hand
+out commands and configuration to devices, orchestrate firmware updates and lots more. That is Drogue Cloud, our backend
+system based on <a href="https://kubernetes.io/">Kubernetes</a>, <a href="https://knative.dev/">Knative</a>, and <a href="https://cloudevents.io/">Cloud Events</a>.</p>
+<p><a href="https://github.com/drogue-iot/drogue-cloud">Drogue Cloud</a> provides you with tools for device authentication and authorization,
+different protocol endpoints, message normalization, persistence, device management, and a few more things. The idea is
+that, on the cloud side, you can focus on processing the data that your devices provide you.</p>
+<h1 id="device-drivers">Device drivers</h1>
+<p>Drogue-device contains device drivers for different boards and sensors. Drivers follow a common set of patterns that makes it easier to write new drivers. Device drivers can be written in different ways, but the common approach is to implement the following:</p>
+<ul>
+<li>An API that defines the API that a class of drivers implement. This may already exist (Examples are SPI and UART). This is located in <code>src/api/</code>.</li>
+<li>A driver that implements an API, either using a HAL or hardware directly. This is located in <code>src/driver</code>.</li>
+<li>(Optional) A HAL (Hardware Access Layer) for internal traits and types that a driver can use to support different hardware. This is located in <code>src/hal</code>.</li>
+<li>(Optional) Hardware-specific code that may implement a HAL. This is located in <code>src/port/&lt;device class&gt;</code>.</li>
+</ul>
+<p>A driver is exposed as a <code>Package</code> that can be configured during application initialization. The <code>Package</code> exposes an <code>Actor</code> that can be used to interact with the driver.</p>
+<p>For more information on writing drivers, see <a href="https://github.com/drogue-iot/drogue-device/blob/master/DRIVERS.md">the driver guide</a>.</p>
+<p>In this example, we'll be using the <a href="https://github.com/drogue-iot/drogue-device/blob/master/src/driver/lora/rak811.rs">Rak811</a> driver that implements the <a href="https://github.com/drogue-iot/drogue-device/blob/main/src/api/lora.rs">LoRa</a> driver API, and the <a href="https://github.com/drogue-iot/drogue-device/blob/master/src/driver/uart/dma.rs">DMA UART</a> driver that implements the <a href="https://github.com/drogue-iot/drogue-device/blob/main/src/api/uart.rs">UART</a> API. These are independent drivers, that are wired together using message passing. All interactions with the peripheral is done using the drivers <em>address</em> that is configured during device initialization.</p>
+<p>There are also drivers for <a href="https://github.com/drogue-iot/drogue-device/blob/main/src/driver/wifi/eswifi.rs">eS-WiFi</a> and <a href="https://github.com/drogue-iot/drogue-device/blob/main/src/driver/spi/mod.rs">SPI</a> based on embedded_hal.</p>
+<p>To send a message, the LoRa driver address is used:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>lora_driver_address.</span><span style="color:#96b5b4;">send</span><span>(QoS::Confirmed, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#b48ead;">b</span><span>&quot;</span><span style="color:#a3be8c;">Hello</span><span>&quot;).await.</span><span style="color:#96b5b4;">expect</span><span>(&quot;</span><span style="color:#a3be8c;">Error sending data</span><span>&quot;);
+</span></code></pre>
+<p>Under the hood this will send a message to the LoRa driver which will initiate the transfer. Using Rust Async, the result can be await'ed, which in this case is required to ensure that the reference is kept valid for the lifetime of the request.</p>
+<p>The full example of drogue-device can be found <a href="https://github.com/drogue-iot/drogue-device/tree/master/examples/nrf52/microbit-rak811">here</a>. You'll see that most of the application consists of defining the drivers to use, and wiring them together in the device event handling.</p>
+<h1 id="telemetry-to-the-cloud">Telemetry to the cloud</h1>
+<p>When the device sends data to the cloud, it actually shouts out its message to the local airspace using the LoRa
+protocol. If there is a LoRa gateway nearby, then it will take that message and forward that to its backend system.</p>
+<p>In our case, we chose to use The Things Network (TTN), just because we had a bit of experience with them. And,
+because they have a great and affordable indoor gateway and great support for many different types of gateways, which is
+great for testing.</p>
+<p>Once the message reached the backend system of TTN, it will get forwarded to our Drogue Cloud sandbox instance using
+the HTTP integration of TTN. The following diagram shows the message flow in a bit more detail:</p>
+<p><img src="https://blog.drogue.io/drogue-device-to-cloud/architecture.svg" alt="Architecture diagram" /></p>
+<p>Don't be scared! Yes, this is a bit more complex than just sending your message to the cloud using WiFi. Let's take
+a look at the different components in there.</p>
+<ul>
+<li><strong>Drogue Device</strong> – This is your device, your code and your data you want to transmit.</li>
+<li><strong>LoRa gateway</strong> – The LoRa gateway acts as the local entry point for LoRa devices to a TCP/IP network. Depending on
+the type of gateway, its antenna and location, it can cover quite an area, much larger than any WiFi could do. And, with
+less power requirements for the devices.</li>
+<li><strong>The Things Network</strong> – TTN is a service provider, which takes on pre-processing LoRa messages received by their
+gateways. The good thing, you can put up a gateway yourself and add it to their network. Which also means, that you
+can re-use other gateways in their system. Another task that LoRa backend systems have to perform, is the detection
+of duplicates. Maybe there are multiple gateways in the vicinity of your device. Which also means that messages will
+also be received and forwarded by multiple gateways. While this is good for coverage and redundancy, you want to
+filter out duplicates as some point. TTN provides this service, and also allows to enrich the data with additional
+information.</li>
+<li><strong>Exporting messages</strong> – We don't to process our data, and so we need to get the messages out of TTN. One of the
+options is to use the HTTP integration of TTN. In a nutshell, this will call a configured HTTP endpoint for each
+message received. Ideal for our Drogue IoT HTTP endpoint.</li>
+<li><strong>HTTP endpoint</strong> – The Drogue Cloud HTTP endpoint will authenticate and authorize the remote peer. It also
+understands the specific API and JSON format of TTN, and converts this into a CloudEvents structure. Forwarding this
+to Knative and Kafka.</li>
+<li><strong>Backend app</strong> – Your application, on the cloud side. The application which wants to process the data coming from
+your devices.</li>
+</ul>
+<p>Why don't we directly consume from TTN? One of the core features of Drogue Cloud is to
+integrate with all kinds of IoT related communication partners. Just assume you want to add an additional network like
+Sigfox later on. Our you want to add some of your own gateways? Or add some devices using MQTT? In all those cases,
+you would need to create some kind of data normalization layer yourself. If that is a dedicated layer, or a growing
+<code>if/else</code> block in your code, doesn't matter. Drogue cloud provides that layer for you, and lets your application
+consume all those messages using standardized CloudEvents.</p>
+<p>Another question is: why don't we directly send to the Drogue Cloud instance? First, we will always need some kind of
+gateway, to bridge between LoRaWAN and the TCP/IP world. We cloud create our own gateway stack, receive messages and
+forward them directly to our endpoints. On the other hand, that would mean that we would need to do the LoRa specific
+processing, like detecting duplicates, ourselves. Yes, some open source software exists for that as well. But, in any
+case, we would need that functionality. For the sake of simplicity, we simply re-use an existing service for this.</p>
+<p>Still, if you are interested in creating a direct integration, we would be happy to help you in the process.</p>
+<h1 id="preparing-drogue-cloud">Preparing drogue-cloud</h1>
+<p>Setting up a Drogue Cloud instance should be as easy as:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">minikube</span><span> start</span><span style="color:#bf616a;"> --cpus</span><span> 4</span><span style="color:#bf616a;"> --memory</span><span> 16384</span><span style="color:#bf616a;"> --disk-size</span><span> 20gb</span><span style="color:#bf616a;"> --addons</span><span> ingress
+</span><span style="color:#bf616a;">minikube</span><span> tunnel </span><span style="color:#65737e;"># in a separate terminal, as it keeps running
+</span><span style="color:#bf616a;">./hack/drogue.sh
+</span></code></pre>
+<p>However, for connecting to The Things Network, you will need to have a publicly accessible instance, as the HTTP
+integration of TTN will call into your instance. Setting up a publicly hosted version of Drogue Cloud might be a bit
+more effort, and maybe something that you would like to avoid in the beginning.</p>
+<p>As we face the same issue, we have set up a public sandbox for playing around and testing. You are welcome to use it as
+well, if you promise not to use it in production. It is an in-development version of Drogue Cloud, and it doesn't
+protect your data in any way! On the other side, it is super easy to get started:</p>
+<ul>
+<li>Navigate to: https://console-drogue-iot.apps.wonderful.iot-playground.org/</li>
+<li>Log in using your GitHub account</li>
+<li>Create a new &quot;application&quot; and &quot;device&quot;</li>
+</ul>
+<p>Applications provide a way to isolate devices. Follow the instructions on the &quot;getting started&quot; page to create a new
+application, and a new device. As application IDs must be unique, and this is a shared instance, be sure to pick a fresh
+ID. For device IDs, you are free to pick whatever you want, as long as it is unique for your application.</p>
+<p>The default command will use the password <code>hey-rodney</code>. <strong>Be warned</strong>: Don't put in your usual password here, as for now,
+everyone else will be able to see it.</p>
+<h1 id="integrating-ttn-with-drogue-cloud">Integrating TTN with drogue-cloud</h1>
+<p>In the TTN console, you can create an integration using several out of the box components. For drogue-cloud, we can use the generic HTTP Integration, which allows you to configure TTN to pass on telemetry data to a HTTP endpoint, in our case the Drogue IoT sandbox. The authorization header contains the HTTP basic auth credentials for our device. (NOTE: This is not really a good way of doing things, writing a proper integration that did not require storing credentials in TTN would be better).</p>
+<p><img src="https://blog.drogue.io/drogue-device-to-cloud/ttn-integration.png" alt="TTN integration" /></p>
+<p>Once the integration is set up, we are ready to send some data.</p>
+<h1 id="sending-the-data">Sending the data</h1>
+<p>To verify that the end to end is working, Open the <a href="https://sandbox.drogue.cloud">Drogue Cloud Sandbox</a> in your browser and go to the 'Spy' page, where you can watch all telemetry being sent (filter by your application id to avoid too much traffic).</p>
+<p>To send the data, we flash the device using <code>cargo embed</code>. This will open the debug console for the device, so we can see what's going on:</p>
+<p><img src="https://blog.drogue.io/drogue-device-to-cloud/drogue-device-console.png" alt="Drogue Console" /></p>
+<p>The example is made for the BBC micro:bit attached to a RAK811 LoRa board over UART. To join the network, we push the <kbd>A</kbd> button on the micro:bit. To send data, we push the <kbd>B</kbd> button.</p>
+<p>Once data is sent, the telemetry should find its way to the drogue console:</p>
+<p><img src="https://blog.drogue.io/drogue-device-to-cloud/drogue-console.png" alt="Drogue Console" /></p>
+<h1 id="future-work">Future work</h1>
+<p>In this post we have seen how you can combine Drogue Device with Drogue Cloud using the LoRa protocol. We have seen how you can create applications and devices in Drogue Cloud, configure The Things Network (TTN) to forward data to Drogue Cloud, and used the Drogue Device actor framework for our embedded application.</p>
+<p>We want to improve the experience of drogue device and drogue cloud even further. Some ideas:</p>
+<ul>
+<li>Firmware upgrade of drogue device built and pushed from drogue cloud</li>
+<li>Improved integration with TTN APIs (Use Drogue Cloud device management for everything)</li>
+<li>Improve range of drivers for drogue-device and reduce memory footprint</li>
+</ul>
+<p>Please reach out to us if you have any further ideas or would like to work on the drogue project.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="recap" href="https://blog.drogue.io/drogue-device-to-cloud/#recap">Recap</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="lora" href="https://blog.drogue.io/drogue-device-to-cloud/#lora">LoRa</a>
+          </li>
+          
+          <li>
+            <a data-for="drogue-device" href="https://blog.drogue.io/drogue-device-to-cloud/#drogue-device">Drogue Device</a>
+          </li>
+          
+          <li>
+            <a data-for="drogue-cloud" href="https://blog.drogue.io/drogue-device-to-cloud/#drogue-cloud">Drogue Cloud</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="device-drivers" href="https://blog.drogue.io/drogue-device-to-cloud/#device-drivers">Device drivers</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="telemetry-to-the-cloud" href="https://blog.drogue.io/drogue-device-to-cloud/#telemetry-to-the-cloud">Telemetry to the cloud</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="preparing-drogue-cloud" href="https://blog.drogue.io/drogue-device-to-cloud/#preparing-drogue-cloud">Preparing drogue-cloud</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="integrating-ttn-with-drogue-cloud" href="https://blog.drogue.io/drogue-device-to-cloud/#integrating-ttn-with-drogue-cloud">Integrating TTN with drogue-cloud</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="sending-the-data" href="https://blog.drogue.io/drogue-device-to-cloud/#sending-the-data">Sending the data</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="future-work" href="https://blog.drogue.io/drogue-device-to-cloud/#future-work">Future work</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>

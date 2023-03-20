@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://blog.drogue.io/main.css">
+
+    <title>Bluetooth Mesh &mdash; Drogue IoT</title>
+
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://blog.drogue.io/rss.xml">
+    
+
+    
+    <style>
+        .hero-body {
+            padding: 0;
+        }
+        .header-image {
+            width: 100%;
+            max-width: unset;
+
+            height: auto;
+            min-height: 32px;
+            max-height: 33vh !important;
+
+            object-fit: contain;
+            object-position: left center;
+            background-color: #8cc73f;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="https://blog.drogue.io/favicon.svg">
+    
+
+    <meta name="description" content="Bluetooth Mesh is a brokerless system for devices to communicate within
+a local area. We&#x27;ve implemented a Bluetooth Mesh stack, in Rust, on top
+of Drogue-Device, our async framework for embedded development.
+">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@DrogueIoT" />
+<meta name="twitter:title" content="Bluetooth Mesh" />
+<meta name="twitter:description" content="Bluetooth Mesh is a brokerless system for devices to communicate within
+a local area. We&#x27;ve implemented a Bluetooth Mesh stack, in Rust, on top
+of Drogue-Device, our async framework for embedded development.
+">
+<meta name="twitter:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Drogue IoT">
+<meta property="og:title" content="Bluetooth Mesh">
+<meta property="og:url" content="https://blog.drogue.io/bluetooth-mesh">
+<meta property="og:description" content="Bluetooth Mesh is a brokerless system for devices to communicate within
+a local area. We&#x27;ve implemented a Bluetooth Mesh stack, in Rust, on top
+of Drogue-Device, our async framework for embedded development.
+">
+<meta property="og:image" content='https://blog.drogue.io/default_social_image.png'>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVBDYPJX0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVBDYPJX0S', { 'anonymize_ip': true });
+    </script>
+  </head>
+
+<body>
+
+<section class="hero pb-5">
+  <div class="hero-body">
+    <a href="https://blog.drogue.io">
+      <img class="header-image" src="https://blog.drogue.io/header.svg" alt="Header image">
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+
+      <aside class="column is-one-quarter-fullhd">
+      
+        <div class="is-sticky">
+          <h2 class="title is-2 is-block-fullhd is-skipped">Links</h2>
+          <ul class="link-list">
+            <li><a href="https://blog.drogue.io">Blog</a></li>
+            <li><a href="https:&#x2F;&#x2F;drogue.io" target="_blank">Project Homepage</a></li>
+            <li><a href="https:&#x2F;&#x2F;github.com&#x2F;drogue-iot" target="_blank">GitHub Organization</a></li>
+            <li><a href="https:&#x2F;&#x2F;book.drogue.io" target="_blank">Documentation</a></li>
+            <li><a href="https:&#x2F;&#x2F;matrix.to&#x2F;#&#x2F;#drogue-iot:matrix.org" target="_blank">Community Chat</a></li>
+            <li><a href="https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC7GZUy2hKidvY6V_3QZfCcA" target="_blank">YouTube</a></li>
+            <li><a href="https:&#x2F;&#x2F;vimeo.com&#x2F;user1825398" target="_blank">Vimeo</a></li>
+            <li><a href="https:&#x2F;&#x2F;twitter.com&#x2F;DrogueIoT" target="_blank">Twitter</a></li>
+            <li><a href="https:&#x2F;&#x2F;sandbox.drogue.cloud" target="_blank">Sandbox</a></li>
+            <li><a href="https:&#x2F;&#x2F;calendar.google.com&#x2F;calendar&#x2F;u&#x2F;0&#x2F;embed?src=ofuctjec399jr6kara7n0uidqg@group.calendar.google.com" target="_blank">Community Calls</a></li>
+          </ul>
+        </div>
+      
+      </aside>
+
+      <div class="column is-half-fullhd is-two-thirds-tablet is-three-quarters-desktop is-full">
+        
+<article itemscope itemtype="http://schema.org/BlogPosting">
+
+  <section class="content">
+    <h1 class="title is-size-2" itemprop="name headline">Bluetooth Mesh</h1>
+    <div class="subtitle has-text-grey">
+    
+
+<div class="post-info">
+
+    <div class="post-info-item">
+        <span>12 minute read</span>
+        <meta itemprop="wordCount" content="2238">
+    </div>
+
+    
+        <div class="post-info-item">
+            <span itemprop="datePublished" content='2022-02-28'>28 February 2022</span>
+        </div>
+    
+
+    
+
+    
+        <div class="post-info-item">
+        <span>by 
+
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<span itemprop="name">Bob McWhirter</span>
+</span>
+
+</span>
+        </div>
+    
+
+    <div class="post-info-item">
+        <span><a href="&#x2F;bluetooth-mesh&#x2F;#comments">comments</a></span>
+    </div>
+
+    
+
+</div>
+
+
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="content post-content" itemprop="articleBody">
+    <p>Bluetooth Mesh is a brokerless system for devices to communicate within
+a local area. We've implemented a Bluetooth Mesh stack, in Rust, on top
+of Drogue-Device, our async framework for embedded development.</p>
+<span id="continue-reading"></span><h1 id="what-s-bluetooth-mesh">What's Bluetooth Mesh?</h1>
+<p>Bluetooth Mesh is a mesh topology using connectionless BLE advertising packets, to allow
+a variety of devices to communicate with each other, using a low-power means, without
+necessarily having knowledge about other members of the mesh.</p>
+<p>The part that makes a <em>mesh</em> is the fact it uses &quot;managed flooding&quot; to relay
+packets possibly beyond the distance a single radio can transmit. Bluetooth,
+as we know, has a somewhat limited range. Each member of the Mesh then, can
+optionally extend the physical range of the entire mesh, by repeating or <em>relaying</em>
+messages onward.</p>
+<p>The &quot;managed flooding&quot; aspect means that every node capable of relaying does
+attempt to relay any message it sees for the first time. Each message traversing
+the mesh starts with a TTL (time-to-live) that is decremented each time a node
+relays it onwards. In this way, hopefully every node sees every message at least
+once, while also not repeatedly relaying messages it's seen more than once.</p>
+<h2 id="why-bluetooth-mesh-and-not-zigbee-thread-or-something-else">Why Bluetooth Mesh and not Zigbee, Thread or something else?</h2>
+<p>We don't view the question of radio technology as an <code>XOR</code> condition. 
+Instead, we are simply <em>starting</em> with Bluetooth Mesh because we already
+have familiarity with it, and the Bluetooth Consortium is pretty good about
+making its specifications openly available.</p>
+<p>We <em>did</em> want a low-power method of connecting hundreds of battery-powered
+devices, so WiFi is excluded from the potential candidates.</p>
+<h1 id="the-moving-parts-of-a-mesh">The Moving Parts of a Mesh</h1>
+<h2 id="devices-elements-models">Devices, Elements &amp; Models.</h2>
+<p>Every participant in the mesh is a <em>device</em> (or <em>node</em>).  A device is a physical
+thing, such as a <em>lightswitch</em>, an <em>mains power outlet</em>, or an <em>internet-connected chicken.</em></p>
+<p>Every device has one or more <em>elements</em>, which represent an individually-addressable portion
+of the device. A 2-gang outlet would have two <em>elements</em>: one element for the left socket, one
+element for the right socket.</p>
+<p>Each element may have one or more <em>models</em> associated with it.  A model in the Mesh
+world is a predefined idea of a thing that can control or be controlled. There are models
+defined for <em>on-off switches</em> and <em>things that can be turned on and off</em>. 
+Each model is identified by either a specification-defined UUID or a vendor-defined UUID.</p>
+<p>Models allow data to be smaller over the air, and for all participants to know how to react
+to messages, since they all share the same idea of what's being talked about. Bluetooth Mesh
+messages are <em>not self-describing</em>. By using pre-defined models, a 4-byte message can be transmitted,
+and all relevant devices know how to interpret those 4 bytes within the context of the
+known model structure.</p>
+<h2 id="addresses">Addresses</h2>
+<h3 id="unicast-addresses">Unicast addresses</h3>
+<p>Every element gets assigned a unique <em>unicast address</em> within the mesh. Given this, a
+single device with multiple elements ends up with multiple unicast addresses.  Using
+the unicast address, messages can be targetting directly to an element on a device.
+Any node that receives messages for another's address will still <em>relay</em> those messages
+onwards, helping them to find their destination.</p>
+<h3 id="virtual-addresses">Virtual addresses</h3>
+<p>Bluetooth Mesh also defines a capability of having <em>virtual addresses</em> which are not assigned
+to any particular node. Instead, they act similar to IP mcast groups, which devices can send messages 
+to, or monitor for messages being sent to it.</p>
+<p>Virtual addresses are the part that allow devices to work in a publish/subscribe model without
+any central broker.</p>
+<h2 id="keys">Keys</h2>
+<h3 id="device-key">Device Key</h3>
+<p>Every device has its own cryptographic key used during provisioning to create a device
+key known by the provisioner (see below). For messages destined directly to the device for configuring
+it by the provisioner, this device key is used to communicate securely.</p>
+<h3 id="network-keys">Network Keys</h3>
+<p>Every device brought into a mesh is given the network key used by the mesh. This allows multiple
+distinct meshes to operate within radio earshot of each other, and not intermingle.</p>
+<p>Devices on a mesh can also be added to a subnet of the mesh, with its own unique key, to further
+restrict which devices can see which messages.</p>
+<h3 id="application-keys">Application Keys</h3>
+<p>A mesh may have one or more application keys. Each element/model on a device can use an appropriate
+application key, to even further restrict which devices can see which messages.</p>
+<p>Application keys provide a way to cryptographically keep your untrusted <em>internet-connected chicken device</em> from
+secretly unlocking your mesh-enabled <em>doorlock</em>. </p>
+<h2 id="provisioner">Provisioner</h2>
+<p>A provisioner is a node that controls the membership and logical topology of the mesh. The
+mesh does <em>not</em> require a provisioner during normal operation. A provisioner is only required
+to bring a new device into the mesh and to configure the topology through setting up the
+various publish and subscribe rules for each device.</p>
+<p>A stable mesh network can live happily without a provisioner, once established.</p>
+<h1 id="bluetooth-mesh-on-linux-is-challenging">Bluetooth Mesh on Linux is... challenging.</h1>
+<p>Your run of the mill Linux distribution probably includes <code>bluez</code>, which has out-of-the-box
+support for Bluetooth Mesh. Sorta. Kinda.</p>
+<p>Alas, the default <code>bluez</code> <code>bluetoothd</code> only supports Bluetooth Mesh over the GATT bearer,
+which really isn't the ideal way to go about it. The GATT bearer uses connection-oriented
+communications between the provisioner and the device being configured. It doesn't use the
+normal underlying advertising-based bearer used by the devices to communicate with each other.</p>
+<p>First you have to stop <code>bluetoothd</code> on your linux node then install 
+the <code>bluez-mesh</code> package on fedora, or <code>bluez-meshd</code> on debian/ubuntu.
+The <code>bluetooth-meshd</code> tool can speak native advertising-bearer Bluetooth Mesh.</p>
+<p>You can run the ble mesh in a separate terminal: <code>sudo /usr/libexec/bluetooth/bluetooth-meshd</code>. 
+Instead of using <code>meshctl</code>, you then use <code>mesh-cfgclient</code> to provision nodes.</p>
+<h1 id="let-s-walk-through-an-example">Let's walk through an example.</h1>
+<h2 id="flash-your-device">Flash your device</h2>
+<p>Our example uses the current nRF52840-dk example that sets up a board with one active
+button and one active LED.  Instructions for loading the code onto the board are 
+<a href="https://github.com/drogue-iot/drogue-device/tree/main/examples/nrf52/nrf52840-dk/ble-mesh">included in the repository</a>.</p>
+<h2 id="discover-unprovisioned-devices">Discover unprovisioned devices</h2>
+<p>Once you have your linux stack working, you can listen for devices telling the world
+they are unprovisioned, or not a part of any mesh network. As it learns from unprovisioned
+devices, it'll display it on the console.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>mesh-cfgclient
+</span><span>[mesh-cfgclient]# discover-unprovisioned on
+</span><span>Unprovisioned scan started
+</span><span>Scan result:
+</span><span>	rssi = -39
+</span><span>	UUID = 0EF817B94FA04859A4F7C80312CD724E
+</span><span>	OOB = A040
+</span></code></pre>
+<h2 id="provision-it">Provision it</h2>
+<p>Once you have the UUID of the device wanting to join the mesh, you can provision it.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[mesh-cfgclient]# provision 0EF817B94FA04859A4F7C80312CD724E
+</span><span>Provisioning started
+</span><span>Assign addresses for 1 elements
+</span><span>Provisioning done:
+</span><span>Mesh node:
+</span><span>	UUID = 0EF817B94FA04859A4F7C80312CD724E
+</span><span>	primary = 00c4
+</span><span>
+</span><span>	elements (1):
+</span></code></pre>
+<p>When this is completed, the current state of affairs is:</p>
+<ul>
+<li>The device has the network key</li>
+<li>The provisioner assigned it a <em>unicast address</em></li>
+<li>The provisioner knows the device's key</li>
+</ul>
+<h2 id="inspect-it">Inspect it</h2>
+<p>Further commands happen from the <code>config</code> menu, which you enter by typing <code>menu config</code>.</p>
+<p>Next, type <code>target 00c4</code> (or the address assigned for your node), so that subsequent commands
+are sent, using the device's key, to the device.</p>
+<p>The <code>composition-get</code> command will retrieve the device's composition of elements and models.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# composition-get
+</span><span>Received DeviceCompositionStatus (len 21)
+</span><span>Received composion:
+</span><span>	Feature support:
+</span><span>		relay: yes
+</span><span>		proxy: no
+</span><span>		friend: no
+</span><span>		lpn: no
+</span><span>	 Element 0:
+</span><span>		location: 0100
+</span><span>		SIG defined models:
+</span><span>		  Model ID	0000 &quot;Configuration Server&quot;
+</span><span>		  Model ID	1001 &quot;Generic OnOff Client&quot;
+</span><span>		  Model ID	1000 &quot;Generic OnOff Server&quot;
+</span></code></pre>
+<p>In this case, we see that this particular device does indeed support relaying. It also has
+one element, which includes the <code>Configuration Server</code> model, which is the exact model that
+can reply to commands such as <code>composition-get</code>.</p>
+<p>It also includes the <code>Generic OnOff Client</code>, which in our case the <code>button1</code> on our board.
+Additionally it includes the <code>Generic OnOff Server</code> which is connected to the LED on this board.</p>
+<p>Naming within the Bluetooth Mesh specification can sometimes be ambiguously confusing.
+A <code>client</code> tends to be a model that sends commands, while a <code>server</code> is a model that receives them.
+Generally speaking. Sometimes. Mostly. Kinda.</p>
+<p><strong>At this point, nothing happens on the board.</strong></p>
+<h2 id="distribute-application-key">Distribute Application Key</h2>
+<p>Before we can make the button or LED do something useful, we need to create an application key.</p>
+<p>We have to go <code>back</code> in <code>mesh-cfgclient</code> and create an application key for the primary network.
+We have to provide an <code>index</code>, which gives everyone on the mesh a short name to refer to that
+specific key. </p>
+<p>Indexes do not have to be sequential. In this case, we have app-keys in indexes 0, 1 and 2, but we
+jump up and create an app-key in index 4.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# back
+</span><span>[config: Target = 00c4]# appkey-create 0 4
+</span><span>[config: Target = 00c4]# keys
+</span><span>NetKey: 0 (0x000), phase: 0
+</span><span>	app_keys = 0 (0x000), 1 (0x001), 2 (0x002), 4 (0x004)
+</span></code></pre>
+<p>Currently, only the provisioner knows this key.  Now we must give it to the device we want
+to have it using the <code>appkey-add</code> command.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# appkey-add 4
+</span><span>No response for &quot;AppKeyAdd&quot; from 00c4
+</span><span>Received AppKeyStatus (len 4)
+</span><span>Node 00c4 AppKey status Success
+</span><span>NetKey	0 (0x000)
+</span><span>AppKey	4 (0x004)
+</span><span>Received AppKeyStatus (len 4)
+</span></code></pre>
+<p>You may notice that <code>mesh-cfgclient</code> first reported &quot;No response&quot; but the we get a response.
+That's life on a mesh for you.  Since Bluetooth Mesh is connectionless, a lot of timeouts
+are involved. <code>mesh-cfgclient</code> decided the command had timed out, but then device sent
+a response a few milliseconds later and everything is <em>fine</em>.</p>
+<p>At this point, the device has application key #4, but has no idea what to do with it.</p>
+<h2 id="bind-application-key">Bind Application Key</h2>
+<p>Application keys can be <em>bound</em> to a model within an element. This tells the device that
+for messages to or from that model within the element, it should use a specific key for
+crypto.</p>
+<p>Here we bind it to both the <em>client</em> and the <em>server</em> on the board.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# bind 00c4 4 1001
+</span><span>Received ModelAppStatus (len 7)
+</span><span>Node 00c4: Model App status Success
+</span><span>Element Addr	00c4
+</span><span>Model ID	1001 &quot;Generic OnOff Client&quot;
+</span><span>AppIdx		4 (0x004)
+</span><span>
+</span><span>[config: Target = 00c4]# bind 00c4 4 1000
+</span><span>Received ModelAppStatus (len 7)
+</span><span>Node 00c4: Model App status Success
+</span><span>Element Addr	00c4
+</span><span>Model ID	1000 &quot;Generic OnOff Server&quot;
+</span><span>AppIdx		4 (0x004)
+</span><span> [config: Target = 00c4]#
+</span></code></pre>
+<h2 id="pub-and-sub">Pub and Sub</h2>
+<p>Thus far, the client and the server know how to encrypt and decrypt messages related
+to their models using application key #4. But how do they know where to send messages or receive them?</p>
+<p>They don't. Yet.</p>
+<h3 id="virtual-address">Virtual Address</h3>
+<p>Since we don't want to bind this particular button to that particular LED, we want to use a
+<em>virtual address</em>.  This will allow us to have tons of buttons turning tons of LEDs on and off, if we
+wanted. </p>
+<p>Imagine a 3-way lightswitch. You may a switch at the top of your stairs, and another at the bottom.
+Either switch can turn the several lights going up the stairwell on or off.  Here, a virtual address
+might represent &quot;control of the stairway lighting&quot;.</p>
+<p>Within <code>mesh-cfgclient</code> we use <code>virt-add</code> which synthesizes a new virtual address for us and registers
+it within the provsioner.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# virt-add
+</span><span>	Virtual addr: bda5, label: 1d3ffe292725f6cb64eaed53dba1d979
+</span></code></pre>
+<p>Still, nobody knows about it, beside the provisioner.</p>
+<h3 id="publishing">Publishing</h3>
+<p>Now, we tell the button on the board to <em>publish</em> its messages to that virtual address:</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# pub-set 00c4 bda5 4 1 1 1001
+</span><span>No response for &quot;ModelPubVirtualSet&quot; from 00c4
+</span><span>Node 00c4 Publication status Success
+</span><span>Model ID	1001 &quot;Generic OnOff Client&quot;
+</span><span>	Element: 00c4
+</span><span>	Pub Addr: bda5
+</span><span>	Model: 1001
+</span><span>	App Key Idx: 4 (0x004)
+</span><span>	TTL: ff
+</span><span>Period		100 ms
+</span><span>Rexmit count	1
+</span><span>Rexmit steps	0
+</span></code></pre>
+<p>Now, when we push or release the button, it'll be shooting messages onto the Mesh addressed to
+<code>bda5</code>.</p>
+<p>But if a message falls in a forest and nobody is around to hear it, does it turn a light on?</p>
+<p>No.</p>
+<h3 id="subscribing">Subscribing</h3>
+<p>Next, we have to tell our LED to <em>listen</em> for messages sent to the same virtual address.</p>
+<pre data-lang="shell" style="background-color:#2b303b;color:#c0c5ce;" class="language-shell "><code class="language-shell" data-lang="shell"><span>[config: Target = 00c4]# sub-add 00c4 bda5 1000
+</span><span>Received ModelSubStatus (len 7)
+</span><span>
+</span><span>Node 00c4 Subscription status Success
+</span><span>Element Addr	00c4
+</span><span>Model ID	1000 &quot;Generic OnOff Server&quot;
+</span><span>Subscr Addr	bda5
+</span></code></pre>
+<h1 id="success">Success!</h1>
+<p>Here, I've done the above process with two boards, so that we can see how a virtual address
+allows communication between several devices that have no knowledge of each other.</p>
+<div class="video ,vimeo>">
+  <iframe style="height: 480px; width: 100%;" frameborder="0" src="//player.vimeo.com/video/683002256" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div><h1 id="firmware">Firmware</h1>
+<p>For the most part, the firmware only has to adapt Drogue-Device actor messages to/from 
+domain-specific types, such as <code>LEDMessage::On</code> or <code>ButtonMessage::Pressed</code> to 
+Bluetooth Mesh model messages, such as <code>GenericOnOffMessage::Set(...)</code>.</p>
+<p>The full example code is in <a href="https://github.com/drogue-iot/drogue-device/blob/main/examples/nrf52/nrf52840-dk/ble-mesh/src/main.rs">our repository.</a></p>
+<h1 id="that-seems-complex">That seems complex...</h1>
+<p>Yes, we all agree the various commands and workflow to accomplish this through
+<code>mesh-cfgclient</code> is complex. Ultimately <code>mesh-cfgclient</code> is not a super-friendly
+application meant for end-users. Instead, it's the barest plumbing possible to
+accomplish all the steps required to provision and configure devices.</p>
+<p>We assume in a real-world scenario, someone would create enough porcelain
+around it all to allow an end-user to think more semantically about lightswitches,
+stairways and internet-connected chickens.</p>
+
+  </section>
+
+</article>
+
+    </div>
+
+    <aside class="column is-hidden-mobile is-one-third-tablet is-one-quarter-desktop">
+      
+<div class="box is-sticky ml-5">
+  <div class="title is-size-3"><a href="#">Table of contents</a></div>
+  <nav class="menu">
+    <ul class="menu-list">
+      
+      <li>
+        <a data-for="what-s-bluetooth-mesh" href="https://blog.drogue.io/bluetooth-mesh/#what-s-bluetooth-mesh">What&#x27;s Bluetooth Mesh?</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="why-bluetooth-mesh-and-not-zigbee-thread-or-something-else" href="https://blog.drogue.io/bluetooth-mesh/#why-bluetooth-mesh-and-not-zigbee-thread-or-something-else">Why Bluetooth Mesh and not Zigbee, Thread or something else?</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="the-moving-parts-of-a-mesh" href="https://blog.drogue.io/bluetooth-mesh/#the-moving-parts-of-a-mesh">The Moving Parts of a Mesh</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="devices-elements-models" href="https://blog.drogue.io/bluetooth-mesh/#devices-elements-models">Devices, Elements &amp; Models.</a>
+          </li>
+          
+          <li>
+            <a data-for="addresses" href="https://blog.drogue.io/bluetooth-mesh/#addresses">Addresses</a>
+          </li>
+          
+          <li>
+            <a data-for="keys" href="https://blog.drogue.io/bluetooth-mesh/#keys">Keys</a>
+          </li>
+          
+          <li>
+            <a data-for="provisioner" href="https://blog.drogue.io/bluetooth-mesh/#provisioner">Provisioner</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="bluetooth-mesh-on-linux-is-challenging" href="https://blog.drogue.io/bluetooth-mesh/#bluetooth-mesh-on-linux-is-challenging">Bluetooth Mesh on Linux is... challenging.</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="let-s-walk-through-an-example" href="https://blog.drogue.io/bluetooth-mesh/#let-s-walk-through-an-example">Let&#x27;s walk through an example.</a>
+        
+        <ul class="menu-list">
+          
+          <li>
+            <a data-for="flash-your-device" href="https://blog.drogue.io/bluetooth-mesh/#flash-your-device">Flash your device</a>
+          </li>
+          
+          <li>
+            <a data-for="discover-unprovisioned-devices" href="https://blog.drogue.io/bluetooth-mesh/#discover-unprovisioned-devices">Discover unprovisioned devices</a>
+          </li>
+          
+          <li>
+            <a data-for="provision-it" href="https://blog.drogue.io/bluetooth-mesh/#provision-it">Provision it</a>
+          </li>
+          
+          <li>
+            <a data-for="inspect-it" href="https://blog.drogue.io/bluetooth-mesh/#inspect-it">Inspect it</a>
+          </li>
+          
+          <li>
+            <a data-for="distribute-application-key" href="https://blog.drogue.io/bluetooth-mesh/#distribute-application-key">Distribute Application Key</a>
+          </li>
+          
+          <li>
+            <a data-for="bind-application-key" href="https://blog.drogue.io/bluetooth-mesh/#bind-application-key">Bind Application Key</a>
+          </li>
+          
+          <li>
+            <a data-for="pub-and-sub" href="https://blog.drogue.io/bluetooth-mesh/#pub-and-sub">Pub and Sub</a>
+          </li>
+          
+        </ul>
+        
+      </li>
+      
+      <li>
+        <a data-for="success" href="https://blog.drogue.io/bluetooth-mesh/#success">Success!</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="firmware" href="https://blog.drogue.io/bluetooth-mesh/#firmware">Firmware</a>
+        
+      </li>
+      
+      <li>
+        <a data-for="that-seems-complex" href="https://blog.drogue.io/bluetooth-mesh/#that-seems-complex">That seems complex...</a>
+        
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+    </aside>
+
+    </div>
+  </div>
+
+  
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Drogue IoT</strong>
+  </div>
+</footer>
+
+<script src="https://blog.drogue.io/default.js"></script>
+
+</body>
+
+</html>
